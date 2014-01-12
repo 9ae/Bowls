@@ -2,11 +2,14 @@
 <resources>
 
     <string name="app_name">Bowls</string>
-  <string name="cardinal_north">N</string>
-  <string name="cardinal_east">E</string>
-  <string name="cardinal_south">S</string>
-  <string name="cardinal_west">W</string>
-  <string name="plus_sign">+</string>
-  <string name="minus_sign">-</string>
+    <string name="cardinal_north">N</string>
+    <string name="cardinal_east">E</string>
+    <string name="cardinal_south">S</string>
+    <string name="cardinal_west">W</string>
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
+    <string name="title_activity_table">TableActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

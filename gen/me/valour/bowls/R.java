@@ -9,39 +9,22 @@ package me.valour.bowls;
 
 public final class R {
     public static final class attr {
-        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+        /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int exampleColor=0x7f010002;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
+        public static final int maxBowls=0x7f010001;
+        /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int exampleDimension=0x7f010001;
-        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-         */
-        public static final int exampleDrawable=0x7f010003;
-        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int exampleString=0x7f010000;
+        public static final int minBowls=0x7f010000;
     }
     public static final class color {
         public static final int background_color=0x7f040000;
@@ -62,28 +45,35 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090004;
-        public static final int btn_addBowl=0x7f090002;
-        public static final int btn_subBowl=0x7f090003;
+        public static final int action_settings=0x7f090006;
+        public static final int btn_addBowl=0x7f090004;
+        public static final int btn_subBowl=0x7f090005;
         public static final int compassFragment=0x7f090000;
-        public static final int compassView=0x7f090001;
+        public static final int compassView=0x7f090002;
+        public static final int tableFragment=0x7f090001;
+        public static final int tableSurfaceView1=0x7f090003;
     }
     public static final class layout {
         public static final int activity_compass=0x7f030000;
-        public static final int fragment_compass=0x7f030001;
-        public static final int fragment_table=0x7f030002;
+        public static final int activity_table=0x7f030001;
+        public static final int fragment_compass=0x7f030002;
+        public static final int fragment_table=0x7f030003;
     }
     public static final class menu {
         public static final int compass=0x7f080000;
+        public static final int table=0x7f080001;
     }
     public static final class string {
+        public static final int action_settings=0x7f060008;
         public static final int app_name=0x7f060000;
         public static final int cardinal_east=0x7f060002;
         public static final int cardinal_north=0x7f060001;
         public static final int cardinal_south=0x7f060003;
         public static final int cardinal_west=0x7f060004;
+        public static final int hello_world=0x7f060009;
         public static final int minus_sign=0x7f060006;
         public static final int plus_sign=0x7f060005;
+        public static final int title_activity_table=0x7f060007;
     }
     public static final class style {
         /** 
@@ -113,82 +103,4 @@ containing a value of this type.
          */
         public static final int AppTheme=0x7f070001;
     }
-    public static final class styleable {
-        /** Attributes that can be used with a CompassView.
-           <p>Includes the following attributes:</p>
-           <table>
-           <colgroup align="left" />
-           <colgroup align="left" />
-           <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #CompassView_exampleColor me.valour.bowls:exampleColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #CompassView_exampleDimension me.valour.bowls:exampleDimension}</code></td><td></td></tr>
-           <tr><td><code>{@link #CompassView_exampleDrawable me.valour.bowls:exampleDrawable}</code></td><td></td></tr>
-           <tr><td><code>{@link #CompassView_exampleString me.valour.bowls:exampleString}</code></td><td></td></tr>
-           </table>
-           @see #CompassView_exampleColor
-           @see #CompassView_exampleDimension
-           @see #CompassView_exampleDrawable
-           @see #CompassView_exampleString
-         */
-        public static final int[] CompassView = {
-            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003
-        };
-        /**
-          <p>This symbol is the offset where the {@link me.valour.bowls.R.attr#exampleColor}
-          attribute's value can be found in the {@link #CompassView} array.
-
-
-          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:exampleColor
-        */
-        public static final int CompassView_exampleColor = 2;
-        /**
-          <p>This symbol is the offset where the {@link me.valour.bowls.R.attr#exampleDimension}
-          attribute's value can be found in the {@link #CompassView} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:exampleDimension
-        */
-        public static final int CompassView_exampleDimension = 1;
-        /**
-          <p>This symbol is the offset where the {@link me.valour.bowls.R.attr#exampleDrawable}
-          attribute's value can be found in the {@link #CompassView} array.
-
-
-          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
-"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
-          @attr name android:exampleDrawable
-        */
-        public static final int CompassView_exampleDrawable = 3;
-        /**
-          <p>This symbol is the offset where the {@link me.valour.bowls.R.attr#exampleString}
-          attribute's value can be found in the {@link #CompassView} array.
-
-
-          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:exampleString
-        */
-        public static final int CompassView_exampleString = 0;
-    };
 }

@@ -1,0 +1,5 @@
+<resources>
+    <attr name="minBowls" format="integer" value="2" />
+    <attr name="maxBowls" format="integer" value="24" />
+    
+</resources>

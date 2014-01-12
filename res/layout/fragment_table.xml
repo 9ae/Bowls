@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     tools:context=".TableFragment" >
 
+    <me.valour.bowls.TableSurfaceView
+         android:id="@+id/tableSurfaceView1"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_gravity="right" />
     <Button
         android:id="@+id/btn_addBowl"
         android:layout_width="wrap_content"
@@ -16,6 +21,5 @@
         android:layout_height="wrap_content"
         android:text="@string/minus_sign"
         android:layout_gravity="bottom|right" />
-   
 
 </FrameLayout>
