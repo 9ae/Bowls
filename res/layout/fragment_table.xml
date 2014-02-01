@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     tools:context=".TableFragment" >
 
-    <me.valour.bowls.TableSurfaceView
-         android:id="@+id/tableSurfaceView1"
+    <me.valour.bowls.TableView
+         android:id="@+id/tableView"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:layout_gravity="right" />

@@ -12,7 +12,7 @@ public class TableFragment extends Fragment {
 
 	private AddBowlListener addBowlSpy;
 	private SubBowlListener subBowlSpy;
-	public TableSurfaceView tableView;
+	public TableView tableView;
 	
 	public TableFragment() {
 		// TODO Auto-generated constructor stub
@@ -44,7 +44,7 @@ public class TableFragment extends Fragment {
 				
 			}});
 		
-		tableView = (TableSurfaceView)view.findViewById(R.id.tableSurfaceView1);
+		tableView = (TableView)view.findViewById(R.id.tableView);
 		
 		return view;
 	}

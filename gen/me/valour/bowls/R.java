@@ -51,7 +51,7 @@ containing a value of this type.
         public static final int compassFragment=0x7f090000;
         public static final int compassView=0x7f090002;
         public static final int tableFragment=0x7f090001;
-        public static final int tableSurfaceView1=0x7f090003;
+        public static final int tableView=0x7f090003;
     }
     public static final class layout {
         public static final int activity_compass=0x7f030000;
