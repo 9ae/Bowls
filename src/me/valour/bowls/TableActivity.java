@@ -13,21 +13,11 @@ public class TableActivity extends Activity implements TableFragment.AddBowlList
 	
 	private TableFragment tableFragment;
 	
-	private final int minBowls=2;
-	private final int maxBowls=24;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_table);
-		bowlsCount = minBowls;
-		
-		//TODO: How do get values through attr file? Can we?
-	//	minBowls = R.attr.minBowls;
-	//	maxBowls = R.attr.maxBowls;
-		
-		Log.d("vars",String.format("min bowls=%d",minBowls));
-		Log.d("vars",String.format("max bowls=%d",maxBowls));
+		bowlsCount = Kitchen.minBowls;
 		
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
@@ -43,22 +33,22 @@ public class TableActivity extends Activity implements TableFragment.AddBowlList
 
 	@Override
 	public void OnAddBowlListener() {
-		if(bowlsCount==maxBowls){
+		if(bowlsCount==Kitchen.maxBowls){
 			
 		} else {
 			bowlsCount++;
-			tableFragment.tableView.setBowlsCount(bowlsCount);
+			tableFragment.tableView.addBowl(bowlsCount);
 		}
 		Log.d("vars",String.format("bowls=%d",bowlsCount));
 	}
 
 	@Override
 	public void OnSubBowlListener() {
-		if(bowlsCount==minBowls){
+		if(bowlsCount==Kitchen.minBowls){
 			
 		} else {
 			bowlsCount--;
-			tableFragment.tableView.setBowlsCount(bowlsCount);
+		//	tableFragment.tableView.setBowlsCount(bowlsCount);
 		}
 		Log.d("vars",String.format("bowls=%d",bowlsCount));
 	}

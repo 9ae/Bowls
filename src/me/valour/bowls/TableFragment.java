@@ -45,7 +45,6 @@ public class TableFragment extends Fragment {
 			}});
 		
 		tableView = (TableView)view.findViewById(R.id.tableView);
-		
 		return view;
 	}
 
@@ -73,4 +72,5 @@ public class TableFragment extends Fragment {
 	public interface SubBowlListener{
 		public void OnSubBowlListener();
 	}
+
 }

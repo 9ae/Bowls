@@ -9,22 +9,6 @@ package me.valour.bowls;
 
 public final class R {
     public static final class attr {
-        /** <p>Must be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int maxBowls=0x7f010001;
-        /** <p>Must be an integer value, such as "<code>100</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int minBowls=0x7f010000;
     }
     public static final class color {
         public static final int background_color=0x7f040000;
@@ -45,19 +29,21 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090006;
-        public static final int btn_addBowl=0x7f090004;
-        public static final int btn_subBowl=0x7f090005;
+        public static final int action_settings=0x7f090007;
+        public static final int bowlView=0x7f090002;
+        public static final int btn_addBowl=0x7f090005;
+        public static final int btn_subBowl=0x7f090006;
         public static final int compassFragment=0x7f090000;
-        public static final int compassView=0x7f090002;
+        public static final int compassView=0x7f090003;
         public static final int tableFragment=0x7f090001;
-        public static final int tableView=0x7f090003;
+        public static final int tableView=0x7f090004;
     }
     public static final class layout {
         public static final int activity_compass=0x7f030000;
         public static final int activity_table=0x7f030001;
-        public static final int fragment_compass=0x7f030002;
-        public static final int fragment_table=0x7f030003;
+        public static final int bowl_view=0x7f030002;
+        public static final int fragment_compass=0x7f030003;
+        public static final int fragment_table=0x7f030004;
     }
     public static final class menu {
         public static final int compass=0x7f080000;
@@ -74,6 +60,7 @@ containing a value of this type.
         public static final int minus_sign=0x7f060006;
         public static final int plus_sign=0x7f060005;
         public static final int title_activity_table=0x7f060007;
+        public static final int zero_dollars=0x7f06000a;
     }
     public static final class style {
         /** 
