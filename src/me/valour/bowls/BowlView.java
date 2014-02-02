@@ -2,6 +2,7 @@ package me.valour.bowls;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -28,13 +29,13 @@ public class BowlView extends TextView {
 	 public void init(int color, int radius){
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		 primaryPaint.setColor(color);
+		 this.setTextColor(Color.WHITE);
 		 this.radius = radius;
 		 this.setMaxWidth(radius);
 		 this.setMaxHeight(radius);
 		 this.setMinWidth(radius);
 		 this.setMinHeight(radius);
 		 this.setText(R.string.zero_dollars);
-		 this.setBackgroundColor(color);
 	 }
 	 
 	 @Override

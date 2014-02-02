@@ -47,6 +47,7 @@ public class TableView extends ViewGroup {
 			bowl.setId(i);
 			this.addView(bowl);
 		}
+	//	setWillNotDraw(false);
 	}
 	
 	public void measureView(){
@@ -67,8 +68,12 @@ public class TableView extends ViewGroup {
 		int measuredWidth = measure(widthMeasureSpec);
 		int measuredHeight = measure(heightMeasureSpec);
 		int d = Math.min(measuredWidth, measuredHeight);
-		
 		setMeasuredDimension(d,d);
+		
+		int children = getChildCount();
+		for(int i=0; i<children; i++){
+			getChildAt(i).measure(widthMeasureSpec, heightMeasureSpec);
+		}
 	}
 	
 	private int measure(int measureSpec) {
@@ -119,12 +124,12 @@ public class TableView extends ViewGroup {
 	
 	private void initBaseBowls(){
 		if(baseBowlsInitialized){ return; }
-		double angleDelta = Math.PI*2.0*Kitchen.minBowls;
+		double angleDelta = Math.PI*2.0/Kitchen.minBowls;
 		double topX = 0;
 		double topY = -1.0*tableRadius;
 		for(int i=0; i<Kitchen.minBowls; i++){
 			BowlView bowl = (BowlView)getChildAt(i);
-			bowl.init(Kitchen.assignColor(i), bowlRadius);
+			bowl.init(Kitchen.assignColor(i+1), bowlRadius);
 			double angle = angleDelta*i;
 			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + tableRadius;
 			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + tableRadius;
@@ -133,11 +138,6 @@ public class TableView extends ViewGroup {
 		}
 		baseBowlsInitialized = true;
 	}
-	
-	 @Override
-	  public void onDraw(Canvas canvas) {
-		 super.onDraw(canvas);
-	 }
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -146,7 +146,9 @@ public class TableView extends ViewGroup {
 		int children = getChildCount();
 		for(int i=0; i<children; i++){
 			BowlView bowl = (BowlView)getChildAt(i);
-			bowl.layout(l, t, children, b);
+			if(bowl.getVisibility()!=GONE){
+				bowl.layout(l, t, r, b);
+			}
 		}
 	}
 }
