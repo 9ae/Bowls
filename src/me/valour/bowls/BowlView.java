@@ -14,7 +14,6 @@ public class BowlView extends TextView {
 	
 	public BowlView(Context context, AttributeSet ats, int ds){
 		super(context, ats, ds);
-
 	}
 	
 	public BowlView (Context context) {
@@ -35,7 +34,7 @@ public class BowlView extends TextView {
 		 this.setMaxHeight(radius);
 		 this.setMinWidth(radius);
 		 this.setMinHeight(radius);
-		 this.setText(R.string.zero_dollars);
+	//	 this.setText(R.string.zero_dollars);
 	 }
 	 
 	 @Override

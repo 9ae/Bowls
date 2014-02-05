@@ -48,6 +48,7 @@ public class TableActivity extends Activity implements TableFragment.AddBowlList
 			
 		} else {
 			bowlsCount--;
+			tableFragment.tableView.subBowl();
 		//	tableFragment.tableView.setBowlsCount(bowlsCount);
 		}
 		Log.d("vars",String.format("bowls=%d",bowlsCount));

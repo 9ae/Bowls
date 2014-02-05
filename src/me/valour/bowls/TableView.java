@@ -1,5 +1,7 @@
 package me.valour.bowls;
 
+import java.util.LinkedList;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,7 +13,7 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 
-public class TableView extends ViewGroup {
+public class TableView extends View {
 	
 	int mMeasuredWidth;
 	int mMeasuredHeight;
@@ -22,6 +24,7 @@ public class TableView extends ViewGroup {
 	boolean measuredScreen=false;
 	boolean baseBowlsInitialized = false;
 	
+	LinkedList<BowlView> bowls;
 //	private int bowlsCount=2;
 	
 //	private Paint bowlsPaint;
@@ -42,12 +45,16 @@ public class TableView extends ViewGroup {
 	}
 	
 	private void init(){
+		
+		bowls = new LinkedList<BowlView>();
+		
 		for(int i=1; i<=Kitchen.minBowls; i++){
 			BowlView bowl = new BowlView(this.getContext());
 			bowl.setId(i);
-			this.addView(bowl);
+			bowls.add(bowl);
 		}
-	//	setWillNotDraw(false);
+	//	initBaseBowls();
+	//	this.setBackgroundColor(Color.LTGRAY);
 	}
 	
 	public void measureView(){
@@ -70,10 +77,6 @@ public class TableView extends ViewGroup {
 		int d = Math.min(measuredWidth, measuredHeight);
 		setMeasuredDimension(d,d);
 		
-		int children = getChildCount();
-		for(int i=0; i<children; i++){
-			getChildAt(i).measure(widthMeasureSpec, heightMeasureSpec);
-		}
 	}
 	
 	private int measure(int measureSpec) {
@@ -105,41 +108,51 @@ public class TableView extends ViewGroup {
 		Log.d("vars",String.format("bowl radius=%d",bowlRadius));
 	}
 	
-/*	public void setBowlsCount(int count){
-		  bowlsCount = count;
-		  Log.d("vars",String.format("bowls=%d",bowlsCount));
-		  bowlsPaint.setColor(Kitchen.assignColor(bowlsCount));
-		  invalidate();
-	} */
-	
 	public void addBowl(int i){
 		BowlView bowl = new BowlView(this.getContext());
 		bowl.setId(i);
 		bowl.init(Kitchen.assignColor(i), bowlRadius);
-		this.addView(bowl, bowlRadius, bowlRadius);
+		bowls.add(bowl);
 		bowl.setX(centerX);
 		bowl.setY(centerY);
-
+		this.invalidate();
 	}
 	
-	private void initBaseBowls(){
-		if(baseBowlsInitialized){ return; }
-		double angleDelta = Math.PI*2.0/Kitchen.minBowls;
-		double topX = 0;
-		double topY = -1.0*tableRadius;
-		for(int i=0; i<Kitchen.minBowls; i++){
-			BowlView bowl = (BowlView)getChildAt(i);
-			bowl.init(Kitchen.assignColor(i+1), bowlRadius);
+	public void subBowl(){
+		bowls.pop();
+		this.invalidate();
+	}
+	
+	 @Override
+	  public void onDraw(Canvas canvas) {
+		 measureView();	
+		 
+		 super.onDraw(canvas);
+		 
+		 
+		 double angleDelta = Math.PI*2.0/bowls.size();
+			double topX = 0;
+			double topY = -1.0*tableRadius;
+		
+		int i= 0;
+		 for(BowlView bowl: bowls){
+			 canvas.save();
+			 
+			bowl.init(Kitchen.assignColor(i+1), bowlRadius); 
+			bowl.bringToFront();
 			double angle = angleDelta*i;
 			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + tableRadius;
 			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + tableRadius;
-			bowl.setX((float)px);
-			bowl.setY((float)py);
-		}
-		baseBowlsInitialized = true;
-	}
+			canvas.translate((float)px, (float)py);
+			Log.d("vars",String.format("x=%f \t y=%f",px, py));
+			bowl.draw(canvas);
+			i++;
+			canvas.restore();
+		 }
 
-	@Override
+	 }
+
+/*	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		measureView();
 		initBaseBowls();
@@ -150,5 +163,6 @@ public class TableView extends ViewGroup {
 				bowl.layout(l, t, r, b);
 			}
 		}
-	}
+		super.layout(0, 0, mMeasuredWidth, mMeasuredHeight);
+	} */
 }
