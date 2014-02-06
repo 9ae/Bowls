@@ -66,7 +66,7 @@ public class TableView extends View {
 			centerX = mMeasuredWidth / 2;
 			centerY = mMeasuredHeight / 2;		
 			tableRadius = Math.min(centerX, centerY);
-			setBowlRadius(Kitchen.maxBowls);
+			setBowlRadius();
 			measuredScreen = true;
 	}
 	
@@ -97,14 +97,10 @@ public class TableView extends View {
 		  return result;
 	}
 	
-	public void setBowlRadius(int max){
+	public void setBowlRadius(){
 		Log.d("vars",String.format("table radius=%d",tableRadius));
-		double q = ((double)tableRadius*2.0*Math.PI)/(double)max;
-		if(max>6){
-			bowlRadius = (int)q;
-		} else {
-			bowlRadius = (int)(q/2.0);
-		}
+		double q = ((double)tableRadius*2.0*Math.PI)/(double)Kitchen.maxBowls;
+		bowlRadius = (int)(q/2.0);
 		Log.d("vars",String.format("bowl radius=%d",bowlRadius));
 	}
 	
