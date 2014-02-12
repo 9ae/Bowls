@@ -12,6 +12,7 @@ public class TableActivity extends Activity implements TableFragment.AddBowlList
 	private FragmentManager fm;
 	
 	private TableFragment tableFragment;
+	public final boolean splitEqually;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,14 @@ public class TableActivity extends Activity implements TableFragment.AddBowlList
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
 
+	}
+	
+	public void onSplitEquallyListener(){
+		splitEqually = true;
+	}
+	
+	public void onSplitByItemListener(){
+		splitEqually = false;
 	}
 
 	@Override
