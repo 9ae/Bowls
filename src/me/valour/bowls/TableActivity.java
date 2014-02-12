@@ -24,13 +24,6 @@ public class TableActivity extends Activity implements TableFragment.AddBowlList
 
 	}
 
-/*	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.table, menu);
-		return true;
-	} */
-
 	@Override
 	public void OnAddBowlListener() {
 		if(bowlsCount==Kitchen.maxBowls){
