@@ -11,9 +11,10 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
+        public static final int accent_color=0x7f040003;
         public static final int background_color=0x7f040000;
-        public static final int marker_color=0x7f040001;
-        public static final int text_color=0x7f040002;
+        public static final int primary_color=0x7f040002;
+        public static final int text_color=0x7f040001;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -24,6 +25,7 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f050000;
         public static final int activity_vertical_margin=0x7f050001;
+        public static final int number_buttons_margin=0x7f050002;
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;

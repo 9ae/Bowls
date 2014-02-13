@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="background_color">#FFEEAAEE</color>
-  <color name="marker_color">#AFFF</color>
-  <color name="text_color">#F000</color>
+  <color name="background_color">#FFFFFFCC</color>
+  <color name="text_color">#FF880000</color>
+  <color name="primary_color">#FFCC0033</color>
+  <color name="accent_color">#FFFFFF66</color>
 </resources>

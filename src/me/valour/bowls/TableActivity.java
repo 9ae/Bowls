@@ -5,13 +5,19 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
-public class TableActivity extends Activity implements TableFragment.AddBowlListener, TableFragment.SubBowlListener {
+public class TableActivity extends Activity 
+	implements TableFragment.AddBowlListener, 
+	TableFragment.SubBowlListener,
+	NumberPadFragment.NumberPadListener {
 
 	private int bowlsCount;
 	private FragmentManager fm;
 	
 	private TableFragment tableFragment;
+	private NumberPadFragment numFragment;
 	public boolean splitEqually;
 	
 	@Override
@@ -22,6 +28,7 @@ public class TableActivity extends Activity implements TableFragment.AddBowlList
 		
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
+		numFragment = (NumberPadFragment) fm.findFragmentById(R.id.numpadFragment);
 
 	}
 	
@@ -54,6 +61,16 @@ public class TableActivity extends Activity implements TableFragment.AddBowlList
 		//	tableFragment.tableView.setBowlsCount(bowlsCount);
 		}
 		Log.d("vars",String.format("bowls=%d",bowlsCount));
+	}
+
+	@Override
+	public void onClick(View v) {
+		if(v.getId()==R.id.nodel){
+			numFragment.deleteLastChar();
+		} else {
+			Button b = (Button)v;
+			numFragment.appendChar(b.getText());
+		}
 	}
 
 }

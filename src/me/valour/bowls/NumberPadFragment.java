@@ -3,31 +3,21 @@ package me.valour.bowls;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
-/**
- * A simple {@link android.support.v4.app.Fragment} subclass. Activities that
- * contain this fragment must implement the
- * {@link NumberPadFragment.OnFragmentInteractionListener} interface to handle
- * interaction events. Use the {@link NumberPadFragment#newInstance} factory
- * method to create an instance of this fragment.
- * 
- */
+
 public class NumberPadFragment extends Fragment {
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-	private OnFragmentInteractionListener mListener;
-
-	/**
-	 * Use this factory method to create a new instance of this fragment using
-	 * the provided parameters.
-	 * @return A new instance of fragment NumberPadFragment.
-	 */
-	// TODO: Rename and change types and number of parameters
+	
+	private NumberPadListener ourButtonListener;
+	private TextView numberValue;
+	private Button dotButton;
+	//private boolean dotLock = false;
+	
 	public static NumberPadFragment newInstance() {
 		NumberPadFragment fragment = new NumberPadFragment();
 		Bundle args = new Bundle();
@@ -48,21 +38,33 @@ public class NumberPadFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_number_pad, container, false);
+		View view =  inflater.inflate(R.layout.fragment_number_pad, container, false);
+		
+		((Button)view.findViewById(R.id.no0)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.no1)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.no2)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.no3)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.no4)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.no5)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.no6)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.no7)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.no8)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.no9)).setOnClickListener(ourButtonListener);
+		((Button)view.findViewById(R.id.nodel)).setOnClickListener(ourButtonListener);
+		dotButton = (Button)view.findViewById(R.id.nodot);
+		dotButton.setOnClickListener(ourButtonListener);
+		
+		numberValue = (TextView) view.findViewById(R.id.numberValue);
+		
+		return view;
 	}
 
-	// TODO: Rename method, update argument and hook method into UI event
-	public void onButtonPressed(Uri uri) {
-		if (mListener != null) {
-			mListener.onFragmentInteraction(uri);
-		}
-	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			mListener = (OnFragmentInteractionListener) activity;
+			ourButtonListener = (NumberPadListener)activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -72,21 +74,33 @@ public class NumberPadFragment extends Fragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mListener = null;
-	}
 
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated to
-	 * the activity and potentially other fragments contained in that activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
-	public interface OnFragmentInteractionListener {
-		// TODO: Update argument type and name
-		public void onFragmentInteraction(Uri uri);
+	}
+	
+	public void deleteLastChar(){
+		CharSequence txt = numberValue.getText();
+		int len = txt.length();
+		if(len==0){
+			return;
+		}
+		CharSequence newtxt = txt.subSequence(0,len-1);
+		numberValue.setText(newtxt);
+		if(txt.charAt(len-1)=='.'){
+			dotButton.setEnabled(true);
+		}
+	}
+	
+	public void appendChar(CharSequence c){
+		CharSequence txt = numberValue.getText();
+		String newtxt = txt.toString().concat(c.toString());
+		numberValue.setText(newtxt);
+		if(c.equals(".")){
+			dotButton.setEnabled(false);
+		}
+	}
+	
+	public interface NumberPadListener extends View.OnClickListener{
+		
 	}
 
 }

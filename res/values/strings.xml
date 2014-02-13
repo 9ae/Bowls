@@ -24,5 +24,6 @@
 	<string name="no9">9</string>
 	<string name="nodot">.</string>
 	<string name="no0">0</string>
-	<string name="nodel">\u232b</string>
+	<string name="nodel">&lt;</string>
+	<dimen name="number_buttons_margin">2dp</dimen>
 </resources>
