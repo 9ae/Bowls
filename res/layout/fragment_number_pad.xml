@@ -1,0 +1,107 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    tools:context=".NumberPadFragment"
+    android:layout_gravity="center"
+     android:orientation="horizontal"
+    android:columnCount="3"
+    android:rowCount="5" >
+
+     <TextView
+         android:id="@+id/numberValue"
+         android:layout_column="0"
+         android:layout_columnSpan="3"
+         android:layout_gravity="center|fill"
+         android:layout_marginBottom="5dp"
+         android:layout_row="0"
+         android:hint="@string/zero_dollars"
+         android:singleLine="true"
+         android:gravity="center"
+         android:textSize="20sp" />
+     
+      <Button
+        android:id="@+id/no1"
+        android:layout_column="0"
+        android:layout_row="1"
+        android:layout_margin="5dp"
+        android:text="@string/no1" />
+      
+      <Button
+        android:id="@+id/no2"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:layout_margin="5dp"
+        android:text="@string/no2" />
+      
+      <Button
+        android:id="@+id/no3"
+        android:layout_column="2"
+        android:layout_row="1"
+        android:layout_margin="5dp"
+        android:text="@string/no3" />
+      
+       <Button
+        android:id="@+id/no4"
+        android:layout_column="0"
+        android:layout_row="2"
+        android:layout_margin="5dp"
+        android:text="@string/no4" />
+      
+      <Button
+        android:id="@+id/no5"
+        android:layout_column="1"
+        android:layout_row="2"
+        android:layout_margin="5dp"
+        android:text="@string/no5" />
+      
+      <Button
+        android:id="@+id/no6"
+        android:layout_column="2"
+        android:layout_row="2"
+        android:layout_margin="5dp"
+        android:text="@string/no6" />
+      
+       <Button
+        android:id="@+id/no7"
+        android:layout_column="0"
+        android:layout_row="3"
+        android:layout_margin="5dp"
+        android:text="@string/no7" />
+      
+      <Button
+        android:id="@+id/no8"
+        android:layout_column="1"
+        android:layout_row="3"
+        android:layout_margin="5dp"
+        android:text="@string/no8" />
+      
+      <Button
+        android:id="@+id/no9"
+        android:layout_column="2"
+        android:layout_row="3"
+        android:layout_margin="5dp"
+        android:text="@string/no9" />
+      
+       <Button
+        android:id="@+id/nodot"
+        android:layout_column="0"
+        android:layout_row="4"
+        android:layout_margin="5dp"
+        android:text="@string/nodot" />
+      
+      <Button
+        android:id="@+id/no0"
+        android:layout_column="1"
+        android:layout_row="4"
+        android:layout_margin="5dp"
+        android:text="@string/no0" />
+      
+      <Button
+        android:id="@+id/nodel"
+        android:layout_column="2"
+        android:layout_row="4"
+        android:layout_margin="5dp"
+        android:text="@string/nodel" />
+
+</GridLayout>
