@@ -119,6 +119,15 @@ public class NumberPadFragment extends Fragment {
 		percentSign.setVisibility(View.VISIBLE);
 	}
 	
+	public double getNumberValue(){
+		String v = numberValue.getText().toString();
+		if(v.isEmpty()){
+			return 0.0;
+		} else {
+			return Double.parseDouble(v);
+		}
+	}
+	
 	public interface NumberPadListener extends View.OnClickListener{
 		
 	}
