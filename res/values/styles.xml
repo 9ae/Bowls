@@ -16,5 +16,13 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="NumberButton">
+          <item name="android:minHeight">64dip</item>
+          <item name="android:minWidth">64dip</item>
+          <item name="android:background">@color/primary_color</item>
+          <item name="android:textColor">@color/accent_color</item>
+          <item name="android:layout_margin">@dimen/number_buttons_margin</item>
+    </style>
 
 </resources>

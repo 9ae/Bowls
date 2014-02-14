@@ -26,30 +26,33 @@ public final class R {
         public static final int activity_horizontal_margin=0x7f050000;
         public static final int activity_vertical_margin=0x7f050001;
         public static final int number_buttons_margin=0x7f050002;
+        public static final int number_buttons_size=0x7f050003;
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090012;
-        public static final int btn_addBowl=0x7f090010;
-        public static final int btn_subBowl=0x7f090011;
-        public static final int no0=0x7f09000d;
-        public static final int no1=0x7f090003;
-        public static final int no2=0x7f090004;
-        public static final int no3=0x7f090005;
-        public static final int no4=0x7f090006;
-        public static final int no5=0x7f090007;
-        public static final int no6=0x7f090008;
-        public static final int no7=0x7f090009;
-        public static final int no8=0x7f09000a;
-        public static final int no9=0x7f09000b;
-        public static final int nodel=0x7f09000e;
-        public static final int nodot=0x7f09000c;
-        public static final int numberValue=0x7f090002;
+        public static final int action_settings=0x7f090014;
+        public static final int btn_addBowl=0x7f090012;
+        public static final int btn_subBowl=0x7f090013;
+        public static final int dollar_sign=0x7f090002;
+        public static final int no0=0x7f09000f;
+        public static final int no1=0x7f090005;
+        public static final int no2=0x7f090006;
+        public static final int no3=0x7f090007;
+        public static final int no4=0x7f090008;
+        public static final int no5=0x7f090009;
+        public static final int no6=0x7f09000a;
+        public static final int no7=0x7f09000b;
+        public static final int no8=0x7f09000c;
+        public static final int no9=0x7f09000d;
+        public static final int nodel=0x7f090010;
+        public static final int nodot=0x7f09000e;
+        public static final int numberValue=0x7f090003;
         public static final int numpadFragment=0x7f090000;
+        public static final int percent_sign=0x7f090004;
         public static final int tableFragment=0x7f090001;
-        public static final int tableView=0x7f09000f;
+        public static final int tableView=0x7f090011;
     }
     public static final class layout {
         public static final int activity_table=0x7f030000;
@@ -61,30 +64,28 @@ public final class R {
         public static final int table=0x7f080001;
     }
     public static final class string {
-        public static final int action_settings=0x7f060008;
+        public static final int action_settings=0x7f060006;
         public static final int app_name=0x7f060000;
-        public static final int cardinal_east=0x7f060002;
-        public static final int cardinal_north=0x7f060001;
-        public static final int cardinal_south=0x7f060003;
-        public static final int cardinal_west=0x7f060004;
-        public static final int hello_blank_fragment=0x7f06000b;
-        public static final int hello_world=0x7f060009;
-        public static final int minus_sign=0x7f060006;
-        public static final int no0=0x7f060016;
-        public static final int no1=0x7f06000c;
-        public static final int no2=0x7f06000d;
-        public static final int no3=0x7f06000e;
-        public static final int no4=0x7f06000f;
-        public static final int no5=0x7f060010;
-        public static final int no6=0x7f060011;
-        public static final int no7=0x7f060012;
-        public static final int no8=0x7f060013;
-        public static final int no9=0x7f060014;
-        public static final int nodel=0x7f060017;
-        public static final int nodot=0x7f060015;
-        public static final int plus_sign=0x7f060005;
-        public static final int title_activity_table=0x7f060007;
-        public static final int zero_dollars=0x7f06000a;
+        public static final int dollar_sign=0x7f060003;
+        public static final int hello_blank_fragment=0x7f060009;
+        public static final int hello_world=0x7f060007;
+        public static final int minus_sign=0x7f060002;
+        public static final int no0=0x7f060014;
+        public static final int no1=0x7f06000a;
+        public static final int no2=0x7f06000b;
+        public static final int no3=0x7f06000c;
+        public static final int no4=0x7f06000d;
+        public static final int no5=0x7f06000e;
+        public static final int no6=0x7f06000f;
+        public static final int no7=0x7f060010;
+        public static final int no8=0x7f060011;
+        public static final int no9=0x7f060012;
+        public static final int nodel=0x7f060015;
+        public static final int nodot=0x7f060013;
+        public static final int percent_sign=0x7f060004;
+        public static final int plus_sign=0x7f060001;
+        public static final int title_activity_table=0x7f060005;
+        public static final int zero_dollars=0x7f060008;
     }
     public static final class style {
         /** 
@@ -113,5 +114,6 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
+        public static final int NumberButton=0x7f070002;
     }
 }
