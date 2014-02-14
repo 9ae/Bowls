@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    tools:context=".TableActivity" >
+    tools:context=".TableActivity"
+    android:background="@color/background_color" >
 
      <fragment android:name="me.valour.bowls.NumberPadFragment" 
         android:id="@+id/numpadFragment"

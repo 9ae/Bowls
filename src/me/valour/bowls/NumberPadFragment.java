@@ -16,7 +16,9 @@ public class NumberPadFragment extends Fragment {
 	private NumberPadListener ourButtonListener;
 	private TextView numberValue;
 	private Button dotButton;
-	//private boolean dotLock = false;
+	private TextView dollarSign;
+	private TextView percentSign;
+	private InputFormat numberMode = InputFormat.DOLLAR;
 	
 	public static NumberPadFragment newInstance() {
 		NumberPadFragment fragment = new NumberPadFragment();
@@ -54,6 +56,15 @@ public class NumberPadFragment extends Fragment {
 		dotButton = (Button)view.findViewById(R.id.nodot);
 		dotButton.setOnClickListener(ourButtonListener);
 		
+		dollarSign = (TextView) view.findViewById(R.id.dollar_sign);
+		percentSign = (TextView) view.findViewById(R.id.percent_sign);
+		
+		if(numberMode==InputFormat.DOLLAR){
+			percentSign.setVisibility(View.INVISIBLE);
+		} else {
+			dollarSign.setVisibility(View.INVISIBLE);
+		}
+		
 		numberValue = (TextView) view.findViewById(R.id.numberValue);
 		
 		return view;
@@ -74,7 +85,6 @@ public class NumberPadFragment extends Fragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
 	}
 	
 	public void deleteLastChar(){
@@ -97,6 +107,16 @@ public class NumberPadFragment extends Fragment {
 		if(c.equals(".")){
 			dotButton.setEnabled(false);
 		}
+	}
+	
+	public void setAsDollarMode(){
+		dollarSign.setVisibility(View.VISIBLE);
+		percentSign.setVisibility(View.INVISIBLE);
+	}
+	
+	public void setAsPercentMode(){
+		dollarSign.setVisibility(View.INVISIBLE);
+		percentSign.setVisibility(View.VISIBLE);
 	}
 	
 	public interface NumberPadListener extends View.OnClickListener{
