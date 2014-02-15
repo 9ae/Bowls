@@ -11,19 +11,26 @@ public class BowlView extends TextView {
 	
 	private Paint primaryPaint;
 	private int radius;
+	private double subtotal;
 	
 	public BowlView(Context context, AttributeSet ats, int ds){
 		super(context, ats, ds);
+		construct();
 	}
 	
 	public BowlView (Context context) {
 	    super(context);
-
+	    construct();
 	  }
 
 	 public BowlView(Context context, AttributeSet attr) {
 	    super(context, attr);
+	    construct();
 	  }
+	 
+	 public void construct(){
+		 subtotal = 0.0;
+	 }
 	 
 	 public void init(int color, int radius){
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -41,6 +48,21 @@ public class BowlView extends TextView {
 	  public void onDraw(Canvas canvas) {
 		 canvas.drawCircle(0, 0, radius, primaryPaint);
 		 super.onDraw(canvas);
+	 }
+	 
+	 public void addSubtotal(double amount){
+		 subtotal += amount;
+	 }
+	 
+	 public void subSubtotal(double amount){
+		 subtotal -= amount;
+		 if(subtotal<0.0){
+			 subtotal = 0.0;
+		 }
+	 }
+	 
+	 public String formatSubtotal(){
+		 return String.format("$%f",subtotal);
 	 }
 
 }
