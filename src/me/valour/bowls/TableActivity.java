@@ -5,13 +5,19 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
-public class TableActivity extends Activity implements TableFragment.AddBowlListener, TableFragment.SubBowlListener {
+public class TableActivity extends Activity 
+	implements TableFragment.AddBowlListener, 
+	TableFragment.SubBowlListener {
 
 	private int bowlsCount;
 	private FragmentManager fm;
 	
 	private TableFragment tableFragment;
+	private NumberPadFragment numFragment;
+	public boolean splitEqually;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,15 +27,17 @@ public class TableActivity extends Activity implements TableFragment.AddBowlList
 		
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
+		numFragment = (NumberPadFragment) fm.findFragmentById(R.id.numpadFragment);
 
 	}
-
-/*	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.table, menu);
-		return true;
-	} */
+	
+	public void onSplitEquallyListener(){
+		splitEqually = true;
+	}
+	
+	public void onSplitByItemListener(){
+		splitEqually = false;
+	}
 
 	@Override
 	public void OnAddBowlListener() {
