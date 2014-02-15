@@ -11,25 +11,24 @@ public class BowlView extends TextView {
 	
 	private Paint primaryPaint;
 	private int radius;
-	private double subtotal;
+	private User user;
 	
 	public BowlView(Context context, AttributeSet ats, int ds){
 		super(context, ats, ds);
-		construct();
 	}
 	
 	public BowlView (Context context) {
 	    super(context);
-	    construct();
 	  }
 
 	 public BowlView(Context context, AttributeSet attr) {
 	    super(context, attr);
-	    construct();
 	  }
 	 
-	 public void construct(){
-		 subtotal = 0.0;
+	 @Override
+	 public void setId(int id){
+		 super.setId(id);
+		 user = new User(id);
 	 }
 	 
 	 public void init(int color, int radius){
@@ -50,19 +49,8 @@ public class BowlView extends TextView {
 		 super.onDraw(canvas);
 	 }
 	 
-	 public void addSubtotal(double amount){
-		 subtotal += amount;
-	 }
-	 
-	 public void subSubtotal(double amount){
-		 subtotal -= amount;
-		 if(subtotal<0.0){
-			 subtotal = 0.0;
-		 }
-	 }
-	 
 	 public String formatSubtotal(){
-		 return String.format("$%f",subtotal);
+		 return String.format("$%f",user.getSubtotal());
 	 }
 
 }
