@@ -10,8 +10,7 @@ import android.widget.Button;
 
 public class TableActivity extends Activity 
 	implements TableFragment.AddBowlListener, 
-	TableFragment.SubBowlListener,
-	NumberPadFragment.NumberPadListener {
+	TableFragment.SubBowlListener {
 
 	private int bowlsCount;
 	private FragmentManager fm;
@@ -61,16 +60,6 @@ public class TableActivity extends Activity
 		//	tableFragment.tableView.setBowlsCount(bowlsCount);
 		}
 		Log.d("vars",String.format("bowls=%d",bowlsCount));
-	}
-
-	@Override
-	public void onClick(View v) {
-		if(v.getId()==R.id.nodel){
-			numFragment.deleteLastChar();
-		} else {
-			Button b = (Button)v;
-			numFragment.appendChar(b.getText());
-		}
 	}
 
 }

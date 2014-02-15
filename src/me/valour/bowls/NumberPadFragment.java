@@ -34,6 +34,7 @@ public class NumberPadFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ourButtonListener = new NumberPadListener();
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class NumberPadFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			ourButtonListener = (NumberPadListener)activity;
+			
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -127,9 +128,21 @@ public class NumberPadFragment extends Fragment {
 			return Double.parseDouble(v);
 		}
 	}
-	
-	public interface NumberPadListener extends View.OnClickListener{
-		
-	}
 
+	public class NumberPadListener  implements View.OnClickListener {
+		
+		public NumberPadListener(){
+			
+		}
+		
+		@Override
+		public void onClick(View v) {
+			if(v.getId()==R.id.nodel){
+				deleteLastChar();
+			} else {
+				Button b = (Button)v;
+				appendChar(b.getText());
+			}
+		}
+	}
 }
