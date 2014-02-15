@@ -45,7 +45,7 @@ public class TableActivity extends Activity
 			
 		} else {
 			bowlsCount++;
-			tableFragment.tableView.addBowl(bowlsCount);
+			tableFragment.tableView.addBowl();
 		}
 		Log.d("vars",String.format("bowls=%d",bowlsCount));
 	}

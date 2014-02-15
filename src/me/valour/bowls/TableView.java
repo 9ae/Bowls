@@ -25,9 +25,7 @@ public class TableView extends View {
 	boolean baseBowlsInitialized = false;
 	
 	LinkedList<BowlView> bowls;
-//	private int bowlsCount=2;
-	
-//	private Paint bowlsPaint;
+	int bowlsIdCounter = 1;
 
 	public TableView(Context context) {
 		super(context);
@@ -50,8 +48,9 @@ public class TableView extends View {
 		
 		for(int i=1; i<=Kitchen.minBowls; i++){
 			BowlView bowl = new BowlView(this.getContext());
-			bowl.setId(i);
+			bowl.setId(bowlsIdCounter);
 			bowls.add(bowl);
+			bowlsIdCounter++;
 		}
 	//	initBaseBowls();
 	//	this.setBackgroundColor(Color.LTGRAY);
@@ -104,14 +103,16 @@ public class TableView extends View {
 		Log.d("vars",String.format("bowl radius=%d",bowlRadius));
 	}
 	
-	public void addBowl(int i){
+	public void addBowl(){
+		int i = bowls.size()+1;
 		BowlView bowl = new BowlView(this.getContext());
-		bowl.setId(i);
+		bowl.setId(bowlsIdCounter);
 		bowl.init(Kitchen.assignColor(i), bowlRadius);
 		bowls.add(bowl);
 		bowl.setX(centerX);
 		bowl.setY(centerY);
 		this.invalidate();
+		bowlsIdCounter++;
 	}
 	
 	public void subBowl(){
