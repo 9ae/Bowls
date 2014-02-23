@@ -3,6 +3,7 @@ package me.valour.bowls;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -22,21 +23,22 @@ public class TableActivity extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Intent intent = getIntent();
+		splitEqually = intent.getBooleanExtra("splitEqually", true);
+		
 		setContentView(R.layout.activity_table);
 		bowlsCount = Kitchen.minBowls;
 		
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
 		numFragment = (NumberPadFragment) fm.findFragmentById(R.id.numpadFragment);
-
-	}
-	
-	public void onSplitEquallyListener(){
-		splitEqually = true;
-	}
-	
-	public void onSplitByItemListener(){
-		splitEqually = false;
+		
+		if(splitEqually){
+			Log.i("vars", "eq");
+		} else {
+			Log.i("vars", "li");
+		}
 	}
 
 	@Override

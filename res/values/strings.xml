@@ -5,7 +5,7 @@
     <string name="plus_sign">+</string>
     <string name="minus_sign">-</string>
     <string name="dollar_sign">$</string>
-	<string name="percent_sign">%</string>
+    <string name="percent_sign">%</string>
     <string name="title_activity_table">TableActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
@@ -15,14 +15,18 @@
     <string name="no2">2</string>
     <string name="no3">3</string>
     <string name="no4">4</string>
-	<string name="no5">5</string>
-	<string name="no6">6</string>
-	<string name="no7">7</string>
-	<string name="no8">8</string>
-	<string name="no9">9</string>
-	<string name="nodot">.</string>
-	<string name="no0">0</string>
-	<string name="nodel">&lt;</string>
-	<dimen name="number_buttons_margin">2dp</dimen>
-	<dimen name="number_buttons_size">5dp</dimen>
+    <string name="no5">5</string>
+    <string name="no6">6</string>
+    <string name="no7">7</string>
+    <string name="no8">8</string>
+    <string name="no9">9</string>
+    <string name="nodot">.</string>
+    <string name="no0">0</string>
+    <string name="nodel">&lt;</string>
+    <string name="split_equally">Split Equally</string>
+    <string name="split_line">Add Line Items</string>
+
+    <dimen name="number_buttons_margin">2dp</dimen>
+    <dimen name="number_buttons_size">5dp</dimen>
+
 </resources>
