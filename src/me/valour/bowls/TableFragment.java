@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class TableFragment extends Fragment {
 
 	private AddBowlListener addBowlSpy;
 	private SubBowlListener subBowlSpy;
 	public TableView tableView;
+	public TextView tvQuestion;
 	
 	public TableFragment() {
 		// TODO Auto-generated constructor stub
@@ -45,6 +47,9 @@ public class TableFragment extends Fragment {
 			}});
 		
 		tableView = (TableView)view.findViewById(R.id.tableView);
+		tvQuestion = (TextView)view.findViewById(R.id.question);
+	//	tvQuestion.setMaxHeight(view.getHeight()/3);
+	//	tvQuestion.setMaxWidth(view.getWidth()/3);
 		return view;
 	}
 

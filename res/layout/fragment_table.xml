@@ -1,25 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".TableFragment" >
     
     <me.valour.bowls.TableView
          android:id="@+id/tableView"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_gravity="right"  />
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent"
+         android:layout_alignParentTop="true"
+         android:layout_centerVertical="true"  />
+    
+    <TextView android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_above="@id/tableView"
+        android:hint="stuff"
+       />
     <Button
         android:id="@+id/btn_addBowl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/plus_sign"
-        android:layout_gravity="top|right" />
+        android:layout_alignRight="@id/tableView"
+        android:layout_alignTop="@id/tableView" />
     
      <Button android:id="@+id/btn_subBowl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/minus_sign"
-        android:layout_gravity="bottom|right" />
+        android:layout_alignRight="@id/tableView"
+        android:layout_alignBottom="@id/tableView" />
 
-</FrameLayout>
+</RelativeLayout>

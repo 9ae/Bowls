@@ -27,18 +27,28 @@ public class TableActivity extends Activity
 		Intent intent = getIntent();
 		splitEqually = intent.getBooleanExtra("splitEqually", true);
 		
-		setContentView(R.layout.activity_table);
 		bowlsCount = Kitchen.minBowls;
+		
+		setContentView(R.layout.activity_table);
 		
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
 		numFragment = (NumberPadFragment) fm.findFragmentById(R.id.numpadFragment);
 		
 		if(splitEqually){
-			Log.i("vars", "eq");
+			initSplitEqually();
 		} else {
-			Log.i("vars", "li");
+			initSplitLineItems();
 		}
+	
+	}
+	
+	private void initSplitEqually(){
+		tableFragment.tvQuestion.setText(R.string.q_enter_subtotal);
+	}
+	
+	private void initSplitLineItems(){
+		tableFragment.tvQuestion.setText(R.string.q_enter_first_li);
 	}
 
 	@Override
@@ -59,7 +69,6 @@ public class TableActivity extends Activity
 		} else {
 			bowlsCount--;
 			tableFragment.tableView.subBowl();
-		//	tableFragment.tableView.setBowlsCount(bowlsCount);
 		}
 		Log.d("vars",String.format("bowls=%d",bowlsCount));
 	}
