@@ -48,8 +48,7 @@ public class TableFragment extends Fragment {
 		
 		tableView = (TableView)view.findViewById(R.id.tableView);
 		tvQuestion = (TextView)view.findViewById(R.id.question);
-	//	tvQuestion.setMaxHeight(view.getHeight()/3);
-	//	tvQuestion.setMaxWidth(view.getWidth()/3);
+
 		return view;
 	}
 

@@ -40,15 +40,17 @@ public class TableActivity extends Activity
 		} else {
 			initSplitLineItems();
 		}
-	
+		tableFragment.tvQuestion.bringToFront();
 	}
 	
 	private void initSplitEqually(){
 		tableFragment.tvQuestion.setText(R.string.q_enter_subtotal);
+		Log.d("vars", getString(R.string.q_enter_subtotal));
 	}
 	
 	private void initSplitLineItems(){
 		tableFragment.tvQuestion.setText(R.string.q_enter_first_li);
+		Log.d("vars", getString(R.string.q_enter_first_li));
 	}
 
 	@Override

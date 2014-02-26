@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	
 	private void launchTableActivity(boolean splitEqually){
 		Intent intent = new Intent(this, TableActivity.class);
-		intent.putExtra("splitEqually", true);
+		intent.putExtra("splitEqually", splitEqually);
 		startActivity(intent);
 	}
 	

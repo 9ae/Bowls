@@ -10,16 +10,6 @@
          android:layout_height="fill_parent"
          android:layout_alignParentTop="true"
          android:layout_centerVertical="true"  />
-    
-    <TextView android:id="@+id/question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="false"
-        android:layout_centerVertical="true"
-        android:layout_centerInParent="true"
-        android:layout_above="@id/tableView"
-        android:hint="stuff"
-       />
     <Button
         android:id="@+id/btn_addBowl"
         android:layout_width="wrap_content"
@@ -34,5 +24,23 @@
         android:text="@string/minus_sign"
         android:layout_alignRight="@id/tableView"
         android:layout_alignBottom="@id/tableView" />
+
+     <TextView
+         android:id="@+id/question"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="false"
+         android:layout_alignParentLeft="false"
+         android:layout_alignParentRight="false"
+         android:layout_alignParentTop="false"
+         android:layout_centerHorizontal="true"
+         android:layout_centerVertical="true"
+         android:layout_marginTop="10dp"
+         android:clickable="false"
+         android:focusable="false"
+         android:focusableInTouchMode="false"
+         android:longClickable="false"
+         android:text="@string/hello_world"
+         android:textColor="#000000" />
 
 </RelativeLayout>
