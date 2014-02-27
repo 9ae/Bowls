@@ -88,9 +88,9 @@ public final class R {
         public static final int nodot=0x7f060012;
         public static final int percent_sign=0x7f060004;
         public static final int plus_sign=0x7f060001;
-        public static final int q_enter_first_li=0x7f060018;
-        public static final int q_enter_next_li=0x7f060019;
-        public static final int q_enter_subtotal=0x7f060017;
+        public static final int q_enter_first_li=0x7f060017;
+        public static final int q_enter_next_li=0x7f060018;
+        public static final int q_enter_subtotal=0x7f060019;
         public static final int split_equally=0x7f060015;
         public static final int split_line=0x7f060016;
         public static final int title_activity_table=0x7f060005;
