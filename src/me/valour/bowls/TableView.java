@@ -99,10 +99,11 @@ public class TableView extends View {
 	}
 	
 	public void setBowlRadius(){
-		Log.d("vars",String.format("table radius=%d",tableRadius));
 		double q = ((double)tableRadius*2.0*Math.PI)/(double)Kitchen.maxBowls;
 		bowlRadius = (int)(q/2.0);
+		tableRadius -= bowlRadius;
 		Log.d("vars",String.format("bowl radius=%d",bowlRadius));
+		Log.d("vars",String.format("table radius=%d",tableRadius));
 	}
 	
 	public BowlView addBowl(){
@@ -131,8 +132,8 @@ public class TableView extends View {
 		 
 		 
 		 double angleDelta = Math.PI*2.0/bowls.size();
-			double topX = 0;
-			double topY = -1.0*tableRadius;
+		double topX = 0;
+		double topY = -1.0*tableRadius;
 		
 		int i= 0;
 		 for(BowlView bowl: bowls){
@@ -141,8 +142,8 @@ public class TableView extends View {
 			bowl.init(Kitchen.assignColor(i+1), bowlRadius); 
 			bowl.bringToFront();
 			double angle = angleDelta*i;
-			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + tableRadius;
-			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + tableRadius;
+			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + centerX;
+			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + centerY;
 			canvas.translate((float)px, (float)py);
 			Log.d("vars",String.format("x=%f \t y=%f",px, py));
 			bowl.draw(canvas);

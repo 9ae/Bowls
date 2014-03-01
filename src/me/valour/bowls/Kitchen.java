@@ -5,7 +5,8 @@ import android.graphics.Color;
 public class Kitchen {
 	
 	public final static int minBowls=2;
-	public final static int maxBowls=24;
+	public final static int maxBowls=19;
+	public final static float minRadius = 50;
 	
 	public final static double tip = 0.15;
 	public final static double tax = 0.08; 
