@@ -1,6 +1,8 @@
 package me.valour.bowls;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -25,9 +27,7 @@ public class TableView extends View {
 	boolean baseBowlsInitialized = false;
 	
 	LinkedList<BowlView> bowls;
-//	private int bowlsCount=2;
-	
-//	private Paint bowlsPaint;
+	int bowlsIdCounter = 1;
 
 	public TableView(Context context) {
 		super(context);
@@ -50,8 +50,9 @@ public class TableView extends View {
 		
 		for(int i=1; i<=Kitchen.minBowls; i++){
 			BowlView bowl = new BowlView(this.getContext());
-			bowl.setId(i);
+			bowl.setId(bowlsIdCounter);
 			bowls.add(bowl);
+			bowlsIdCounter++;
 		}
 	//	initBaseBowls();
 	//	this.setBackgroundColor(Color.LTGRAY);
@@ -98,20 +99,24 @@ public class TableView extends View {
 	}
 	
 	public void setBowlRadius(){
-		Log.d("vars",String.format("table radius=%d",tableRadius));
 		double q = ((double)tableRadius*2.0*Math.PI)/(double)Kitchen.maxBowls;
 		bowlRadius = (int)(q/2.0);
+		tableRadius -= bowlRadius;
 		Log.d("vars",String.format("bowl radius=%d",bowlRadius));
+		Log.d("vars",String.format("table radius=%d",tableRadius));
 	}
 	
-	public void addBowl(int i){
+	public BowlView addBowl(){
+		int i = bowls.size()+1;
 		BowlView bowl = new BowlView(this.getContext());
-		bowl.setId(i);
+		bowl.setId(bowlsIdCounter);
 		bowl.init(Kitchen.assignColor(i), bowlRadius);
 		bowls.add(bowl);
 		bowl.setX(centerX);
 		bowl.setY(centerY);
 		this.invalidate();
+		bowlsIdCounter++;
+		return bowl;
 	}
 	
 	public void subBowl(){
@@ -127,8 +132,8 @@ public class TableView extends View {
 		 
 		 
 		 double angleDelta = Math.PI*2.0/bowls.size();
-			double topX = 0;
-			double topY = -1.0*tableRadius;
+		double topX = 0;
+		double topY = -1.0*tableRadius;
 		
 		int i= 0;
 		 for(BowlView bowl: bowls){
@@ -137,8 +142,8 @@ public class TableView extends View {
 			bowl.init(Kitchen.assignColor(i+1), bowlRadius); 
 			bowl.bringToFront();
 			double angle = angleDelta*i;
-			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + tableRadius;
-			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + tableRadius;
+			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + centerX;
+			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + centerY;
 			canvas.translate((float)px, (float)py);
 			Log.d("vars",String.format("x=%f \t y=%f",px, py));
 			bowl.draw(canvas);
@@ -146,6 +151,31 @@ public class TableView extends View {
 			canvas.restore();
 		 }
 
+	 }
+	 
+	 public void refreshBowls(){
+		/* for(BowlView bv: bowls){
+			// bv.formatText();
+			 String p = String.format("\\$ %.2f", bv.user.getTotal());
+			 bv.setText(p);
+		 } */
+		 this.invalidate();
+	 }
+	 
+	 public List<Integer> getBowlViewIds(){
+		 ArrayList<Integer> ids = new ArrayList<Integer>();
+		 for(BowlView bw: bowls){
+			 ids.add(bw.getId());
+		 }
+		 return ids;
+	 }
+	 
+	 public List<User> getBowlUsers(){
+		 ArrayList<User> users = new ArrayList<User>();
+		 for(BowlView bw: bowls){
+			 users.add(bw.user);
+		 }
+		 return users;
 	 }
 
 /*	@Override

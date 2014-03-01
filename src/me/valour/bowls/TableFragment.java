@@ -7,12 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class TableFragment extends Fragment {
 
 	private AddBowlListener addBowlSpy;
 	private SubBowlListener subBowlSpy;
+	private OkListener okButtonSpy;
 	public TableView tableView;
+	public TextView tvQuestion;
+	public Button btnOk;
 	
 	public TableFragment() {
 		// TODO Auto-generated constructor stub
@@ -45,6 +49,15 @@ public class TableFragment extends Fragment {
 			}});
 		
 		tableView = (TableView)view.findViewById(R.id.tableView);
+		tvQuestion = (TextView)view.findViewById(R.id.question);
+		btnOk = (Button)view.findViewById(R.id.okButton);
+		
+		btnOk.setOnClickListener(new View.OnClickListener() {		
+			@Override
+			public void onClick(View v) {
+				okButtonSpy.OnOkButtonPress();
+			}
+		});
 		return view;
 	}
 
@@ -54,6 +67,7 @@ public class TableFragment extends Fragment {
 		try{
 			addBowlSpy = (AddBowlListener)activity;
 			subBowlSpy = (SubBowlListener)activity;
+			okButtonSpy = (OkListener)activity;
 		} catch (ClassCastException e){
 			throw new ClassCastException(activity.toString()+" must implement OnNewItemAddedListener");
 		}
@@ -64,6 +78,10 @@ public class TableFragment extends Fragment {
 		super.onDetach();
 
 	}
+
+	public void refresh(){
+		tableView.invalidate();
+	}
 	
 	public interface AddBowlListener{
 		public void OnAddBowlListener();
@@ -71,6 +89,10 @@ public class TableFragment extends Fragment {
 	
 	public interface SubBowlListener{
 		public void OnSubBowlListener();
+	}
+	
+	public interface OkListener{
+		public void OnOkButtonPress();
 	}
 
 }

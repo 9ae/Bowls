@@ -1,4 +1,4 @@
-package me.valour.bowls;
+package me.valour.bowls.enums;
 
 public enum InputFormat {
 	DOLLAR, PERCENT

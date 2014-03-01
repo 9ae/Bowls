@@ -10,59 +10,48 @@ import android.widget.TextView;
 public class BowlView extends TextView {
 	
 	private Paint primaryPaint;
+	private Paint textPaint;
 	private int radius;
-	private double subtotal;
+	public User user;
 	
 	public BowlView(Context context, AttributeSet ats, int ds){
 		super(context, ats, ds);
-		construct();
 	}
 	
 	public BowlView (Context context) {
 	    super(context);
-	    construct();
 	  }
 
 	 public BowlView(Context context, AttributeSet attr) {
 	    super(context, attr);
-	    construct();
 	  }
 	 
-	 public void construct(){
-		 subtotal = 0.0;
+	 @Override
+	 public void setId(int id){
+		 super.setId(id);
+		 user = new User(id);
 	 }
 	 
 	 public void init(int color, int radius){
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		 primaryPaint.setColor(color);
-		 this.setTextColor(Color.WHITE);
+		 textPaint = new Paint(Paint.LINEAR_TEXT_FLAG);
+		 textPaint.setColor(Color.BLACK);
+		 textPaint.setTextSize((float)20.5);
 		 this.radius = radius;
 		 this.setMaxWidth(radius);
 		 this.setMaxHeight(radius);
 		 this.setMinWidth(radius);
 		 this.setMinHeight(radius);
-	//	 this.setText(R.string.zero_dollars);
 	 }
 	 
 	 @Override
 	  public void onDraw(Canvas canvas) {
 		 canvas.drawCircle(0, 0, radius, primaryPaint);
-		 super.onDraw(canvas);
+		 String p =String.format("$ %.2f", user.getTotal());
+		 canvas.drawText(p, -1*radius, 0, textPaint);
+		// super.onDraw(canvas);
 	 }
 	 
-	 public void addSubtotal(double amount){
-		 subtotal += amount;
-	 }
 	 
-	 public void subSubtotal(double amount){
-		 subtotal -= amount;
-		 if(subtotal<0.0){
-			 subtotal = 0.0;
-		 }
-	 }
-	 
-	 public String formatSubtotal(){
-		 return String.format("$%f",subtotal);
-	 }
-
 }
