@@ -36,9 +36,8 @@ public class BowlView extends TextView {
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		 primaryPaint.setColor(color);
 		 textPaint = new Paint(Paint.LINEAR_TEXT_FLAG);
-		 textPaint.setColor(Color.WHITE);
+		 textPaint.setColor(Color.BLACK);
 		 textPaint.setTextSize((float)20.5);
-		 this.setTextColor(Color.WHITE);
 		 this.radius = radius;
 		 this.setMaxWidth(radius);
 		 this.setMaxHeight(radius);

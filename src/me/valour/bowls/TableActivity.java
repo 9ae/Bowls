@@ -104,6 +104,12 @@ public class TableActivity extends Activity
 				default:
 					break;
 			}
+		    if(splitEqually && okMode==OkMode.ITEM_PRICE){	
+		    	okMode = OkMode.NONE; 
+		    	tableFragment.btnOk.setVisibility(View.INVISIBLE);
+		    	tableFragment.tvQuestion.setText("");
+		    	tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
+		    }
 	/*	    }
 		  }).start(); */
 	}
