@@ -10,8 +10,9 @@ import android.widget.TextView;
 public class BowlView extends TextView {
 	
 	private Paint primaryPaint;
+	private Paint textPaint;
 	private int radius;
-	private User user;
+	public User user;
 	
 	public BowlView(Context context, AttributeSet ats, int ds){
 		super(context, ats, ds);
@@ -34,23 +35,24 @@ public class BowlView extends TextView {
 	 public void init(int color, int radius){
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		 primaryPaint.setColor(color);
+		 textPaint = new Paint(Paint.LINEAR_TEXT_FLAG);
+		 textPaint.setColor(Color.WHITE);
+		 textPaint.setTextSize((float)20.5);
 		 this.setTextColor(Color.WHITE);
 		 this.radius = radius;
 		 this.setMaxWidth(radius);
 		 this.setMaxHeight(radius);
 		 this.setMinWidth(radius);
 		 this.setMinHeight(radius);
-	//	 this.setText(R.string.zero_dollars);
 	 }
 	 
 	 @Override
 	  public void onDraw(Canvas canvas) {
 		 canvas.drawCircle(0, 0, radius, primaryPaint);
-		 super.onDraw(canvas);
+		 String p =String.format("$ %.2f", user.getTotal());
+		 canvas.drawText(p, -1*radius, 0, textPaint);
+		// super.onDraw(canvas);
 	 }
 	 
-	 public String formatSubtotal(){
-		 return String.format("$%f",user.getSubtotal());
-	 }
-
+	 
 }

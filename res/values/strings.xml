@@ -24,6 +24,7 @@
     <string name="nodel">&lt;</string>
     <string name="split_equally">Split Equally</string>
     <string name="split_line">Add Line Items</string>
+    <string name="ok">OK</string>
     
     
     <string name="q_enter_first_li">Enter price of first line item</string>

@@ -14,5 +14,27 @@ public class Duo<T,S> {
 		return row.equals(x) && col.equals(y);
 	}
 	
+	public boolean hasRow(T x){
+		return row.equals(x);
+	}
+	
+	public boolean hasCol(S y){
+		return col.equals(y);
+	}
+
+	/**
+	 * @return the row
+	 */
+	public T getRow() {
+		return row;
+	}
+
+	/**
+	 * @return the col
+	 */
+	public S getCol() {
+		return col;
+	}
+	
 	
 }

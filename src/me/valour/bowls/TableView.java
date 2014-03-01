@@ -1,6 +1,8 @@
 package me.valour.bowls;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -103,7 +105,7 @@ public class TableView extends View {
 		Log.d("vars",String.format("bowl radius=%d",bowlRadius));
 	}
 	
-	public void addBowl(){
+	public BowlView addBowl(){
 		int i = bowls.size()+1;
 		BowlView bowl = new BowlView(this.getContext());
 		bowl.setId(bowlsIdCounter);
@@ -113,6 +115,7 @@ public class TableView extends View {
 		bowl.setY(centerY);
 		this.invalidate();
 		bowlsIdCounter++;
+		return bowl;
 	}
 	
 	public void subBowl(){
@@ -147,6 +150,31 @@ public class TableView extends View {
 			canvas.restore();
 		 }
 
+	 }
+	 
+	 public void refreshBowls(){
+		/* for(BowlView bv: bowls){
+			// bv.formatText();
+			 String p = String.format("\\$ %.2f", bv.user.getTotal());
+			 bv.setText(p);
+		 } */
+		 this.invalidate();
+	 }
+	 
+	 public List<Integer> getBowlViewIds(){
+		 ArrayList<Integer> ids = new ArrayList<Integer>();
+		 for(BowlView bw: bowls){
+			 ids.add(bw.getId());
+		 }
+		 return ids;
+	 }
+	 
+	 public List<User> getBowlUsers(){
+		 ArrayList<User> users = new ArrayList<User>();
+		 for(BowlView bw: bowls){
+			 users.add(bw.user);
+		 }
+		 return users;
 	 }
 
 /*	@Override

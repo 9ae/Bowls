@@ -1,5 +1,6 @@
 package me.valour.bowls;
 
+import me.valour.bowls.enums.InputFormat;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
