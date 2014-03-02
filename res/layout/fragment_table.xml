@@ -13,26 +13,32 @@
          android:layout_alignParentTop="true"
          android:layout_centerVertical="true"  />
 
-    <!--   me.valour.bowls.BowlsGroup
-        android:id="@+id/tableView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
-        android:visibility="invisible" /-->
-
     <Button
         android:id="@+id/btn_addBowl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/plus_sign"
-        android:layout_alignRight="@id/bowlsGroup"
+        android:layout_alignLeft="@id/bowlsGroup"
         android:layout_alignTop="@id/bowlsGroup" />
     
      <Button android:id="@+id/btn_subBowl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/minus_sign"
+        android:layout_alignLeft="@id/bowlsGroup"
+        android:layout_alignBottom="@id/bowlsGroup" />
+     
+     <Button android:id="@+id/btn_tax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tax"
+        android:layout_alignRight="@id/bowlsGroup"
+        android:layout_alignTop="@id/bowlsGroup" />
+     
+     <Button android:id="@+id/btn_tip"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/tip"
         android:layout_alignRight="@id/bowlsGroup"
         android:layout_alignBottom="@id/bowlsGroup" />
 
@@ -60,7 +66,7 @@
          android:layout_height="wrap_content"
          android:layout_below="@+id/question"
          android:layout_centerHorizontal="true"
-         android:padding="@dimen/number_buttons_margin"
+         android:padding="15dp"
          android:text="@string/ok" />
 
 </RelativeLayout>

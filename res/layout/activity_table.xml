@@ -7,15 +7,15 @@
     tools:context=".TableActivity"
     android:background="@color/background_color" >
 
+      <fragment android:name="me.valour.bowls.TableFragment" 
+        android:id="@+id/tableFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
      <fragment android:name="me.valour.bowls.NumberPadFragment" 
         android:id="@+id/numpadFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1" /> 
-   <fragment android:name="me.valour.bowls.TableFragment" 
-        android:id="@+id/tableFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
 
 </LinearLayout>
