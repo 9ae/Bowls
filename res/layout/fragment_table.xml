@@ -28,6 +28,14 @@
         android:layout_alignLeft="@id/bowlsGroup"
         android:layout_alignBottom="@id/bowlsGroup" />
      
+     <Button android:id="@+id/btn_presets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/presets_button"
+        android:layout_above="@id/btn_subBowl"
+        android:layout_alignLeft="@id/btn_subBowl"
+         />
+     
      <Button android:id="@+id/btn_tax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

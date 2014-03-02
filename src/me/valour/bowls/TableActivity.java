@@ -5,9 +5,11 @@ import java.util.List;
 import me.valour.bowls.enums.OkMode;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -18,7 +20,8 @@ public class TableActivity extends Activity
 	TableFragment.SubBowlListener,
 	TableFragment.OkListener,
 	TableFragment.TaxListener,
-	TableFragment.TipListener{
+	TableFragment.TipListener,
+	TableFragment.PresetListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -46,7 +49,14 @@ public class TableActivity extends Activity
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
 		numFragment = (NumberPadFragment) fm.findFragmentById(R.id.numpadFragment);
 		
-		bill = new Bill(splitEqually);
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		String stringTax = sp.getString("default_tax", "8");
+		String stringTip = sp.getString("default_tip", "15");
+		
+		double tax = Double.parseDouble(stringTax)/100.0;
+		double tip = Double.parseDouble(stringTip)/100.0;
+		
+		bill = new Bill(splitEqually, tax, tip);
 		if(splitEqually){
 			initSplitEqually();
 		} else {
@@ -179,6 +189,12 @@ public class TableActivity extends Activity
 			txt = txt.replaceFirst("\\-", "\\+");
 		}
 		btn.setText(txt);
+	}
+
+	@Override
+	public void onPresetButtonPress(View v) {
+		Intent intent = new Intent(this, PresetActivity.class );
+		startActivity(intent);
 	}
 
 }

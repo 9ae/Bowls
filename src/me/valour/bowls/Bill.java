@@ -17,7 +17,7 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	private double percentTip;
 	private double percentTax;
 	
-	public Bill(boolean splitEqually){
+	public Bill(boolean splitEqually, double tax, double tip){
 		super();
 		this.splitEqually = splitEqually;
 		
@@ -25,8 +25,8 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		lineItems = new ArrayList<LineItem>();
 		
 		subtotal = 0.0;
-		percentTax = Kitchen.tax;
-		percentTip = Kitchen.tip;
+		percentTax = tax;
+		percentTip = tip;
 	}
 	
 	public void setTax(double tax){

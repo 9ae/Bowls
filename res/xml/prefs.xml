@@ -1,0 +1,24 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:key="left_right"
+        android:defaultValue="true"
+        android:title="Number pad align"
+        android:switchTextOn="RIGHT"
+        android:switchTextOff="LEFT"
+        android:summaryOn="Number pad on right side"
+        android:summaryOff="Number pad on left side"
+        />
+    
+    <EditTextPreference 
+        android:key="default_tax"
+        android:defaultValue="8"
+        android:title="Tax Percent" 
+        />
+    
+    <EditTextPreference 
+        android:key="default_tip"
+        android:defaultValue="15"
+        android:title="Tip Percent"
+        />
+    
+</PreferenceScreen>

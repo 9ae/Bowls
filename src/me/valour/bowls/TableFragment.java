@@ -2,6 +2,7 @@ package me.valour.bowls;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +17,12 @@ public class TableFragment extends Fragment {
 	private OkListener okButtonSpy;
 	private TipListener tipSpy;
 	private TaxListener taxSpy;
+	private PresetListener presetSpy;
 	
 	public BowlsGroup bowlsGroup;
 	public TextView tvQuestion;
 	public Button btnOk;
+	
 	
 	public TableFragment() {
 
@@ -75,6 +78,16 @@ public class TableFragment extends Fragment {
 			}
 		});
 		
+		final Button pref = (Button)view.findViewById(R.id.btn_presets);
+		pref.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				presetSpy.onPresetButtonPress(v);
+				
+			}
+		});
+		
 		return view;
 	}
 
@@ -87,6 +100,7 @@ public class TableFragment extends Fragment {
 			okButtonSpy = (OkListener)activity;
 			tipSpy = (TipListener)activity;
 			taxSpy = (TaxListener)activity;
+			presetSpy = (PresetListener)activity;
 		} catch (ClassCastException e){
 			throw new ClassCastException(activity.toString()+" must implement OnNewItemAddedListener");
 		}
@@ -116,6 +130,10 @@ public class TableFragment extends Fragment {
 	
 	public interface TaxListener{
 		public void onTaxButtonPress(View v);
+	}
+	
+	public interface PresetListener{
+		public void onPresetButtonPress(View v);
 	}
 
 }
