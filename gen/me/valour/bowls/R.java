@@ -33,6 +33,7 @@ public final class R {
     }
     public static final class id {
         public static final int action_settings=0x7f090018;
+        public static final int bowlsGroup=0x7f090013;
         public static final int btn_addBowl=0x7f090014;
         public static final int btn_split_equally=0x7f090000;
         public static final int btn_split_line=0x7f090001;
@@ -56,7 +57,6 @@ public final class R {
         public static final int percent_sign=0x7f090006;
         public static final int question=0x7f090016;
         public static final int tableFragment=0x7f090003;
-        public static final int tableView=0x7f090013;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -93,6 +93,7 @@ public final class R {
         public static final int q_enter_first_li=0x7f060018;
         public static final int q_enter_next_li=0x7f060019;
         public static final int q_enter_subtotal=0x7f06001a;
+        public static final int q_select_bowls=0x7f06001b;
         public static final int split_equally=0x7f060015;
         public static final int split_line=0x7f060016;
         public static final int title_activity_table=0x7f060005;
