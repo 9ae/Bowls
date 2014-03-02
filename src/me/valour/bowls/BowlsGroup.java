@@ -24,7 +24,7 @@ public class BowlsGroup extends FrameLayout {
 	int tableRadius;
 	int bowlRadius;
 	boolean measuredScreen = false;
-	boolean baseBowlsInitialized = false;
+	FrameLayout.LayoutParams defaultParams;
 
 	ArrayList<BowlView> bowls;
 	int bowlsIdCounter = 1;
@@ -72,7 +72,7 @@ public class BowlsGroup extends FrameLayout {
 			       this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			    inflater.inflate(R.layout.bowlsgroup, this, true); */
 		
-		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+		defaultParams = new FrameLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		setClickable(true);
 		setFocusable(true);
@@ -84,7 +84,7 @@ public class BowlsGroup extends FrameLayout {
 			bowl.setColors(Kitchen.assignColor(i+1));
 			bowls.add(bowl);
 			bowlsIdCounter++;
-			this.addView(bowl, params);
+			this.addView(bowl, defaultParams);
 		}
 		
 	/*	TextView tv = new TextView(this.getContext());
@@ -178,11 +178,10 @@ public class BowlsGroup extends FrameLayout {
 		BowlView bowl = new BowlView(this.getContext());
 		bowl.setId(bowlsIdCounter);
 		bowl.setColors(Kitchen.assignColor(i));
-		bowl.setRadius(bowlRadius);
-		bowls.add(bowl);
 		bowl.setX(centerX);
 		bowl.setY(centerY);
-		this.invalidate();
+		bowls.add(bowl);
+		addView(bowl, defaultParams);
 		bowlsIdCounter++;
 		return bowl;
 	}
