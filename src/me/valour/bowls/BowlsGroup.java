@@ -187,11 +187,12 @@ public class BowlsGroup extends FrameLayout {
 	}
 
 	public void refreshBowls() {
-		/*
-		 * for(BowlView bv: bowls){ // bv.formatText(); String p =
-		 * String.format("\\$ %.2f", bv.user.getTotal()); bv.setText(p); }
-		 */
-		this.invalidate();
+
+		 for(BowlView bv: bowls){ 
+			bv.formatText(); 
+			 bv.invalidate();
+		 }
+		 
 	}
 
 	public List<Integer> getBowlViewIds() {
@@ -218,7 +219,6 @@ public class BowlsGroup extends FrameLayout {
 				bv.fade();
 			}
 		}
-		invalidate();
 	}
 
 }

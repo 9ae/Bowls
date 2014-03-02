@@ -84,15 +84,24 @@ public class BowlView extends TextView implements OnTouchListener{
 		 super.setY(newY);
 	 }
 	 
+	 public void formatText(){
+		 if(user!=null){
+		  String p = String.format("$ %.2f", user.getTotal());
+		  setText(p);
+		 } else {
+			 setText(R.string.zero_dollars);
+		 }
+	 }
+	 
 	 @Override
 	  public void onDraw(Canvas canvas) {
 		 canvas.drawCircle(radius, radius, radius, primaryPaint);
-		 String p = "0.00";
+	/*	 String p = "0.00";
 		 if(user!=null){
 		  p = String.format("$ %.2f", user.getTotal());
 		 }
-		 canvas.drawText(p, -1*radius, 0, textPaint);
-		// super.onDraw(canvas);
+		 canvas.drawText(p, 0, 0, textPaint); */
+		 super.onDraw(canvas);
 	 }
 
 	@Override
