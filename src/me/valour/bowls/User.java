@@ -54,6 +54,10 @@ public class User {
 	public void setTax(double tax) {
 		this.tax = tax;
 	}
+	
+	public void applyTax(double percent){
+		this.tax = subtotal*percent;
+	}
 
 	/**
 	 * @return the tip
@@ -67,6 +71,10 @@ public class User {
 	 */
 	public void setTip(double tip) {
 		this.tip = tip;
+	}
+	
+	public void applyTip(double percent){
+		this.tip = subtotal*percent;
 	}
 	
 	public double getTotal(){

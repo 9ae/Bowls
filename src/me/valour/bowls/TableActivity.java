@@ -16,7 +16,9 @@ import android.widget.Button;
 public class TableActivity extends Activity 
 	implements TableFragment.AddBowlListener, 
 	TableFragment.SubBowlListener,
-	TableFragment.OkListener{
+	TableFragment.OkListener,
+	TableFragment.TaxListener,
+	TableFragment.TipListener{
 
 	private int bowlsCount;
 	private Bill bill;
@@ -141,6 +143,42 @@ public class TableActivity extends Activity
 			selectedLineItem = null;
 		}
 		tableFragment.bowlsGroup.refreshBowls();
+	}
+
+	@Override
+	public void onTipButtonPress(View v) {
+		Button btn = (Button)v;
+		String txt = btn.getText().toString();
+		if(txt.contains("+")){
+			bill.calculateTip();
+			tableFragment.bowlsGroup.refreshBowls();
+			Log.d("vars","show tip");
+			txt = txt.replaceFirst("\\+", "\\-");
+		} else {
+			bill.clearTip();
+			tableFragment.bowlsGroup.refreshBowls();
+			Log.d("vars","hide tip");
+			txt = txt.replaceFirst("\\-", "\\+");
+		}
+		btn.setText(txt);
+	}
+
+	@Override
+	public void onTaxButtonPress(View v) {
+		Button btn = (Button)v;
+		String txt = btn.getText().toString();
+		if(txt.contains("+")){
+			bill.calculateTax();
+			tableFragment.bowlsGroup.refreshBowls();
+			Log.d("vars","show tax");
+			txt = txt.replaceFirst("\\+", "\\-");
+		} else {
+			bill.clearTax();
+			tableFragment.bowlsGroup.refreshBowls();
+			Log.d("vars","hide tax");
+			txt = txt.replaceFirst("\\-", "\\+");
+		}
+		btn.setText(txt);
 	}
 
 }

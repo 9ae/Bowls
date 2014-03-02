@@ -26,7 +26,7 @@
     <string name="split_line">Add Line Items</string>
     <string name="ok">OK</string>
     <string name="tax">+ Tax</string>
-    <string name="tip">- Tip</string>
+    <string name="tip">+ Tip</string>
     
     
     <string name="q_enter_first_li">Enter price of first line item</string>

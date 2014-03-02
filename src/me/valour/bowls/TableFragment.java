@@ -14,6 +14,8 @@ public class TableFragment extends Fragment {
 	private AddBowlListener addBowlSpy;
 	private SubBowlListener subBowlSpy;
 	private OkListener okButtonSpy;
+	private TipListener tipSpy;
+	private TaxListener taxSpy;
 	
 	public BowlsGroup bowlsGroup;
 	public TextView tvQuestion;
@@ -46,7 +48,20 @@ public class TableFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				subBowlSpy.OnSubBowlListener();
-				
+			}});
+		
+		final Button tip = (Button)view.findViewById(R.id.btn_tip);
+		tip.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				tipSpy.onTipButtonPress(v);
+			}});
+		
+		final Button tax = (Button)view.findViewById(R.id.btn_tax);
+		tax.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				taxSpy.onTaxButtonPress(v);
 			}});
 		
 		bowlsGroup = (BowlsGroup)view.findViewById(R.id.bowlsGroup);
@@ -59,6 +74,7 @@ public class TableFragment extends Fragment {
 				okButtonSpy.OnOkButtonPress();
 			}
 		});
+		
 		return view;
 	}
 
@@ -69,6 +85,8 @@ public class TableFragment extends Fragment {
 			addBowlSpy = (AddBowlListener)activity;
 			subBowlSpy = (SubBowlListener)activity;
 			okButtonSpy = (OkListener)activity;
+			tipSpy = (TipListener)activity;
+			taxSpy = (TaxListener)activity;
 		} catch (ClassCastException e){
 			throw new ClassCastException(activity.toString()+" must implement OnNewItemAddedListener");
 		}
@@ -90,6 +108,14 @@ public class TableFragment extends Fragment {
 	
 	public interface OkListener{
 		public void OnOkButtonPress();
+	}
+	
+	public interface TipListener{
+		public void onTipButtonPress(View v);
+	}
+	
+	public interface TaxListener{
+		public void onTaxButtonPress(View v);
 	}
 
 }

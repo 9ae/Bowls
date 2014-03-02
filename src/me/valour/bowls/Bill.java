@@ -165,11 +165,29 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	}
 	
 	public double calculateTip(){
+		for(User u: users){
+			u.applyTip(percentTip);
+		}
 		return subtotal * percentTip;
 	}
 	
 	public double calculateTax(){
+		for(User u: users){
+			u.applyTax(percentTax);
+		}
 		return subtotal * percentTax;
+	}
+	
+	public void clearTip(){
+		for(User u: users){
+			u.setTip(0.0);
+		}
+	}
+	
+	public void clearTax(){
+		for(User u: users){
+			u.setTax(0.0);
+		}
 	}
 	
 	public void splitEqually(ArrayList<User> users){
