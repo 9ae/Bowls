@@ -26,6 +26,7 @@ public class TableActivity extends Activity
 	private NumberPadFragment numFragment;
 	public boolean splitEqually;
 	private OkMode okMode;
+	private LineItem selectedLineItem=null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +52,14 @@ public class TableActivity extends Activity
 		}
 		tableFragment.tvQuestion.bringToFront();
 		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
-		//	bill.addUniqueUsers(tableFragment.tableView.getBowlUsers());
 	}
 	
 	private void initSplitEqually(){
 		tableFragment.tvQuestion.setText(R.string.q_enter_subtotal);
-	//	Log.d("vars", getString(R.string.q_enter_subtotal));
 	}
 	
 	private void initSplitLineItems(){
 		tableFragment.tvQuestion.setText(R.string.q_enter_first_li);
-	//	Log.d("vars", getString(R.string.q_enter_first_li));
 	}
 
 	@Override
@@ -75,7 +73,6 @@ public class TableActivity extends Activity
 			bill.addUser(bowl.user);
 			if(splitEqually){
 				bill.redivideEqually();
-				tableFragment.refresh();
 			}
 		}
 		Log.d("vars",String.format("bowls=%d",bowlsCount));
@@ -100,15 +97,12 @@ public class TableActivity extends Activity
 				case ITEM_PRICE:
 					registerItemPrice();
 					break;
+				case SELECT_BOWLS:
+					handleSelectedBowls();
+					break;
 				default:
 					break;
 			}
-		    if(splitEqually && okMode==OkMode.ITEM_PRICE){	
-		    	okMode = OkMode.NONE; 
-		    	tableFragment.btnOk.setVisibility(View.INVISIBLE);
-		    	tableFragment.tvQuestion.setText("");
-		    	tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
-		    }
 	}
 	
 	private void registerItemPrice(){
@@ -116,10 +110,36 @@ public class TableActivity extends Activity
 		LineItem li = bill.addLineItem(price);
 		if(splitEqually){
 			bill.divideEqually(li);
+			okMode = OkMode.NONE; 
+	    	tableFragment.btnOk.setVisibility(View.INVISIBLE);
+	    	tableFragment.tvQuestion.setText("");
+	    	tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
 		} else {
-			//TODO: change tvQ to ask to select people?
+			tableFragment.tvQuestion.setText(R.string.q_select_bowls);
+			prepareForSelectingBowls(li);
 		}
-	//	tableFragment.tableView.refreshBowls();
+		tableFragment.bowlsGroup.refreshBowls();
+	}
+	
+	private void prepareForSelectingBowls(LineItem li){
+		selectedLineItem = li;
+		tableFragment.bowlsGroup.readyBowlSelect();
+		okMode = OkMode.SELECT_BOWLS;
+	}
+	
+	private void handleSelectedBowls(){
+		if(selectedLineItem!=null){
+			List<User> consumers = tableFragment.bowlsGroup.getSelectedUsers();
+			bill.divideAmongst(selectedLineItem, consumers);
+			
+			tableFragment.bowlsGroup.stopBowlSelect();
+			
+			// move to being ready for next Item
+			tableFragment.tvQuestion.setText(R.string.q_enter_next_li);
+			numFragment.clearField();
+			okMode = OkMode.ITEM_PRICE;
+			selectedLineItem = null;
+		}
 		tableFragment.bowlsGroup.refreshBowls();
 	}
 

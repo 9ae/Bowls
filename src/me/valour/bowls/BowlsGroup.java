@@ -10,6 +10,8 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.View.MeasureSpec;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -24,7 +26,10 @@ public class BowlsGroup extends FrameLayout {
 	int tableRadius;
 	int bowlRadius;
 	boolean measuredScreen = false;
+	boolean selectReady = false;
+	
 	FrameLayout.LayoutParams defaultParams;
+	BowlSelectListener bowlSelect;
 
 	ArrayList<BowlView> bowls;
 	int bowlsIdCounter = 1;
@@ -68,10 +73,7 @@ public class BowlsGroup extends FrameLayout {
 	}
 
 	private void init() {
-		/* LayoutInflater inflater = (LayoutInflater)
-			       this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			    inflater.inflate(R.layout.bowlsgroup, this, true); */
-		
+		bowlSelect = new BowlSelectListener();
 		defaultParams = new FrameLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		setClickable(true);
@@ -85,13 +87,9 @@ public class BowlsGroup extends FrameLayout {
 			bowls.add(bowl);
 			bowlsIdCounter++;
 			this.addView(bowl, defaultParams);
+			bowl.setOnTouchListener(bowlSelect);
 		}
 		
-	/*	TextView tv = new TextView(this.getContext());
-		tv.setText("HERE!");
-		addView(tv, params); 
-		
-		this.setWillNotDraw(false); */
 	}
 	
 	
@@ -127,51 +125,16 @@ public class BowlsGroup extends FrameLayout {
 
 	private int measure(int measureSpec) {
 		int result = 0;
-
-		// Decode the measurement specifications.
 		int specMode = MeasureSpec.getMode(measureSpec);
 		int specSize = MeasureSpec.getSize(measureSpec);
 
 		if (specMode == MeasureSpec.UNSPECIFIED) {
-			// Return a default size of 200 if no bounds are specified.
-			result = 200;
+			result = 500;
 		} else {
-			// As you want to fill the available space
-			// always return the full available bounds.
 			result = specSize;
 		}
 		return result;
 	}
-	/*
-	 @Override
-	  public void onDraw(Canvas canvas) {
-		 measureView();	
-		 
-		 super.onDraw(canvas);
-		 
-		 
-		 double angleDelta = Math.PI*2.0/bowls.size();
-		double topX = 0;
-		double topY = -1.0*tableRadius;
-		
-		int i= 0;
-		 for(BowlView bowl: bowls){
-			 canvas.save();
-			 
-			bowl.init(Kitchen.assignColor(i+1), bowlRadius); 
-			bowl.bringToFront();
-			double angle = angleDelta*i;
-			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + centerX;
-			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + centerY;
-			canvas.translate((float)px, (float)py);
-			Log.d("vars",String.format("x=%f \t y=%f",px, py));
-			bowl.draw(canvas);
-			i++;
-			canvas.restore();
-		 }
-
-	 }
-*/
 
 	public BowlView addBowl() {
 		int i = bowls.size() + 1;
@@ -182,17 +145,16 @@ public class BowlsGroup extends FrameLayout {
 		bowl.setY(centerY);
 		bowls.add(bowl);
 		addView(bowl, defaultParams);
+		bowl.setOnTouchListener(bowlSelect);
 		bowlsIdCounter++;
 		return bowl;
 	}
 
 	public void refreshBowls() {
-
 		 for(BowlView bv: bowls){ 
 			bv.formatText(); 
 			 bv.invalidate();
 		 }
-		 
 	}
 
 	public List<Integer> getBowlViewIds() {
@@ -219,6 +181,55 @@ public class BowlsGroup extends FrameLayout {
 				bv.fade();
 			}
 		}
+	}
+	
+	
+	public void clearSelection(){
+		bowlSelect.selected.clear();
+		for(BowlView bv: bowls){
+			bv.setSelected(false);
+		}
+	}
+	
+	public void readyBowlSelect(){
+		selectReady = true;
+		clearSelection();
+		bowlsFocus(false);
+	}
+	
+	public void stopBowlSelect(){
+		selectReady = false;
+		clearSelection();
+		bowlsFocus(true);
+	}
+	
+	public List<User> getSelectedUsers(){
+		return bowlSelect.selected;
+	}
+	
+	private class BowlSelectListener implements OnTouchListener{
+
+		public List<User> selected;
+		
+		public BowlSelectListener(){
+			selected = new ArrayList<User>();
+		}
+		
+		@Override
+		public boolean onTouch(View v, MotionEvent move) {
+			BowlView bv = (BowlView)v;
+			int action = move.getAction();
+			if(selectReady && action==MotionEvent.ACTION_DOWN){
+				if(bv.toggleSelected()){
+					selected.remove(bv.user);
+				} else {
+					selected.add(bv.user);
+				}
+				Log.d("vars", bv.getId()+" touched down");
+			}
+			return false;
+		}
+		
 	}
 
 }

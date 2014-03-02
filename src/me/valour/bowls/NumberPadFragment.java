@@ -129,6 +129,10 @@ public class NumberPadFragment extends Fragment {
 			return Double.parseDouble(v);
 		}
 	}
+	
+	public void clearField(){
+		numberValue.setText("");
+	}
 
 	public class NumberPadListener  implements View.OnClickListener {
 		

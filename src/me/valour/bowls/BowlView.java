@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.view.View.OnTouchListener;
 import android.view.View.OnClickListener;
 
-public class BowlView extends TextView implements OnTouchListener{
+public class BowlView extends TextView{
 	
 	private Paint primaryPaint;
 	private Paint textPaint;
@@ -47,8 +47,6 @@ public class BowlView extends TextView implements OnTouchListener{
 		 textPaint = new Paint(Paint.LINEAR_TEXT_FLAG);
 		 textPaint.setColor(Color.BLACK);
 		 textPaint.setTextSize((float)20.5);
-		 
-		 setOnTouchListener(this);
 	 }
 	 
 	 @Override
@@ -96,21 +94,8 @@ public class BowlView extends TextView implements OnTouchListener{
 	 @Override
 	  public void onDraw(Canvas canvas) {
 		 canvas.drawCircle(radius, radius, radius, primaryPaint);
-	/*	 String p = "0.00";
-		 if(user!=null){
-		  p = String.format("$ %.2f", user.getTotal());
-		 }
-		 canvas.drawText(p, 0, 0, textPaint); */
 		 super.onDraw(canvas);
 	 }
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		BowlView bv = (BowlView)v;
-		bv.toggleSelected();
-		Log.d("vars", bv.getId()+" clicked");
-		return true;
-	}
 
 	/**
 	 * @return the selected

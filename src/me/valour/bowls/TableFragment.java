@@ -14,13 +14,13 @@ public class TableFragment extends Fragment {
 	private AddBowlListener addBowlSpy;
 	private SubBowlListener subBowlSpy;
 	private OkListener okButtonSpy;
-	//public TableView tableView;
+	
 	public BowlsGroup bowlsGroup;
 	public TextView tvQuestion;
 	public Button btnOk;
 	
 	public TableFragment() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override
@@ -49,7 +49,6 @@ public class TableFragment extends Fragment {
 				
 			}});
 		
-	//	tableView = (TableView)view.findViewById(R.id.tableView);
 		bowlsGroup = (BowlsGroup)view.findViewById(R.id.bowlsGroup);
 		tvQuestion = (TextView)view.findViewById(R.id.question);
 		btnOk = (Button)view.findViewById(R.id.okButton);
@@ -79,11 +78,6 @@ public class TableFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 
-	}
-
-	public void refresh(){
-		// tableView.invalidate();
-		bowlsGroup.invalidate();
 	}
 	
 	public interface AddBowlListener{
