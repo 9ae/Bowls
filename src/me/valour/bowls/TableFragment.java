@@ -14,7 +14,8 @@ public class TableFragment extends Fragment {
 	private AddBowlListener addBowlSpy;
 	private SubBowlListener subBowlSpy;
 	private OkListener okButtonSpy;
-	public TableView tableView;
+	//public TableView tableView;
+	public BowlsGroup bowlsGroup;
 	public TextView tvQuestion;
 	public Button btnOk;
 	
@@ -48,7 +49,8 @@ public class TableFragment extends Fragment {
 				
 			}});
 		
-		tableView = (TableView)view.findViewById(R.id.tableView);
+	//	tableView = (TableView)view.findViewById(R.id.tableView);
+		bowlsGroup = (BowlsGroup)view.findViewById(R.id.bowlsGroup);
 		tvQuestion = (TextView)view.findViewById(R.id.question);
 		btnOk = (Button)view.findViewById(R.id.okButton);
 		
@@ -80,7 +82,8 @@ public class TableFragment extends Fragment {
 	}
 
 	public void refresh(){
-		tableView.invalidate();
+		// tableView.invalidate();
+		bowlsGroup.invalidate();
 	}
 	
 	public interface AddBowlListener{

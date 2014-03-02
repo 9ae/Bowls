@@ -111,7 +111,8 @@ public class TableView extends View {
 		int i = bowls.size()+1;
 		BowlView bowl = new BowlView(this.getContext());
 		bowl.setId(bowlsIdCounter);
-		bowl.init(Kitchen.assignColor(i), bowlRadius);
+		bowl.setColors(Kitchen.assignColor(i));
+		bowl.setRadius(bowlRadius);
 		bowl.setOnTouchListener(bowl);
 		bowls.add(bowl);
 		bowl.setX(centerX);
@@ -141,7 +142,7 @@ public class TableView extends View {
 		 for(BowlView bowl: bowls){
 			 canvas.save();
 			 
-			bowl.init(Kitchen.assignColor(i+1), bowlRadius); 
+			bowl.setRadius(bowlRadius); 
 			bowl.bringToFront();
 			double angle = angleDelta*i;
 			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + centerX;

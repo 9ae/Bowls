@@ -23,18 +23,33 @@ public class BowlView extends TextView implements OnTouchListener{
 	
 	public BowlView(Context context, AttributeSet ats, int ds){
 		super(context, ats, ds);
-		this.setClickable(true);
+		init();
 	}
 	
 	public BowlView (Context context) {
 	    super(context);
-	    this.setClickable(true);
+	    init();
 	  }
 
 	 public BowlView(Context context, AttributeSet attr) {
 	    super(context, attr);
-	    this.setClickable(true);
+	    init();
 	  }
+	 
+	 private void init(){
+		 setClickable(true);
+		 this.setFocusable(true);
+		 setRadius(Kitchen.minRadius);
+		 user = null;
+		 
+		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		 primaryPaint.setColor(Color.GREEN);
+		 textPaint = new Paint(Paint.LINEAR_TEXT_FLAG);
+		 textPaint.setColor(Color.BLACK);
+		 textPaint.setTextSize((float)20.5);
+		 
+		 setOnTouchListener(this);
+	 }
 	 
 	 @Override
 	 public void setId(int id){
@@ -42,19 +57,40 @@ public class BowlView extends TextView implements OnTouchListener{
 		 user = new User(id);
 	 }
 	 
-	 public void init(int color, int radius){
+	 public void setColors(int color){
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		 primaryPaint.setColor(color);
 		 textPaint = new Paint(Paint.LINEAR_TEXT_FLAG);
 		 textPaint.setColor(Color.BLACK);
 		 textPaint.setTextSize((float)20.5);
+	 }
+	 
+	 public void setRadius(int radius){
 		 this.radius = radius;
+		 
+		 this.setMinimumHeight(2*radius);
+		 this.setMinimumWidth(2*radius);
+	 }
+	 
+	 @Override
+	 public void setX(float x){
+		 float newX = x - (float)radius;
+		 super.setX(newX);
+	 }
+	 
+	 @Override
+	 public void setY(float y){
+		 float newY = y - (float)radius;
+		 super.setY(newY);
 	 }
 	 
 	 @Override
 	  public void onDraw(Canvas canvas) {
-		 canvas.drawCircle(0, 0, radius, primaryPaint);
-		 String p =String.format("$ %.2f", user.getTotal());
+		 canvas.drawCircle(radius, radius, radius, primaryPaint);
+		 String p = "0.00";
+		 if(user!=null){
+		  p = String.format("$ %.2f", user.getTotal());
+		 }
 		 canvas.drawText(p, -1*radius, 0, textPaint);
 		// super.onDraw(canvas);
 	 }
@@ -96,9 +132,11 @@ public class BowlView extends TextView implements OnTouchListener{
 	
 	public void fade(){
 		primaryPaint.setAlpha(100);
+		this.invalidate();
 	}
 	
 	public void unfade(){
 		primaryPaint.setAlpha(255);
+		this.invalidate();
 	}
 }

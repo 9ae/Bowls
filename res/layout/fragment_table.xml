@@ -3,27 +3,37 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:context=".TableFragment" >
+
     
-    <me.valour.bowls.TableView
-         android:id="@+id/tableView"
+     <me.valour.bowls.BowlsGroup
+         android:id="@+id/bowlsGroup"
          android:layout_width="fill_parent"
          android:layout_height="fill_parent"
          android:layout_alignParentTop="true"
          android:layout_centerVertical="true"  />
+
+    <!--   me.valour.bowls.BowlsGroup
+        android:id="@+id/tableView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible" /-->
+
     <Button
         android:id="@+id/btn_addBowl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/plus_sign"
-        android:layout_alignRight="@id/tableView"
-        android:layout_alignTop="@id/tableView" />
+        android:layout_alignRight="@id/bowlsGroup"
+        android:layout_alignTop="@id/bowlsGroup" />
     
      <Button android:id="@+id/btn_subBowl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/minus_sign"
-        android:layout_alignRight="@id/tableView"
-        android:layout_alignBottom="@id/tableView" />
+        android:layout_alignRight="@id/bowlsGroup"
+        android:layout_alignBottom="@id/bowlsGroup" />
 
      <TextView
          android:id="@+id/question"

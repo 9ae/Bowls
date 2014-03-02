@@ -50,8 +50,8 @@ public class TableActivity extends Activity
 			initSplitLineItems();
 		}
 		tableFragment.tvQuestion.bringToFront();
-		//bill.addUsers(tableFragment.tableView.getBowlViewIds());
-		bill.addUniqueUsers(tableFragment.tableView.getBowlUsers());
+		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
+		//	bill.addUniqueUsers(tableFragment.tableView.getBowlUsers());
 	}
 	
 	private void initSplitEqually(){
@@ -70,7 +70,8 @@ public class TableActivity extends Activity
 			
 		} else {
 			bowlsCount++;
-			BowlView bowl = tableFragment.tableView.addBowl();
+		//	BowlView bowl = tableFragment.tableView.addBowl();
+			BowlView bowl = tableFragment.bowlsGroup.addBowl();
 			bill.addUser(bowl.user);
 			if(splitEqually){
 				bill.redivideEqually();
@@ -118,7 +119,8 @@ public class TableActivity extends Activity
 		} else {
 			//TODO: change tvQ to ask to select people?
 		}
-		tableFragment.tableView.refreshBowls();
+	//	tableFragment.tableView.refreshBowls();
+		tableFragment.bowlsGroup.refreshBowls();
 	}
 
 }
