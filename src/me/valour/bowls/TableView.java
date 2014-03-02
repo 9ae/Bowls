@@ -51,7 +51,7 @@ public class TableView extends View {
 		for(int i=1; i<=Kitchen.minBowls; i++){
 			BowlView bowl = new BowlView(this.getContext());
 			bowl.setId(bowlsIdCounter);
-			bowl.setOnClickListener(bowl);
+			bowl.setOnTouchListener(bowl);
 			bowls.add(bowl);
 			bowlsIdCounter++;
 		}
@@ -112,7 +112,7 @@ public class TableView extends View {
 		BowlView bowl = new BowlView(this.getContext());
 		bowl.setId(bowlsIdCounter);
 		bowl.init(Kitchen.assignColor(i), bowlRadius);
-		bowl.setOnClickListener(bowl);
+		bowl.setOnTouchListener(bowl);
 		bowls.add(bowl);
 		bowl.setX(centerX);
 		bowl.setY(centerY);

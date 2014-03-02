@@ -61,8 +61,9 @@ public final class R {
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_table=0x7f030001;
-        public static final int fragment_number_pad=0x7f030002;
-        public static final int fragment_table=0x7f030003;
+        public static final int fragment_bowls=0x7f030002;
+        public static final int fragment_number_pad=0x7f030003;
+        public static final int fragment_table=0x7f030004;
     }
     public static final class menu {
         public static final int compass=0x7f080000;

@@ -95,8 +95,6 @@ public class TableActivity extends Activity
 
 	@Override
 	public void OnOkButtonPress() {
-	/*	new Thread(new Runnable() {
-		    public void run() { */
 		    	switch(okMode){
 				case ITEM_PRICE:
 					registerItemPrice();
@@ -110,8 +108,6 @@ public class TableActivity extends Activity
 		    	tableFragment.tvQuestion.setText("");
 		    	tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
 		    }
-	/*	    }
-		  }).start(); */
 	}
 	
 	private void registerItemPrice(){

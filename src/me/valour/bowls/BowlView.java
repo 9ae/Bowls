@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.view.View.OnTouchListener;
 import android.view.View.OnClickListener;
 
-public class BowlView extends TextView implements OnTouchListener, OnClickListener {
+public class BowlView extends TextView implements OnTouchListener{
 	
 	private Paint primaryPaint;
 	private Paint textPaint;
@@ -61,15 +61,10 @@ public class BowlView extends TextView implements OnTouchListener, OnClickListen
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void onClick(View v) {
 		BowlView bv = (BowlView)v;
 		bv.toggleSelected();
 		Log.d("vars", bv.getId()+" clicked");
+		return true;
 	}
 
 	/**
