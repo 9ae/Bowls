@@ -17,7 +17,6 @@ import android.widget.Button;
 
 public class TableActivity extends Activity 
 	implements TableFragment.AddBowlListener, 
-	TableFragment.SubBowlListener,
 	TableFragment.OkListener,
 	TableFragment.TaxListener,
 	TableFragment.TipListener,
@@ -119,19 +118,6 @@ public class TableActivity extends Activity
 			}
 		}
 		Log.d("vars",String.format("bowls=%d",bowlsCount));
-	}
-
-	@Override
-	public void OnSubBowlListener() {
-	/*	deprecate
-	 * if(bowlsCount==Kitchen.minBowls){
-			
-		} else {
-			bowlsCount--;
-			tableFragment.tableView.subBowl();
-		}
-		Log.d("vars",String.format("bowls=%d",bowlsCount));
-		*/
 	}
 
 	@Override

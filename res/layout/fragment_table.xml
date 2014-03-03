@@ -4,7 +4,6 @@
     android:layout_height="fill_parent"
     tools:context=".TableFragment"
     android:background="#FFFFFF" >
-
     
      <me.valour.bowls.BowlsGroup
          android:id="@+id/bowlsGroup"
@@ -20,21 +19,14 @@
         android:text="@string/plus_sign"
         android:layout_alignLeft="@id/bowlsGroup"
         android:layout_alignTop="@id/bowlsGroup" />
-    
-     <Button android:id="@+id/btn_subBowl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/minus_sign"
-        android:layout_alignLeft="@id/bowlsGroup"
-        android:layout_alignBottom="@id/bowlsGroup" />
      
      <Button android:id="@+id/btn_presets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/presets_button"
-        android:layout_above="@id/btn_subBowl"
-        android:layout_alignLeft="@id/btn_subBowl"
-         />
+       	android:layout_alignLeft="@id/bowlsGroup"
+        android:layout_alignBottom="@id/bowlsGroup"
+      />
      
      <Button android:id="@+id/btn_tax"
         android:layout_width="wrap_content"
@@ -73,21 +65,20 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_centerHorizontal="true"
-         android:layout_below="@+id/question"
-         style="@android:attr/buttonBarStyle">
-     <Button android:id="@+id/noButton"
+         android:layout_below="@id/question">
+         
+     <Button android:id="@+id/btn_no"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:padding="20dp"
          android:text="@string/no"
-         style="@android:attr/buttonBarButtonStyle"
          android:visibility="gone" />
      <Button
-         android:id="@+id/okButton"
+         android:id="@+id/btn_ok"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:padding="20dp"
          android:text="@string/ok"
-         style="@android:attr/buttonBarButtonStyle" />
+       />
 	</LinearLayout>
 </RelativeLayout>

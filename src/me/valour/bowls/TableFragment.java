@@ -13,7 +13,6 @@ import android.widget.TextView;
 public class TableFragment extends Fragment {
 
 	private AddBowlListener addBowlSpy;
-	private SubBowlListener subBowlSpy;
 	private OkListener okButtonSpy;
 	private TipListener tipSpy;
 	private TaxListener taxSpy;
@@ -46,13 +45,6 @@ public class TableFragment extends Fragment {
 				addBowlSpy.OnAddBowlListener();
 			}});
 		
-		final Button sub = (Button)view.findViewById(R.id.btn_subBowl);
-		sub.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				subBowlSpy.OnSubBowlListener();
-			}});
-		
 		final Button tip = (Button)view.findViewById(R.id.btn_tip);
 		tip.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -66,10 +58,10 @@ public class TableFragment extends Fragment {
 			public void onClick(View v) {
 				taxSpy.onTaxButtonPress(v);
 			}});
-		
+	
 		bowlsGroup = (BowlsGroup)view.findViewById(R.id.bowlsGroup);
 		tvQuestion = (TextView)view.findViewById(R.id.question);
-		btnOk = (Button)view.findViewById(R.id.okButton);
+		btnOk = (Button)view.findViewById(R.id.btn_ok);
 		
 		btnOk.setOnClickListener(new View.OnClickListener() {		
 			@Override
@@ -79,8 +71,7 @@ public class TableFragment extends Fragment {
 		});
 		
 		final Button pref = (Button)view.findViewById(R.id.btn_presets);
-		pref.setOnClickListener(new View.OnClickListener() {
-			
+		pref.setOnClickListener(new View.OnClickListener() {		
 			@Override
 			public void onClick(View v) {
 				presetSpy.onPresetButtonPress(v);
@@ -96,7 +87,6 @@ public class TableFragment extends Fragment {
 		super.onAttach(activity);
 		try{
 			addBowlSpy = (AddBowlListener)activity;
-			subBowlSpy = (SubBowlListener)activity;
 			okButtonSpy = (OkListener)activity;
 			tipSpy = (TipListener)activity;
 			taxSpy = (TaxListener)activity;
