@@ -68,13 +68,26 @@
          android:text="@string/hello_world"
          android:textColor="#000000" />
 
+     <LinearLayout 
+         android:orientation="horizontal"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerHorizontal="true"
+         android:layout_below="@+id/question"
+         style="@android:attr/buttonBarStyle">
+     <Button android:id="@+id/noButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:padding="20dp"
+         android:text="@string/no"
+         style="@android:attr/buttonBarButtonStyle"
+         android:visibility="gone" />
      <Button
          android:id="@+id/okButton"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_below="@+id/question"
-         android:layout_centerHorizontal="true"
-         android:padding="15dp"
-         android:text="@string/ok" />
-
+         android:padding="20dp"
+         android:text="@string/ok"
+         style="@android:attr/buttonBarButtonStyle" />
+	</LinearLayout>
 </RelativeLayout>

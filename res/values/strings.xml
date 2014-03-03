@@ -25,6 +25,7 @@
     <string name="split_equally">Split Equally</string>
     <string name="split_line">Add Line Items</string>
     <string name="ok">OK</string>
+    <string name="no">No</string>
     <string name="tax">+ Tax</string>
     <string name="tip">+ Tip</string>
     <string name="presets_button">Presets</string>

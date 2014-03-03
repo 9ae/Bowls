@@ -32,6 +32,7 @@ public class TableActivity extends Activity
 	public boolean splitEqually;
 	private OkMode okMode;
 	private LineItem selectedLineItem=null;
+	SharedPreferences sp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +50,9 @@ public class TableActivity extends Activity
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
 		numFragment = (NumberPadFragment) fm.findFragmentById(R.id.numpadFragment);
 		
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		String stringTax = sp.getString("default_tax", "8");
-		String stringTip = sp.getString("default_tip", "15");
+		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
-		double tax = Double.parseDouble(stringTax)/100.0;
-		double tip = Double.parseDouble(stringTip)/100.0;
-		
-		bill = new Bill(splitEqually, tax, tip);
+		bill = new Bill(splitEqually, getTax(), getTip());
 		if(splitEqually){
 			initSplitEqually();
 		} else {
@@ -64,6 +60,41 @@ public class TableActivity extends Activity
 		}
 		tableFragment.tvQuestion.bringToFront();
 		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
+	}
+	
+	public double getTax(){
+		if(sp==null){
+			return 0.0;
+		} else {
+			String stringTax = sp.getString("default_tax", Double.toString(Kitchen.tax));
+			return Double.parseDouble(stringTax)/100.0;
+		}
+	}
+	
+	public void setTax(String tax, boolean save){
+		double percent = Double.parseDouble(tax)/100;
+		bill.setTax(percent);
+		if(sp!=null && save){
+			sp.edit().putString("default_tax", tax).commit();
+		}
+	}
+	
+	public double getTip(){
+		if(sp==null){
+			return 0.0;
+		} else {
+			String stringTip = sp.getString("default_tip", Double.toString(Kitchen.tip));
+			return Double.parseDouble(stringTip)/100.0;
+		}
+	}
+	
+	public void setTip(String tip, boolean save){
+		double percent = Double.parseDouble(tip)/100;
+		bill.setTip(percent);
+		
+		if(sp!=null && save){
+			sp.edit().putString("default_tip", tip).commit();
+		}
 	}
 	
 	private void initSplitEqually(){
