@@ -172,7 +172,7 @@ public class BowlsGroup extends FrameLayout {
 	
 	public void addBowlAt(int index){
 		newBowl.setId(bowlsIdCounter);
-		bowls.add(newBowl);
+		bowls.add(index, newBowl);
 		bowlsIdCounter++;
 		newBowl.setOnTouchListener(bowlSelect);
 		newBowl = getNewBowl();
