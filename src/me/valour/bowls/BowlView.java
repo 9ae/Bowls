@@ -20,6 +20,8 @@ public class BowlView extends TextView{
 	private int radius;
 	public User user;
 	private boolean selected = false;
+	private float originalX;
+	private float originalY;
 	
 	public BowlView(Context context, AttributeSet ats, int ds){
 		super(context, ats, ds);
@@ -47,6 +49,9 @@ public class BowlView extends TextView{
 		 textPaint = new Paint(Paint.LINEAR_TEXT_FLAG);
 		 textPaint.setColor(Color.BLACK);
 		 textPaint.setTextSize((float)20.5);
+		 
+		 originalX = 0;
+		 originalY = 0;
 	 }
 	 
 	 @Override

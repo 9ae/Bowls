@@ -285,40 +285,54 @@ public class BowlsGroup extends FrameLayout {
 
 		@Override
 		public boolean onDrag(View v, DragEvent event) {
-			BowlView bv = (BowlView)v;
+			BowlView bv = (BowlView)event.getLocalState();
 			float x = event.getX();
 			float y = event.getY();
-			return false;
+		/*	switch (event.getAction()) {
+		    case DragEvent.ACTION_DRAG_STARTED:
+		        //no action necessary
+		        break;
+		    case DragEvent.ACTION_DRAG_ENTERED:
+		        //no action necessary
+		        break;
+		    case DragEvent.ACTION_DRAG_EXITED:        
+		        //no action necessary
+		        break;
+		    case DragEvent.ACTION_DROP:
+
+		        break;
+		    case DragEvent.ACTION_DRAG_ENDED:
+
+		        break;
+		    default:
+		        break;
+		} */
+			
+	    	if(testAdd(x,y)){
+				double angle = findAngle(x,y);
+				double delta = Math.PI*2.0/bowls.size();
+				int index = (int)Math.round(angle/delta);
+				addBowlAt(index);
+			} else {
+				bv.setX(0);
+				bv.setY(0);
+			}
+		return true;
 		}
 
 		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			BowlView bv = (BowlView)v;
-			float x = event.getX();
-			float y = event.getY();
-			if(event.getAction()==MotionEvent.ACTION_MOVE){
-			/*	ClipData.Item item = new ClipData.Item((CharSequence) v.getTag());
-				ClipData dragData = new ClipData(v.getTag(),ClipData.,item);
-			    View.DragShadowBuilder myShadow = new MyDragShadowBuilder(imageView);
-				bv.startDrag(data, shadowBuilder, myLocalState, flags) */
-
-				bv.setX(x);
-				bv.setY(y);
+		public boolean onTouch(View view, MotionEvent event) {
+			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				ClipData data = ClipData.newPlainText("", "");
+				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+				view.startDrag(data, shadowBuilder, view, 0);
+			    return true;
 			} 
-			else if(event.getAction()==MotionEvent.ACTION_UP){
-				if(testAdd(x,y)){
-					double angle = findAngle(x,y);
-					double delta = Math.PI*2.0/bowls.size();
-					int index = (int)Math.round(angle/delta);
-					addBowlAt(index);
-				} else {
-					bv.setX(0);
-					bv.setY(0);
-				}
+			else {
+			    return false;
 			}
-			return false;
 		}
-		
-	}
+		}
+
 
 }
