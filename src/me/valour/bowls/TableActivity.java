@@ -111,8 +111,7 @@ public class TableActivity extends Activity
 		numFragment.clearField();
 		numFragment.setAsDollarMode();
 		numFragment.highlightTextField(false);
-		noMode = NoMode.NONE;
-		okMode = OkMode.NONE;
+		clearCenter();
 	}
 
 	@Override
@@ -261,7 +260,8 @@ public class TableActivity extends Activity
 			numFragment.highlightTextField(true);
 			numFragment.setAsPercentMode();
 			tableFragment.tvQuestion.setText("Enter tip percent");
-			okMode = OkMode.SET_TAX;
+			tableFragment.btnNo.setVisibility(View.INVISIBLE);
+			okMode = OkMode.SET_TIP;
 			break;
 		
 		default:
