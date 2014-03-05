@@ -36,6 +36,7 @@
 	<string name="q_select_bowls">Touch those who had it</string>
 	<string name="q_enter_tax_percent">Enter tax percent</string>
 	<string name="q_enter_tip_percent">Enter tip percent</string>
+	<string name="q_min_select">Atleast one user must be selected</string>
 	
     <dimen name="number_buttons_margin">2dp</dimen>
     <dimen name="number_buttons_size">5dp</dimen>

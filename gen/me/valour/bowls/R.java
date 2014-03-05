@@ -101,6 +101,7 @@ public final class R {
         public static final int q_enter_subtotal=0x7f07001e;
         public static final int q_enter_tax_percent=0x7f070020;
         public static final int q_enter_tip_percent=0x7f070021;
+        public static final int q_min_select=0x7f070022;
         public static final int q_select_bowls=0x7f07001f;
         public static final int split_equally=0x7f070015;
         public static final int split_line=0x7f070016;
