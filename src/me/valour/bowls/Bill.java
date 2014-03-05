@@ -17,7 +17,7 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	private double percentTip;
 	private double percentTax;
 	
-	public Bill(boolean splitEqually){
+	public Bill(boolean splitEqually, double tax, double tip){
 		super();
 		this.splitEqually = splitEqually;
 		
@@ -25,8 +25,16 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		lineItems = new ArrayList<LineItem>();
 		
 		subtotal = 0.0;
-		percentTax = Kitchen.tax;
-		percentTip = Kitchen.tip;
+		percentTax = tax;
+		percentTip = tip;
+	}
+	
+	public double getTip(){
+		return percentTip;
+	}
+	
+	public double getTax(){
+		return percentTax;
 	}
 	
 	public void setTax(double tax){
@@ -165,11 +173,29 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	}
 	
 	public double calculateTip(){
+		for(User u: users){
+			u.applyTip(percentTip);
+		}
 		return subtotal * percentTip;
 	}
 	
 	public double calculateTax(){
+		for(User u: users){
+			u.applyTax(percentTax);
+		}
 		return subtotal * percentTax;
+	}
+	
+	public void clearTip(){
+		for(User u: users){
+			u.setTip(0.0);
+		}
+	}
+	
+	public void clearTax(){
+		for(User u: users){
+			u.setTax(0.0);
+		}
 	}
 	
 	public void splitEqually(ArrayList<User> users){

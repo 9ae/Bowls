@@ -2,7 +2,10 @@ package me.valour.bowls;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +15,17 @@ import android.widget.TextView;
 public class TableFragment extends Fragment {
 
 	private AddBowlListener addBowlSpy;
-	private SubBowlListener subBowlSpy;
 	private OkListener okButtonSpy;
+	private NoListener noButtonSpy;
+	private TipListener tipSpy;
+	private TaxListener taxSpy;
+	private PresetListener presetSpy;
 	
 	public BowlsGroup bowlsGroup;
 	public TextView tvQuestion;
 	public Button btnOk;
+	public Button btnNo;
+	
 	
 	public TableFragment() {
 
@@ -41,17 +49,23 @@ public class TableFragment extends Fragment {
 				addBowlSpy.OnAddBowlListener();
 			}});
 		
-		final Button sub = (Button)view.findViewById(R.id.btn_subBowl);
-		sub.setOnClickListener(new View.OnClickListener(){
+		final Button tip = (Button)view.findViewById(R.id.btn_tip);
+		tip.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				subBowlSpy.OnSubBowlListener();
-				
+				tipSpy.onTipButtonPress(v);
 			}});
 		
+		final Button tax = (Button)view.findViewById(R.id.btn_tax);
+		tax.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				taxSpy.onTaxButtonPress(v);
+			}});
+	
 		bowlsGroup = (BowlsGroup)view.findViewById(R.id.bowlsGroup);
 		tvQuestion = (TextView)view.findViewById(R.id.question);
-		btnOk = (Button)view.findViewById(R.id.okButton);
+		btnOk = (Button)view.findViewById(R.id.btn_ok);
 		
 		btnOk.setOnClickListener(new View.OnClickListener() {		
 			@Override
@@ -59,6 +73,26 @@ public class TableFragment extends Fragment {
 				okButtonSpy.OnOkButtonPress();
 			}
 		});
+		
+		btnNo = (Button)view.findViewById(R.id.btn_no);
+		
+		btnNo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				noButtonSpy.OnNoButtonPress();
+			}
+		});
+		
+		final Button pref = (Button)view.findViewById(R.id.btn_presets);
+		pref.setOnClickListener(new View.OnClickListener() {		
+			@Override
+			public void onClick(View v) {
+				presetSpy.onPresetButtonPress(v);
+				
+			}
+		});
+		
 		return view;
 	}
 
@@ -67,8 +101,11 @@ public class TableFragment extends Fragment {
 		super.onAttach(activity);
 		try{
 			addBowlSpy = (AddBowlListener)activity;
-			subBowlSpy = (SubBowlListener)activity;
 			okButtonSpy = (OkListener)activity;
+			noButtonSpy = (NoListener)activity;
+			tipSpy = (TipListener)activity;
+			taxSpy = (TaxListener)activity;
+			presetSpy = (PresetListener)activity;
 		} catch (ClassCastException e){
 			throw new ClassCastException(activity.toString()+" must implement OnNewItemAddedListener");
 		}
@@ -78,6 +115,17 @@ public class TableFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 
+	}
+	
+	public void askToAppy(String type, double value){
+		Log.d("vars",value+"");
+		double wholeNumber = value*100.0;
+		Log.d("vars",wholeNumber+"");
+		String question = String.format("Do you want to apply %.2f%% %s?", wholeNumber, type);
+		tvQuestion.setText(question);
+		tvQuestion.setVisibility(View.VISIBLE);
+		btnOk.setVisibility(View.VISIBLE);
+		btnNo.setVisibility(View.VISIBLE);
 	}
 	
 	public interface AddBowlListener{
@@ -90,6 +138,22 @@ public class TableFragment extends Fragment {
 	
 	public interface OkListener{
 		public void OnOkButtonPress();
+	}
+	
+	public interface NoListener{
+		public void OnNoButtonPress();
+	}
+	
+	public interface TipListener{
+		public void onTipButtonPress(View v);
+	}
+	
+	public interface TaxListener{
+		public void onTaxButtonPress(View v);
+	}
+	
+	public interface PresetListener{
+		public void onPresetButtonPress(View v);
 	}
 
 }

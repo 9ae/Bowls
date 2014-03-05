@@ -23,6 +23,15 @@
             android:value="me.valour.bowls.MainActivity" />
         </activity>
         <activity
+            android:name="me.valour.bowls.PresetActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="me.valour.bowls.TableActivity" />
+        </activity>
+        <activity
             android:name="me.valour.bowls.MainActivity"
              android:label="@string/app_name"
             android:screenOrientation="landscape"

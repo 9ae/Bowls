@@ -125,7 +125,7 @@ public class BowlView extends TextView{
 	 
 	
 	public void fade(){
-		primaryPaint.setAlpha(100);
+		primaryPaint.setAlpha(50);
 		this.invalidate();
 	}
 	

@@ -4,7 +4,6 @@
     android:layout_height="fill_parent"
     tools:context=".TableFragment"
     android:background="#FFFFFF" >
-
     
      <me.valour.bowls.BowlsGroup
          android:id="@+id/bowlsGroup"
@@ -13,26 +12,33 @@
          android:layout_alignParentTop="true"
          android:layout_centerVertical="true"  />
 
-    <!--   me.valour.bowls.BowlsGroup
-        android:id="@+id/tableView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
-        android:visibility="invisible" /-->
-
     <Button
         android:id="@+id/btn_addBowl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/plus_sign"
-        android:layout_alignRight="@id/bowlsGroup"
+        android:layout_alignLeft="@id/bowlsGroup"
         android:layout_alignTop="@id/bowlsGroup" />
-    
-     <Button android:id="@+id/btn_subBowl"
+     
+     <Button android:id="@+id/btn_presets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/minus_sign"
+        android:text="@string/presets_button"
+       	android:layout_alignLeft="@id/bowlsGroup"
+        android:layout_alignBottom="@id/bowlsGroup"
+      />
+     
+     <Button android:id="@+id/btn_tax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tax"
+        android:layout_alignRight="@id/bowlsGroup"
+        android:layout_alignTop="@id/bowlsGroup" />
+     
+     <Button android:id="@+id/btn_tip"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/tip"
         android:layout_alignRight="@id/bowlsGroup"
         android:layout_alignBottom="@id/bowlsGroup" />
 
@@ -54,13 +60,25 @@
          android:text="@string/hello_world"
          android:textColor="#000000" />
 
-     <Button
-         android:id="@+id/okButton"
+     <LinearLayout 
+         android:orientation="horizontal"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_below="@+id/question"
          android:layout_centerHorizontal="true"
-         android:padding="@dimen/number_buttons_margin"
-         android:text="@string/ok" />
-
+         android:layout_below="@id/question">
+         
+     <Button android:id="@+id/btn_no"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:padding="20dp"
+         android:text="@string/no"
+         android:visibility="gone" />
+     <Button
+         android:id="@+id/btn_ok"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:padding="20dp"
+         android:text="@string/ok"
+       />
+	</LinearLayout>
 </RelativeLayout>

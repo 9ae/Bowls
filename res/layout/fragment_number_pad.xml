@@ -8,6 +8,7 @@
     tools:context=".NumberPadFragment" >
 
      <LinearLayout
+         android:id="@+id/enter_number_layout"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:layout_column="0"
