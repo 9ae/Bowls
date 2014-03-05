@@ -1,14 +1,18 @@
 package me.valour.bowls;
 
+import me.valour.bowls.R.color;
 import me.valour.bowls.enums.InputFormat;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -19,6 +23,7 @@ public class NumberPadFragment extends Fragment {
 	private Button dotButton;
 	private TextView dollarSign;
 	private TextView percentSign;
+	private LinearLayout fieldBox;
 	private InputFormat numberMode = InputFormat.DOLLAR;
 	
 	public static NumberPadFragment newInstance() {
@@ -68,6 +73,7 @@ public class NumberPadFragment extends Fragment {
 		}
 		
 		numberValue = (TextView) view.findViewById(R.id.numberValue);
+		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
 		
 		return view;
 	}
@@ -121,6 +127,10 @@ public class NumberPadFragment extends Fragment {
 		percentSign.setVisibility(View.VISIBLE);
 	}
 	
+	public String getStringValue(){
+		return numberValue.getText().toString();
+	}
+	
 	public double getNumberValue(){
 		String v = numberValue.getText().toString();
 		if(v.isEmpty()){
@@ -132,6 +142,14 @@ public class NumberPadFragment extends Fragment {
 	
 	public void clearField(){
 		numberValue.setText("");
+	}
+	
+	public void highlightTextField(boolean highlight){
+		if(highlight){
+			fieldBox.setBackgroundColor(Color.GREEN);
+		} else {
+			fieldBox.setBackgroundColor(Color.TRANSPARENT);
+		}
 	}
 
 	public class NumberPadListener  implements View.OnClickListener {

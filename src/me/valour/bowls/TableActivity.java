@@ -2,8 +2,8 @@ package me.valour.bowls;
 
 import java.util.List;
 
+import me.valour.bowls.enums.NoMode;
 import me.valour.bowls.enums.OkMode;
-
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
@@ -18,6 +18,7 @@ import android.widget.Button;
 public class TableActivity extends Activity 
 	implements TableFragment.AddBowlListener, 
 	TableFragment.OkListener,
+	TableFragment.NoListener,
 	TableFragment.TaxListener,
 	TableFragment.TipListener,
 	TableFragment.PresetListener {
@@ -30,6 +31,7 @@ public class TableActivity extends Activity
 	private NumberPadFragment numFragment;
 	public boolean splitEqually;
 	private OkMode okMode;
+	private NoMode noMode;
 	private LineItem selectedLineItem=null;
 	SharedPreferences sp;
 	
@@ -42,6 +44,7 @@ public class TableActivity extends Activity
 		
 		bowlsCount = Kitchen.minBowls;
 		okMode = OkMode.ITEM_PRICE;
+		noMode = NoMode.NONE;
 		
 		setContentView(R.layout.activity_table);
 		
@@ -103,6 +106,14 @@ public class TableActivity extends Activity
 	private void initSplitLineItems(){
 		tableFragment.tvQuestion.setText(R.string.q_enter_first_li);
 	}
+	
+	private void completePercentChange(){
+		numFragment.clearField();
+		numFragment.setAsDollarMode();
+		numFragment.highlightTextField(false);
+		noMode = NoMode.NONE;
+		okMode = OkMode.NONE;
+	}
 
 	@Override
 	public void OnAddBowlListener() {
@@ -129,9 +140,27 @@ public class TableActivity extends Activity
 				case SELECT_BOWLS:
 					handleSelectedBowls();
 					break;
+				case APPLY_TIP:
+					applyTip();
+					clearCenter();
+					break;
+				case SET_TIP:
+					setTip(numFragment.getStringValue(), false);
+					applyTip();
+					completePercentChange();
+					break;
 				default:
 					break;
 			}
+	}
+	
+	private void clearCenter(){
+		okMode = OkMode.NONE;
+		noMode = NoMode.NONE;
+		tableFragment.btnOk.setVisibility(View.INVISIBLE);
+    	tableFragment.tvQuestion.setText("");
+    	tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
+    	tableFragment.btnNo.setVisibility(View.INVISIBLE);
 	}
 	
 	private void registerItemPrice(){
@@ -139,10 +168,7 @@ public class TableActivity extends Activity
 		LineItem li = bill.addLineItem(price);
 		if(splitEqually){
 			bill.divideEqually(li);
-			okMode = OkMode.NONE; 
-	    	tableFragment.btnOk.setVisibility(View.INVISIBLE);
-	    	tableFragment.tvQuestion.setText("");
-	    	tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
+			clearCenter();
 		} else {
 			tableFragment.tvQuestion.setText(R.string.q_select_bowls);
 			prepareForSelectingBowls(li);
@@ -171,14 +197,25 @@ public class TableActivity extends Activity
 		}
 		tableFragment.bowlsGroup.refreshBowls();
 	}
+	
+	public void applyTip(){
+		bill.calculateTip();
+		tableFragment.bowlsGroup.refreshBowls(); 
+	}
+	
+	public void applyTax(){
+		bill.calculateTax();
+		tableFragment.bowlsGroup.refreshBowls();
+	}
 
 	@Override
 	public void onTipButtonPress(View v) {
 		Button btn = (Button)v;
 		String txt = btn.getText().toString();
 		if(txt.contains("+")){
-			bill.calculateTip();
-			tableFragment.bowlsGroup.refreshBowls();
+			tableFragment.askToAppy("tip", bill.getTip());
+			noMode = NoMode.CHANGE_TIP;
+			okMode = OkMode.APPLY_TIP;
 			Log.d("vars","show tip");
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
@@ -195,8 +232,7 @@ public class TableActivity extends Activity
 		Button btn = (Button)v;
 		String txt = btn.getText().toString();
 		if(txt.contains("+")){
-			bill.calculateTax();
-			tableFragment.bowlsGroup.refreshBowls();
+			applyTax();
 			Log.d("vars","show tax");
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
@@ -212,6 +248,26 @@ public class TableActivity extends Activity
 	public void onPresetButtonPress(View v) {
 		Intent intent = new Intent(this, PresetActivity.class );
 		startActivity(intent);
+	}
+
+	@Override
+	public void OnNoButtonPress() {
+		switch(noMode){
+		case CHANGE_TAX:
+			break;
+		
+		case CHANGE_TIP:
+			numFragment.clearField();
+			numFragment.highlightTextField(true);
+			numFragment.setAsPercentMode();
+			tableFragment.tvQuestion.setText("Enter tip percent");
+			okMode = OkMode.SET_TAX;
+			break;
+		
+		default:
+			break;
+		}
+		
 	}
 
 }

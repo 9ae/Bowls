@@ -8,8 +8,8 @@ public class Kitchen {
 	public final static int maxBowls=19;
 	public final static int minRadius = 50;
 	
-	public final static double tip = 0.15;
-	public final static double tax = 0.08; 
+	public final static double tip = 15;
+	public final static double tax = 8; 
 	
 	public static int assignColor(int i){
 		float hue = (256/8)*((float)i%8);

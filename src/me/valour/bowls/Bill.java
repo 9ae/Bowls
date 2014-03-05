@@ -29,6 +29,14 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		percentTip = tip;
 	}
 	
+	public double getTip(){
+		return percentTip;
+	}
+	
+	public double getTax(){
+		return percentTax;
+	}
+	
 	public void setTax(double tax){
 		percentTax = tax;
 	}

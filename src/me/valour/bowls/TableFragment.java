@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ public class TableFragment extends Fragment {
 
 	private AddBowlListener addBowlSpy;
 	private OkListener okButtonSpy;
+	private NoListener noButtonSpy;
 	private TipListener tipSpy;
 	private TaxListener taxSpy;
 	private PresetListener presetSpy;
@@ -21,6 +23,7 @@ public class TableFragment extends Fragment {
 	public BowlsGroup bowlsGroup;
 	public TextView tvQuestion;
 	public Button btnOk;
+	public Button btnNo;
 	
 	
 	public TableFragment() {
@@ -70,6 +73,16 @@ public class TableFragment extends Fragment {
 			}
 		});
 		
+		btnNo = (Button)view.findViewById(R.id.btn_no);
+		
+		btnNo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				noButtonSpy.OnNoButtonPress();
+			}
+		});
+		
 		final Button pref = (Button)view.findViewById(R.id.btn_presets);
 		pref.setOnClickListener(new View.OnClickListener() {		
 			@Override
@@ -88,6 +101,7 @@ public class TableFragment extends Fragment {
 		try{
 			addBowlSpy = (AddBowlListener)activity;
 			okButtonSpy = (OkListener)activity;
+			noButtonSpy = (NoListener)activity;
 			tipSpy = (TipListener)activity;
 			taxSpy = (TaxListener)activity;
 			presetSpy = (PresetListener)activity;
@@ -102,6 +116,17 @@ public class TableFragment extends Fragment {
 
 	}
 	
+	public void askToAppy(String type, double value){
+		Log.d("vars",value+"");
+		double wholeNumber = value*100.0;
+		Log.d("vars",wholeNumber+"");
+		String question = String.format("Do you want to apply %.2f%% %s?", wholeNumber, type);
+		tvQuestion.setText(question);
+		tvQuestion.setVisibility(View.VISIBLE);
+		btnOk.setVisibility(View.VISIBLE);
+		btnNo.setVisibility(View.VISIBLE);
+	}
+	
 	public interface AddBowlListener{
 		public void OnAddBowlListener();
 	}
@@ -112,6 +137,10 @@ public class TableFragment extends Fragment {
 	
 	public interface OkListener{
 		public void OnOkButtonPress();
+	}
+	
+	public interface NoListener{
+		public void OnNoButtonPress();
 	}
 	
 	public interface TipListener{
