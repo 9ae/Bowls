@@ -5,10 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.R.color;
+import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,8 +32,10 @@ public class BowlsGroup extends FrameLayout {
 	
 	FrameLayout.LayoutParams defaultParams;
 	BowlSelectListener bowlSelect;
+	NewBowlListener newBowlSpy;
 
-	ArrayList<BowlView> bowls;
+	LinkedList<BowlView> bowls;
+	BowlView newBowl;
 	int bowlsIdCounter = 1;
 
 	public BowlsGroup(Context context) {
@@ -69,17 +73,22 @@ public class BowlsGroup extends FrameLayout {
 			Log.d("vars",String.format("x=%f \t y=%f",px, py));
 			i++;
 		 }
+		 
+		 newBowl.setRadius(bowlRadius);
+		 newBowl.bringToFront();
+		 
 		 super.onLayout(changed, left, top, right, bottom);
 	}
 
 	private void init() {
 		bowlSelect = new BowlSelectListener();
+		newBowlSpy = new NewBowlListener();
 		defaultParams = new FrameLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		setClickable(true);
 		setFocusable(true);
 
-		bowls = new ArrayList<BowlView>();
+		bowls = new LinkedList<BowlView>();
 		for (int i = 1; i <= Kitchen.minBowls; i++) {
 			BowlView bowl = new BowlView(this.getContext());
 			bowl.setId(bowlsIdCounter);
@@ -90,6 +99,17 @@ public class BowlsGroup extends FrameLayout {
 			bowl.setOnTouchListener(bowlSelect);
 		}
 		
+		newBowl = getNewBowl();
+	}
+	
+	private BowlView getNewBowl(){
+		int i = bowls.size()+1;
+		BowlView bowl = new BowlView(this.getContext());
+		bowl.setColors(Kitchen.assignColor(i));
+		this.addView(bowl, defaultParams);
+		bowl.setOnTouchListener(newBowlSpy);
+		bowl.setOnDragListener(newBowlSpy);
+		return bowl;
 	}
 	
 	
@@ -148,6 +168,14 @@ public class BowlsGroup extends FrameLayout {
 		bowl.setOnTouchListener(bowlSelect);
 		bowlsIdCounter++;
 		return bowl;
+	}
+	
+	public void addBowlAt(int index){
+		newBowl.setId(bowlsIdCounter);
+		bowls.add(newBowl);
+		bowlsIdCounter++;
+		newBowl.setOnTouchListener(bowlSelect);
+		newBowl = getNewBowl();
 	}
 
 	public void refreshBowls() {
@@ -226,6 +254,67 @@ public class BowlsGroup extends FrameLayout {
 					selected.add(bv.user);
 				}
 				Log.d("vars", bv.getId()+" touched down");
+			}
+			return false;
+		}
+		
+	}
+	
+	public class NewBowlListener implements OnTouchListener, OnDragListener{
+		
+		public boolean testAdd(float x, float y){
+			float center_x = (float)centerX;
+			float center_y = (float)centerY;
+			float radius = (float)(tableRadius-bowlRadius);
+			return Math.pow(x - center_x,2) + Math.pow(y - center_y,2) <= (radius*radius);
+		}
+		
+		public double findAngle(float x, float y){
+			double angle = 0;
+			float px = bowls.getFirst().getX();
+			float py = bowls.getFirst().getY();
+			float cx = (float)centerX;
+			float cy = (float)centerY;
+			angle = (Math.atan2(x - cx,y - cy)- Math.atan2(px- cx,py- cy));
+			if(angle<0){
+				angle = Math.PI*2 - Math.abs(angle);
+			}
+			Log.d("vars","angle="+angle);
+			return angle;
+		}
+
+		@Override
+		public boolean onDrag(View v, DragEvent event) {
+			BowlView bv = (BowlView)v;
+			float x = event.getX();
+			float y = event.getY();
+			return false;
+		}
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			BowlView bv = (BowlView)v;
+			float x = event.getX();
+			float y = event.getY();
+			if(event.getAction()==MotionEvent.ACTION_MOVE){
+			/*	ClipData.Item item = new ClipData.Item((CharSequence) v.getTag());
+				ClipData dragData = new ClipData(v.getTag(),ClipData.,item);
+			    View.DragShadowBuilder myShadow = new MyDragShadowBuilder(imageView);
+				bv.startDrag(data, shadowBuilder, myLocalState, flags) */
+
+				bv.setX(x);
+				bv.setY(y);
+			} 
+			else if(event.getAction()==MotionEvent.ACTION_UP){
+				if(testAdd(x,y)){
+					double angle = findAngle(x,y);
+					double delta = Math.PI*2.0/bowls.size();
+					int index = (int)Math.round(angle/delta);
+					addBowlAt(index);
+				} else {
+					bv.setX(0);
+					bv.setY(0);
+				}
 			}
 			return false;
 		}

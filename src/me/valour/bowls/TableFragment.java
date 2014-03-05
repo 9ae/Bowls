@@ -43,12 +43,13 @@ public class TableFragment extends Fragment {
 		View view =  inflater.inflate(R.layout.fragment_table, container, false);
 		
 		final Button add = (Button)view.findViewById(R.id.btn_addBowl);
-		add.setOnClickListener(new View.OnClickListener(){
+		add.setVisibility(View.GONE);
+	/*	add.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				addBowlSpy.OnAddBowlListener();
-			}});
-		
+			}}); 
+		*/
 		final Button tip = (Button)view.findViewById(R.id.btn_tip);
 		tip.setOnClickListener(new View.OnClickListener(){
 			@Override
