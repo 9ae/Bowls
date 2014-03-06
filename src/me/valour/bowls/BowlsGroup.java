@@ -32,10 +32,8 @@ public class BowlsGroup extends FrameLayout {
 	
 	FrameLayout.LayoutParams defaultParams;
 	BowlSelectListener bowlSelect;
-	NewBowlListener newBowlSpy;
 
 	LinkedList<BowlView> bowls;
-	BowlView newBowl;
 	int bowlsIdCounter = 1;
 
 	public BowlsGroup(Context context) {
@@ -74,15 +72,12 @@ public class BowlsGroup extends FrameLayout {
 			i++;
 		 }
 		 
-		 newBowl.setRadius(bowlRadius);
-		 newBowl.bringToFront();
-		 
 		 super.onLayout(changed, left, top, right, bottom);
 	}
 
 	private void init() {
 		bowlSelect = new BowlSelectListener();
-		newBowlSpy = new NewBowlListener();
+		
 		defaultParams = new FrameLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		setClickable(true);
@@ -99,16 +94,13 @@ public class BowlsGroup extends FrameLayout {
 			bowl.setOnTouchListener(bowlSelect);
 		}
 		
-		newBowl = getNewBowl();
 	}
 	
-	private BowlView getNewBowl(){
+	public BowlView getNewBowl(){
 		int i = bowls.size()+1;
 		BowlView bowl = new BowlView(this.getContext());
 		bowl.setColors(Kitchen.assignColor(i));
-		this.addView(bowl, defaultParams);
-		bowl.setOnTouchListener(newBowlSpy);
-		bowl.setOnDragListener(newBowlSpy);
+		bowl.setRadius(bowlRadius);
 		return bowl;
 	}
 	
@@ -171,11 +163,11 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	public void addBowlAt(int index){
-		newBowl.setId(bowlsIdCounter);
+	/*	newBowl.setId(bowlsIdCounter);
 		bowls.add(index, newBowl);
 		bowlsIdCounter++;
 		newBowl.setOnTouchListener(bowlSelect);
-		newBowl = getNewBowl();
+		newBowl = getNewBowl(); */
 	}
 
 	public void refreshBowls() {
@@ -259,80 +251,5 @@ public class BowlsGroup extends FrameLayout {
 		}
 		
 	}
-	
-	public class NewBowlListener implements OnTouchListener, OnDragListener{
-		
-		public boolean testAdd(float x, float y){
-			float center_x = (float)centerX;
-			float center_y = (float)centerY;
-			float radius = (float)(tableRadius-bowlRadius);
-			return Math.pow(x - center_x,2) + Math.pow(y - center_y,2) <= (radius*radius);
-		}
-		
-		public double findAngle(float x, float y){
-			double angle = 0;
-			float px = bowls.getFirst().getX();
-			float py = bowls.getFirst().getY();
-			float cx = (float)centerX;
-			float cy = (float)centerY;
-			angle = (Math.atan2(x - cx,y - cy)- Math.atan2(px- cx,py- cy));
-			if(angle<0){
-				angle = Math.PI*2 - Math.abs(angle);
-			}
-			Log.d("vars","angle="+angle);
-			return angle;
-		}
-
-		@Override
-		public boolean onDrag(View v, DragEvent event) {
-			BowlView bv = (BowlView)event.getLocalState();
-			float x = event.getX();
-			float y = event.getY();
-		/*	switch (event.getAction()) {
-		    case DragEvent.ACTION_DRAG_STARTED:
-		        //no action necessary
-		        break;
-		    case DragEvent.ACTION_DRAG_ENTERED:
-		        //no action necessary
-		        break;
-		    case DragEvent.ACTION_DRAG_EXITED:        
-		        //no action necessary
-		        break;
-		    case DragEvent.ACTION_DROP:
-
-		        break;
-		    case DragEvent.ACTION_DRAG_ENDED:
-
-		        break;
-		    default:
-		        break;
-		} */
-			
-	    	if(testAdd(x,y)){
-				double angle = findAngle(x,y);
-				double delta = Math.PI*2.0/bowls.size();
-				int index = (int)Math.round(angle/delta);
-				addBowlAt(index);
-			} else {
-				bv.setX(0);
-				bv.setY(0);
-			}
-		return true;
-		}
-
-		@Override
-		public boolean onTouch(View view, MotionEvent event) {
-			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				ClipData data = ClipData.newPlainText("", "");
-				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-				view.startDrag(data, shadowBuilder, view, 0);
-			    return true;
-			} 
-			else {
-			    return false;
-			}
-		}
-		}
-
 
 }
