@@ -32,19 +32,18 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a001d;
-        public static final int bowlsGroup=0x7f0a0014;
-        public static final int btn_addBowl=0x7f0a0016;
-        public static final int btn_no=0x7f0a001b;
-        public static final int btn_ok=0x7f0a001c;
-        public static final int btn_presets=0x7f0a0017;
+        public static final int action_settings=0x7f0a001c;
+        public static final int bowlsGroup=0x7f0a0015;
+        public static final int btn_no=0x7f0a001a;
+        public static final int btn_ok=0x7f0a001b;
+        public static final int btn_presets=0x7f0a0016;
         public static final int btn_split_equally=0x7f0a0000;
         public static final int btn_split_line=0x7f0a0001;
-        public static final int btn_tax=0x7f0a0018;
-        public static final int btn_tip=0x7f0a0019;
+        public static final int btn_tax=0x7f0a0017;
+        public static final int btn_tip=0x7f0a0018;
         public static final int dollar_sign=0x7f0a0005;
         public static final int enter_number_layout=0x7f0a0004;
-        public static final int newBowl=0x7f0a0015;
+        public static final int newBowl=0x7f0a0014;
         public static final int no0=0x7f0a0012;
         public static final int no1=0x7f0a0008;
         public static final int no2=0x7f0a0009;
@@ -60,7 +59,7 @@ public final class R {
         public static final int numberValue=0x7f0a0006;
         public static final int numpadFragment=0x7f0a0003;
         public static final int percent_sign=0x7f0a0007;
-        public static final int question=0x7f0a001a;
+        public static final int question=0x7f0a0019;
         public static final int tableFragment=0x7f0a0002;
     }
     public static final class layout {

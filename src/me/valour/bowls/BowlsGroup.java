@@ -227,6 +227,14 @@ public class BowlsGroup extends FrameLayout {
 		return bowlSelect.selected;
 	}
 	
+	public boolean inCircle(float x, float y){
+		float center_x = (float)centerX;
+		float center_y = (float)centerY;
+		float radius = (float)(tableRadius-bowlRadius);
+		Log.d("vars","("+ x+":"+y+") in ("+center_x+":"+center_y+")+"+radius);
+		return Math.pow(x-center_x,2) + Math.pow(y-center_y,2) <= (radius*radius);
+	}
+	
 	private class BowlSelectListener implements OnTouchListener{
 
 		public List<User> selected;

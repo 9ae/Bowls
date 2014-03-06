@@ -52,8 +52,6 @@ public class TableFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view =  inflater.inflate(R.layout.fragment_table, container, false);
 		
-		final Button add = (Button)view.findViewById(R.id.btn_addBowl);
-		add.setVisibility(View.GONE);
 	/*	add.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -202,18 +200,32 @@ public class TableFragment extends Fragment {
 			BowlView bv = (BowlView)event.getLocalState();
 			float x = event.getX();
 			float y = event.getY();
+			
+	    /*	if(bowlsGroup.inCircle(x, y)){
+	    		Log.d("vars", "entered circle");
+	    	} else {
+	    		Log.d("vars","entered some other place, ignore");
+	    	}
+			*/
+			
 			switch (event.getAction()) {
 		    case DragEvent.ACTION_DRAG_STARTED:
-		        //no action necessary
+		    	Log.d("vars",v.toString());
 		        break;
 		    case DragEvent.ACTION_DRAG_ENTERED:
-		    	if(v.getId()==R.id.bowlsGroup){
+		    	Log.d("vars",v.toString());
+		    	if(bowlsGroup.inCircle(x, y)){
 		    		Log.d("vars", "entered circle");
+		    	} else {
+		    		Log.d("vars","entered some other place, ignore");
 		    	}
 		        break;
 		    case DragEvent.ACTION_DRAG_EXITED:        
 		        //no action necessary
 		        break;
+		    case DragEvent.ACTION_DRAG_LOCATION:
+
+		    	break;
 		    case DragEvent.ACTION_DROP:
 
 		        break;
