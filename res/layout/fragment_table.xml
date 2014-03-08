@@ -1,24 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".TableFragment"
     android:background="#FFFFFF" >
+
+    <me.valour.bowls.BowlsGroup
+        android:id="@+id/bowlsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="#FFCCFF" />
     
    <me.valour.bowls.BowlView android:id="@+id/newBowl" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
-         
-     <me.valour.bowls.BowlsGroup
-         android:id="@+id/bowlsGroup"
-         android:layout_width="fill_parent"
-         android:layout_height="fill_parent"
-         android:layout_alignParentTop="true"
-         android:layout_centerVertical="true"
-         android:layout_alignParentRight="true"
-         android:background="#FFCCFF"  />
 
      <Button android:id="@+id/btn_presets"
         android:layout_width="wrap_content"
@@ -81,4 +80,5 @@
          android:text="@string/ok"
        />
 	</LinearLayout>
+
 </RelativeLayout>
