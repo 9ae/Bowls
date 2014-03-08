@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.widget.TextView;
 import android.view.View.OnTouchListener;
 import android.view.View.OnClickListener;
@@ -52,6 +53,24 @@ public class BowlView extends TextView{
 		 
 		 originalX = 0;
 		 originalY = 0;
+	 }
+	 
+	 public void move(float x, float y){
+		 if(originalX==0 && originalY==0){
+			 Log.d("vars", "first set");
+			 originalX = x;
+			 originalY = y;
+			 setX(x);
+			 setY(y);
+		 } else {
+			 Log.d("vars", "move bowl");
+			 ViewPropertyAnimator anim = animate();
+			 anim.x(x - (float)radius);
+			 anim.y(y - (float)radius);
+			 anim.start();
+			 originalX = x;
+			 originalY = y;
+		 }
 	 }
 	 
 	 @Override

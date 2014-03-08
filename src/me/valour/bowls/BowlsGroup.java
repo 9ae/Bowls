@@ -69,8 +69,7 @@ public class BowlsGroup extends FrameLayout {
 			double angle = angleDelta*i;
 			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + centerX;
 			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + centerY;
-			bowl.setX((float)px);
-			bowl.setY((float)py);
+			bowl.move((float)px, (float)py);
 			Log.d("vars",String.format("x=%f \t y=%f",px, py));
 			i++;
 		 }
@@ -291,13 +290,20 @@ public class BowlsGroup extends FrameLayout {
 			BowlView bv = (BowlView)event.getLocalState();
 			float x = event.getX();
 			float y = event.getY();
-		/*	switch (event.getAction()) {
+	    	if(testAdd(x,y)){
+	    		Log.d("vars","in bounds");
+	    	} else {
+	    		Log.d("vars","out bounds");
+	    	}
+			switch (event.getAction()) {
 		    case DragEvent.ACTION_DRAG_STARTED:
 		        //no action necessary
 		        break;
 		    case DragEvent.ACTION_DRAG_ENTERED:
 		        //no action necessary
 		        break;
+		    case DragEvent.ACTION_DRAG_LOCATION:
+		    	break;
 		    case DragEvent.ACTION_DRAG_EXITED:        
 		        //no action necessary
 		        break;
@@ -309,9 +315,9 @@ public class BowlsGroup extends FrameLayout {
 		        break;
 		    default:
 		        break;
-		} */
+		} 
 			
-	    	if(testAdd(x,y)){
+	   /* 	if(testAdd(x,y)){
 				double angle = findAngle(x,y);
 				double delta = Math.PI*2.0/bowls.size();
 				int index = (int)Math.round(angle/delta);
@@ -319,7 +325,7 @@ public class BowlsGroup extends FrameLayout {
 			} else {
 				bv.setX(0);
 				bv.setY(0);
-			}
+			} */
 		return true;
 		}
 
@@ -330,7 +336,7 @@ public class BowlsGroup extends FrameLayout {
 				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
 				view.startDrag(data, shadowBuilder, view, 0); */
 				prevX = event.getX();
-				prevY = event.getY();
+				prevY = event.getY(); 
 			    return true;
 			} else if(event.getAction() == MotionEvent.ACTION_MOVE){
 				float x = event.getX();
@@ -354,19 +360,20 @@ public class BowlsGroup extends FrameLayout {
 			} else if (event.getAction() == MotionEvent.ACTION_UP){
 				float x = event.getX();
 				float y = event.getY();
-				ViewPropertyAnimator ani = view.animate();
 				if(testAdd(x,y)){
+					view.animate().cancel();
 					double angle = findAngle(x,y);
 					double delta = Math.PI*2.0/bowls.size();
 					int index = (int)Math.round(angle/delta);
 					addBowlAt(index);
 				} else {
+					ViewPropertyAnimator ani = view.animate();
 					ani.x(0);
 					ani.y(0);
 					ani.start();
 				}
 				return true;
-			}
+			} 
 			else {
 			    return false;
 			}
