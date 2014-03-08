@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.ViewPropertyAnimator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -261,6 +262,8 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	public class NewBowlListener implements OnTouchListener, OnDragListener{
+		private float prevX;
+		private float prevY;
 		
 		public boolean testAdd(float x, float y){
 			float center_x = (float)centerX;
@@ -323,11 +326,47 @@ public class BowlsGroup extends FrameLayout {
 		@Override
 		public boolean onTouch(View view, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				ClipData data = ClipData.newPlainText("", "");
+			/*	ClipData data = ClipData.newPlainText("", "");
 				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-				view.startDrag(data, shadowBuilder, view, 0);
+				view.startDrag(data, shadowBuilder, view, 0); */
+				prevX = event.getX();
+				prevY = event.getY();
 			    return true;
-			} 
+			} else if(event.getAction() == MotionEvent.ACTION_MOVE){
+				float x = event.getX();
+				float y = event.getY();
+				if(x<0 || x>mMeasuredWidth){
+					return false;
+				}
+				if(y<0 || y>mMeasuredHeight){
+					return false;
+				}
+				ViewPropertyAnimator ani = view.animate();
+				ani.x(x);
+				ani.y(y);
+				ani.setDuration(100);
+				ani.start();
+				
+				prevX = x;
+				prevY = y;
+				
+				return true;
+			} else if (event.getAction() == MotionEvent.ACTION_UP){
+				float x = event.getX();
+				float y = event.getY();
+				ViewPropertyAnimator ani = view.animate();
+				if(testAdd(x,y)){
+					double angle = findAngle(x,y);
+					double delta = Math.PI*2.0/bowls.size();
+					int index = (int)Math.round(angle/delta);
+					addBowlAt(index);
+				} else {
+					ani.x(0);
+					ani.y(0);
+					ani.start();
+				}
+				return true;
+			}
 			else {
 			    return false;
 			}
