@@ -64,7 +64,8 @@ public class TableFragment extends Fragment {
 			}});
 	
 		bowlsGroup = (BowlsGroup)view.findViewById(R.id.bowlsGroup);
-		bowlsGroup.addBowlAgent = (BowlsGroup.AddBowlListener) this.getActivity();
+		bowlsGroup.attachBowlAgents(getActivity());
+		
 		tvQuestion = (TextView)view.findViewById(R.id.question);
 		btnOk = (Button)view.findViewById(R.id.btn_ok);
 		

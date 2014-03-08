@@ -2,6 +2,8 @@ package me.valour.bowls;
 
 import java.util.List;
 
+import me.valour.bowls.enums.Action;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
@@ -13,9 +15,10 @@ import android.view.View;
 import android.widget.Button;
 
 public class TableActivity extends Activity implements
-		BowlsGroup.AddBowlListener, TableFragment.OkListener,
-		TableFragment.NoListener, TableFragment.TaxListener,
-		TableFragment.TipListener, TableFragment.PresetListener {
+		BowlsGroup.AddBowlListener, BowlsGroup.RemoveBowlListener,
+		TableFragment.OkListener, TableFragment.NoListener,
+		TableFragment.TaxListener, TableFragment.TipListener,
+		TableFragment.PresetListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -27,6 +30,7 @@ public class TableActivity extends Activity implements
 	private Action action;
 	private LineItem selectedLineItem = null;
 	SharedPreferences sp;
+	private BowlView deleteBowlQueue = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -194,6 +198,11 @@ public class TableActivity extends Activity implements
 			setTax(numFragment.getStringValue(), false);
 			applyTax();
 			completePercentChange();
+		case CONFIRM_DELETE:
+			if(deleteBowlQueue!=null){
+				removeUserDo(deleteBowlQueue.user);
+			}
+			break;
 		default:
 			break;
 		}
@@ -219,7 +228,9 @@ public class TableActivity extends Activity implements
 			tableFragment.btnNo.setVisibility(View.INVISIBLE);
 			action = Action.SET_TIP;
 			break;
-
+		case CONFIRM_DELETE:
+			
+			break;
 		default:
 			break;
 		}
@@ -277,6 +288,34 @@ public class TableActivity extends Activity implements
 		}
 		Log.d("vars", String.format("bowls=%d", bowlsCount));
 		
+	}
+
+	@Override
+	public boolean removeUserConfirm(BowlView bv) {
+		User user = bv.user;
+		if(bill.allowRmUser(user)){
+			removeUserDo(user);
+			return true;
+		} else {
+			tableFragment.tvQuestion.setText(R.string.q_user_has_balance);
+			tableFragment.btnOk.setVisibility(View.VISIBLE);
+			tableFragment.btnNo.setVisibility(View.VISIBLE);
+			tableFragment.tvQuestion.setVisibility(View.VISIBLE);
+			tableFragment.btnNo.setText(R.string.cancel);
+			action = Action.CONFIRM_DELETE;
+			deleteBowlQueue = bv;
+			return false;
+		}
+	}
+
+	@Override
+	public void removeUserDo(User user) {
+		bill.clearUserItems(user);
+		bill.rmRow(user);
+		if(deleteBowlQueue!=null){
+			tableFragment.bowlsGroup.removeBowl(deleteBowlQueue);
+			deleteBowlQueue = null;
+		}
 	}
 
 }

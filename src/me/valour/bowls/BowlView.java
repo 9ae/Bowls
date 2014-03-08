@@ -57,13 +57,11 @@ public class BowlView extends TextView{
 	 
 	 public void move(float x, float y){
 		 if(originalX==0 && originalY==0){
-			 Log.d("vars", "first set");
 			 originalX = x;
 			 originalY = y;
 			 setX(x);
 			 setY(y);
 		 } else {
-			 Log.d("vars", "move bowl");
 			 ViewPropertyAnimator anim = animate();
 			 anim.x(x - (float)radius);
 			 anim.y(y - (float)radius);
@@ -71,6 +69,11 @@ public class BowlView extends TextView{
 			 originalX = x;
 			 originalY = y;
 		 }
+	 }
+	 
+	 public void resetPosition(){
+		 setX(originalX);
+		 setY(originalY);
 	 }
 	 
 	 @Override
@@ -92,6 +95,10 @@ public class BowlView extends TextView{
 		 
 		 this.setMinimumHeight(2*radius);
 		 this.setMinimumWidth(2*radius);
+	 }
+	 
+	 public int getRadius(){
+		 return radius;
 	 }
 	 
 	 @Override

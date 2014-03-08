@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.R.color;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -34,7 +35,8 @@ public class BowlsGroup extends FrameLayout {
 	FrameLayout.LayoutParams defaultParams;
 	BowlSelectListener bowlSelect;
 	NewBowlListener newBowlSpy;
-	public AddBowlListener addBowlAgent;
+	AddBowlListener addBowlAgent;
+	RemoveBowlListener rmBowlAgent;
 
 	LinkedList<BowlView> bowls;
 	BowlView newBowl;
@@ -160,28 +162,23 @@ public class BowlsGroup extends FrameLayout {
 		}
 		return result;
 	}
-
-	public BowlView addBowl() {
-		int i = bowls.size() + 1;
-		BowlView bowl = new BowlView(this.getContext());
-		bowl.setId(bowlsIdCounter);
-		bowl.setColors(Kitchen.assignColor(i));
-		bowl.setX(centerX);
-		bowl.setY(centerY);
-		bowls.add(bowl);
-		addView(bowl, defaultParams);
-		bowl.setOnTouchListener(bowlSelect);
-		bowlsIdCounter++;
-		return bowl;
-	}
 	
 	public void addBowlAt(int index){
 		newBowl.setId(bowlsIdCounter);
 		bowls.add(index, newBowl);
 		bowlsIdCounter++;
+		newBowl.setOnDragListener(null);
+		newBowl.setOnTouchListener(null);
 		newBowl.setOnTouchListener(bowlSelect);
 		addBowlAgent.addUser(newBowl.user);
 		newBowl = getNewBowl();
+	}
+	
+	public void removeBowl(BowlView bowl){
+		ViewPropertyAnimator ani = bowl.animate();
+		ani.alpha(0).setDuration(2000);
+		//ani.withEndAction(runnable)
+		ani.start();
 	}
 
 	public void refreshBowls() {
@@ -240,28 +237,86 @@ public class BowlsGroup extends FrameLayout {
 	public List<User> getSelectedUsers(){
 		return bowlSelect.selected;
 	}
+
+	
+	public void attachBowlAgents(Activity activity){
+		addBowlAgent = (AddBowlListener)activity;
+		rmBowlAgent = (RemoveBowlListener)activity;
+	}
 	
 	private class BowlSelectListener implements OnTouchListener{
 
 		public List<User> selected;
+		private float prevX;
+		private float prevY;
+		private float dx;
+		private float dy;
+		private float cx;
+		private float cy;
+		private boolean bowlMoved=false;
 		
 		public BowlSelectListener(){
 			selected = new ArrayList<User>();
+			cx = (float)centerX;
+			cy = (float)centerY;
+			dx = 0;
+			dy = 0;
+		}
+		
+		public boolean deleteBowl(BowlView bowl){
+			if(rmBowlAgent.removeUserConfirm(bowl)){
+				removeBowl(bowl);
+				Log.d("vars","delete this bowl");
+			}
+			return true;
 		}
 		
 		@Override
 		public boolean onTouch(View v, MotionEvent move) {
 			BowlView bv = (BowlView)v;
 			int action = move.getAction();
-			if(selectReady && action==MotionEvent.ACTION_DOWN){
-				if(bv.toggleSelected()){
-					selected.remove(bv.user);
-				} else {
-					selected.add(bv.user);
+			if(selectReady){
+				if(action==MotionEvent.ACTION_DOWN){
+					if(bv.toggleSelected()){
+						selected.remove(bv.user);
+					} else {
+						selected.add(bv.user);
+					}
+				} return false;
+			} else {
+				switch(action){
+				case MotionEvent.ACTION_DOWN:
+					prevX = bv.getX() + (float)bv.getRadius();
+					prevY = bv.getY() +  (float)bv.getRadius(); 
+					Log.d("vars","prevX="+prevX+" prevY="+prevY);
+					bowlMoved = false;
+					break;
+				case MotionEvent.ACTION_MOVE:
+					bowlMoved = true;
+					dx = move.getX();
+					dy = move.getY();
+					bv.setX(prevX+dx);
+					bv.setY(prevY+dy);
+					break;
+				case MotionEvent.ACTION_UP:
+					if(bowlMoved && dx>10 && dy>10){
+						float x = prevX+dx;
+						float y = prevY+dy;
+						double angle = Kitchen.angleBetween(cx, cy, prevX, prevY, x, y);
+						Log.d("vars","angle="+Math.toDegrees(angle));
+						if(Math.abs(angle)>(Math.PI/2.0)){
+							deleteBowl(bv);
+						} else {
+							Log.d("vars","keep this bowl");
+							bv.resetPosition();
+						}
+					}  else {
+						bv.resetPosition();
+					}
+					break;
 				}
-				Log.d("vars", bv.getId()+" touched down");
+				return true;
 			}
-			return false;
 		}
 		
 	}
@@ -391,6 +446,12 @@ public class BowlsGroup extends FrameLayout {
 
 	public interface AddBowlListener{
 		public void addUser(User user);
+	}
+	
+	public interface RemoveBowlListener{
+		public boolean removeUserConfirm(BowlView bv);
+		
+		public void removeUserDo(User user);
 	}
 
 }
