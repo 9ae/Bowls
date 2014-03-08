@@ -34,6 +34,7 @@ public class BowlsGroup extends FrameLayout {
 	FrameLayout.LayoutParams defaultParams;
 	BowlSelectListener bowlSelect;
 	NewBowlListener newBowlSpy;
+	public AddBowlListener addBowlAgent;
 
 	LinkedList<BowlView> bowls;
 	BowlView newBowl;
@@ -64,7 +65,6 @@ public class BowlsGroup extends FrameLayout {
 		
 		int i= 0;
 		 for(BowlView bowl: bowls){
-			bowl.setRadius(bowlRadius); 
 			bowl.bringToFront();
 			double angle = angleDelta*i;
 			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + centerX;
@@ -74,15 +74,13 @@ public class BowlsGroup extends FrameLayout {
 			i++;
 		 }
 		 
-		 newBowl.setRadius(bowlRadius);
-		 newBowl.bringToFront();
-		 
 		 super.onLayout(changed, left, top, right, bottom);
 	}
 
 	private void init() {
 		bowlSelect = new BowlSelectListener();
 		newBowlSpy = new NewBowlListener();
+
 		defaultParams = new FrameLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		setClickable(true);
@@ -106,9 +104,13 @@ public class BowlsGroup extends FrameLayout {
 		int i = bowls.size()+1;
 		BowlView bowl = new BowlView(this.getContext());
 		bowl.setColors(Kitchen.assignColor(i));
+		if(measuredScreen){
+			bowl.setRadius(bowlRadius);
+		}
 		this.addView(bowl, defaultParams);
 		bowl.setOnTouchListener(newBowlSpy);
 		bowl.setOnDragListener(newBowlSpy);
+		bowl.bringToFront();
 		return bowl;
 	}
 	
@@ -129,7 +131,10 @@ public class BowlsGroup extends FrameLayout {
 			tableRadius -= bowlRadius;
 			Log.d("vars", String.format("bowl radius=%d", bowlRadius));
 			Log.d("vars", String.format("table radius=%d", tableRadius));
-			
+			newBowl.setRadius(bowlRadius);
+			for(BowlView bv: bowls){
+				bv.setRadius(bowlRadius);
+			}
 			measuredScreen = true;
 	}
 
@@ -175,6 +180,7 @@ public class BowlsGroup extends FrameLayout {
 		bowls.add(index, newBowl);
 		bowlsIdCounter++;
 		newBowl.setOnTouchListener(bowlSelect);
+		addBowlAgent.addUser(newBowl.user);
 		newBowl = getNewBowl();
 	}
 
@@ -267,7 +273,7 @@ public class BowlsGroup extends FrameLayout {
 		public boolean testAdd(float x, float y){
 			float center_x = (float)centerX;
 			float center_y = (float)centerY;
-			float radius = (float)(tableRadius-bowlRadius);
+			float radius = (float)(tableRadius);
 			return Math.pow(x - center_x,2) + Math.pow(y - center_y,2) <= (radius*radius);
 		}
 		
@@ -347,11 +353,14 @@ public class BowlsGroup extends FrameLayout {
 				if(y<0 || y>mMeasuredHeight){
 					return false;
 				}
-				ViewPropertyAnimator ani = view.animate();
+			/*	ViewPropertyAnimator ani = view.animate();
 				ani.x(x);
 				ani.y(y);
 				ani.setDuration(100);
-				ani.start();
+				ani.start(); */
+				BowlView bv = (BowlView)view;
+				bv.setX(x);
+				bv.setY(y);
 				
 				prevX = x;
 				prevY = y;
@@ -361,7 +370,7 @@ public class BowlsGroup extends FrameLayout {
 				float x = event.getX();
 				float y = event.getY();
 				if(testAdd(x,y)){
-					view.animate().cancel();
+				//	view.animate().cancel();
 					double angle = findAngle(x,y);
 					double delta = Math.PI*2.0/bowls.size();
 					int index = (int)Math.round(angle/delta);
@@ -380,5 +389,8 @@ public class BowlsGroup extends FrameLayout {
 		}
 		}
 
+	public interface AddBowlListener{
+		public void addUser(User user);
+	}
 
 }

@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 public class TableFragment extends Fragment {
 
-	private AddBowlListener addBowlSpy;
 	private OkListener okButtonSpy;
 	private NoListener noButtonSpy;
 	private TipListener tipSpy;
@@ -65,6 +64,7 @@ public class TableFragment extends Fragment {
 			}});
 	
 		bowlsGroup = (BowlsGroup)view.findViewById(R.id.bowlsGroup);
+		bowlsGroup.addBowlAgent = (BowlsGroup.AddBowlListener) this.getActivity();
 		tvQuestion = (TextView)view.findViewById(R.id.question);
 		btnOk = (Button)view.findViewById(R.id.btn_ok);
 		
@@ -101,7 +101,6 @@ public class TableFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try{
-			addBowlSpy = (AddBowlListener)activity;
 			okButtonSpy = (OkListener)activity;
 			noButtonSpy = (NoListener)activity;
 			tipSpy = (TipListener)activity;
@@ -127,14 +126,6 @@ public class TableFragment extends Fragment {
 		tvQuestion.setVisibility(View.VISIBLE);
 		btnOk.setVisibility(View.VISIBLE);
 		btnNo.setVisibility(View.VISIBLE);
-	}
-	
-	public interface AddBowlListener{
-		public void OnAddBowlListener();
-	}
-	
-	public interface SubBowlListener{
-		public void OnSubBowlListener();
 	}
 	
 	public interface OkListener{

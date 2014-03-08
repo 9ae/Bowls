@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class TableActivity extends Activity implements
-		TableFragment.AddBowlListener, TableFragment.OkListener,
+		BowlsGroup.AddBowlListener, TableFragment.OkListener,
 		TableFragment.NoListener, TableFragment.TaxListener,
 		TableFragment.TipListener, TableFragment.PresetListener {
 
@@ -167,22 +167,6 @@ public class TableActivity extends Activity implements
 	}
 
 	@Override
-	public void OnAddBowlListener() {
-		if (bowlsCount == Kitchen.maxBowls) {
-
-		} else {
-			bowlsCount++;
-			// BowlView bowl = tableFragment.tableView.addBowl();
-			BowlView bowl = tableFragment.bowlsGroup.addBowl();
-			bill.addUser(bowl.user);
-			if (splitEqually) {
-				bill.redivideEqually();
-			}
-		}
-		Log.d("vars", String.format("bowls=%d", bowlsCount));
-	}
-
-	@Override
 	public void OnOkButtonPress() {
 		switch (action) {
 		case ITEM_PRICE:
@@ -278,6 +262,21 @@ public class TableActivity extends Activity implements
 	public void onPresetButtonPress(View v) {
 		Intent intent = new Intent(this, PresetActivity.class);
 		startActivity(intent);
+	}
+
+	@Override
+	public void addUser(User user) {
+		if (bowlsCount == Kitchen.maxBowls) {
+
+		} else {
+			bowlsCount++;
+			bill.addUser(user);
+			if (splitEqually) {
+				bill.redivideEqually();
+			}
+		}
+		Log.d("vars", String.format("bowls=%d", bowlsCount));
+		
 	}
 
 }
