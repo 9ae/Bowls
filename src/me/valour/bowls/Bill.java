@@ -236,5 +236,9 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		u.setTip(t);
 		return t;
 	}
+	
+	public ArrayList<LineItem> getLineItems(){
+		return lineItems;
+	}
 
 }

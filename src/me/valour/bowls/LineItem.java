@@ -47,6 +47,11 @@ public class LineItem {
 		return this.price;
 	}
 	
+	@Override
+	public String toString(){
+		return String.format("$ %.2f", price);
+	}
+	
 /*	public double pricePerUser(){
 		if(shares==0){
 			return 0.0;

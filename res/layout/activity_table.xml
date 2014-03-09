@@ -1,21 +1,52 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
-    tools:context=".TableActivity"
-    android:background="@color/background_color" >
+    android:background="@color/background_color"
+    android:columnCount="10"
+    android:rowCount="10"
+    tools:context=".TableActivity" >
 
+    <FrameLayout android:id="@+id/leftContainer"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_rowSpan="10"
+        android:layout_columnSpan="5" 
+         android:padding="0dp" >
       <fragment android:name="me.valour.bowls.TableFragment" 
         android:id="@+id/tableFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
-     <fragment android:name="me.valour.bowls.NumberPadFragment" 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </FrameLayout>
+    
+      <FrameLayout android:id="@+id/rightContainer"
+        android:layout_row="0"
+        android:layout_column="5"
+        android:layout_rowSpan="9"
+        android:layout_columnSpan="5"
+        android:padding="0dp" >
+      <fragment android:name="me.valour.bowls.NumberPadFragment" 
         android:id="@+id/numpadFragment"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" /> 
+        />
+      </FrameLayout>
+      
+      <TextView android:id="@+id/toggleBill"
+          android:text="@string/bill"
+        android:layout_row="9"
+        android:layout_column="5"
+        android:layout_rowSpan="1"
+        android:layout_columnSpan="5"
+        android:layout_width="match_parent"
+         android:layout_height="match_parent"
+       	 android:lines="1"
+       	 android:background="@color/accent_color"
+       	 android:textColor="@color/text_color"
+       	 android:textSize="20sp"
+       	 android:textAlignment="center" />
+        
+      
 
-</LinearLayout>
+
+</GridLayout>

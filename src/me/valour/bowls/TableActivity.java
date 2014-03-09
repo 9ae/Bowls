@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class TableActivity extends Activity implements
 		BowlsGroup.AddBowlListener, BowlsGroup.RemoveBowlListener,
@@ -26,6 +29,9 @@ public class TableActivity extends Activity implements
 
 	private TableFragment tableFragment;
 	private NumberPadFragment numFragment;
+	private LineItemsFragment liFragment;
+	
+	private TextView billTab;
 	public boolean splitEqually;
 	private Action action;
 	private LineItem selectedLineItem = null;
@@ -48,6 +54,8 @@ public class TableActivity extends Activity implements
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
 		numFragment = (NumberPadFragment) fm
 				.findFragmentById(R.id.numpadFragment);
+		
+		liFragment = new LineItemsFragment();
 
 		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -59,6 +67,24 @@ public class TableActivity extends Activity implements
 		}
 		tableFragment.tvQuestion.bringToFront();
 		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
+		
+		billTab = (TextView) this.findViewById(R.id.toggleBill);
+		billTab.setOnTouchListener( new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				int act = event.getAction();
+				if(act==MotionEvent.ACTION_DOWN){
+					return true;
+				} else {
+					if(event.getY()<-10){
+						showBill();
+					} else if(event.getY()>10){
+						hideBill();
+					}
+					return true;
+				}
+			}
+		});
 	}
 
 	public void applyTax() {
@@ -180,6 +206,17 @@ public class TableActivity extends Activity implements
 			selectedLineItem = null;
 		}
 		tableFragment.bowlsGroup.refreshBowls();
+	}
+	
+	public void showBill(){
+		billTab.animate().y(0).setDuration(2500).start();
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.replace(R.id.rightContainer, liFragment);
+		ft.commit();
+	}
+	
+	public void hideBill(){
+		
 	}
 
 	@Override
@@ -332,6 +369,10 @@ public class TableActivity extends Activity implements
 		if(action==Action.CONFIRM_DELETE){
 			completeConfirmDelete();
 		}
+	}
+	
+	public Bill getBill(){
+		return bill;
 	}
 
 }
