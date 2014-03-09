@@ -209,7 +209,7 @@ public class TableActivity extends Activity implements
 	}
 	
 	public void showBill(){
-		billTab.animate().y(0).setDuration(2500).start();
+		billTab.animate().alpha((float)0.5).start();
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.replace(R.id.rightContainer, liFragment);
 		ft.commit();
