@@ -104,17 +104,16 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	private BowlView getNewBowl(){
-		int i = bowls.size()+1;
-		BowlView bowl = new BowlView(this.getContext());
-		bowl.setColors(Kitchen.assignColor(bowlsIdCounter));
-		if(measuredScreen){
-			bowl.setRadius(bowlRadius);
-		}
-		this.addView(bowl, defaultParams);
-		bowl.setOnTouchListener(newBowlSpy);
-		bowl.setOnDragListener(newBowlSpy);
-		bowl.bringToFront();
-		return bowl;
+			BowlView bowl = new BowlView(this.getContext());
+			bowl.setColors(Kitchen.assignColor(bowlsIdCounter));
+			if(measuredScreen){
+				bowl.setRadius(bowlRadius);
+			}
+			this.addView(bowl, defaultParams);
+			bowl.setOnTouchListener(newBowlSpy);
+			bowl.setOnDragListener(newBowlSpy);
+			bowl.bringToFront();
+			return bowl;
 	}
 	
 	
@@ -176,7 +175,14 @@ public class BowlsGroup extends FrameLayout {
 		newBowl.setOnTouchListener(null);
 		newBowl.setOnTouchListener(bowlSelect);
 		addBowlAgent.addUser(newBowl.user);
+		
 		newBowl = getNewBowl();
+		
+		if(bowls.size()>=Kitchen.maxBowls){
+			newBowl.setVisibility(View.GONE);
+			newBowl.setOnDragListener(null);
+			newBowl.setOnTouchListener(null);
+		}
 	}
 	
 	public void removeBowl(final BowlView bowl){
@@ -290,7 +296,7 @@ public class BowlsGroup extends FrameLayout {
 						selected.add(bv.user);
 					}
 				} return false;
-			} else if (bowls.size()>2) {
+			} else if (bowls.size()>Kitchen.minBowls) {
 				switch(action){
 				case MotionEvent.ACTION_DOWN:
 					prevX = bv.getX() + (float)bv.getRadius();
@@ -402,6 +408,10 @@ public class BowlsGroup extends FrameLayout {
 
 		@Override
 		public boolean onTouch(View view, MotionEvent event) {
+			if(bowls.size()>=Kitchen.maxBowls){
+				return false;
+			}
+			
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			/*	ClipData data = ClipData.newPlainText("", "");
 				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
