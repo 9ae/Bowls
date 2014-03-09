@@ -32,10 +32,10 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a001f;
+        public static final int action_settings=0x7f0a0021;
         public static final int bowlsGroup=0x7f0a0018;
-        public static final int btn_no=0x7f0a001d;
-        public static final int btn_ok=0x7f0a001e;
+        public static final int btn_no=0x7f0a001f;
+        public static final int btn_ok=0x7f0a0020;
         public static final int btn_presets=0x7f0a0019;
         public static final int btn_split_equally=0x7f0a0000;
         public static final int btn_split_line=0x7f0a0001;
@@ -60,9 +60,11 @@ public final class R {
         public static final int numberValue=0x7f0a000a;
         public static final int numpadFragment=0x7f0a0005;
         public static final int percent_sign=0x7f0a000b;
-        public static final int question=0x7f0a001c;
+        public static final int question=0x7f0a001d;
         public static final int rightContainer=0x7f0a0004;
         public static final int tableFragment=0x7f0a0003;
+        public static final int tableRow1=0x7f0a001c;
+        public static final int tableRow2=0x7f0a001e;
         public static final int toggleBill=0x7f0a0006;
     }
     public static final class layout {
