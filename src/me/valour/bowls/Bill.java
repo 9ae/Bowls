@@ -146,19 +146,28 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	}
 	
 	public void clearUserItems(User u){
-		ArrayList<LineItem> toRemove = new ArrayList<LineItem>();
+		ArrayList<Integer> toRemoveIndices = new ArrayList<Integer>();
 		for(Duo<User,LineItem> pair: table.keySet()){
-			if(pair.hasRow(u) && table.get(pair)>0.0){
+			if(pair.hasRow(u)){
 				LineItem li = pair.getCol();
-				int mc = marginCount(li);
-				if(mc>1){
-					// TODO: redistribute shared
-					
-				} else {
-					// remove single
-					toRemove.add(li);
+				if(get(u, li, 0.0)>0.0){
+					List<User> otherUsers = listOtherUsers(li,u);
+					if(otherUsers.size()>0){
+						double pricePerUser = li.getPrice()/otherUsers.size();
+						for(User ou: otherUsers){
+							double oriSplit = get(ou, li, 0.0);
+							ou.subtractSubtotal(oriSplit);
+							ou.plusSubtotal(pricePerUser);
+						}
+					} else {
+						// remove single
+						toRemoveIndices.add(lineItems.indexOf(li));
+					}
 				}
 			}
+		}
+		for(Integer ind: toRemoveIndices){
+			rmLineItem(ind);
 		}
 	}
 	
@@ -166,10 +175,23 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		int count = 0;
 		for(Duo<User,LineItem> pair: table.keySet()){
 			if(pair.hasCol(li)){
+				
 				count++;
 			}
 		}
 		return count;
+	}
+	
+	public List<User> listOtherUsers(LineItem li, User u){
+		ArrayList<User> others = new ArrayList<User>();
+		for(User user: users){
+			if(user==u){ continue; }
+			if(get(user, li, 0.0)>0.0){
+				others.add(user);
+			}
+		}
+		
+		return others;
 	}
 	
 	public double calculateTip(){

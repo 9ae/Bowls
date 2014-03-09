@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 public class TableFragment extends Fragment {
 
-	private AddBowlListener addBowlSpy;
 	private OkListener okButtonSpy;
 	private NoListener noButtonSpy;
 	private TipListener tipSpy;
@@ -41,14 +40,7 @@ public class TableFragment extends Fragment {
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View view =  inflater.inflate(R.layout.fragment_table, container, false);
-		
-		final Button add = (Button)view.findViewById(R.id.btn_addBowl);
-		add.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				addBowlSpy.OnAddBowlListener();
-			}});
-		
+
 		final Button tip = (Button)view.findViewById(R.id.btn_tip);
 		tip.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -64,6 +56,8 @@ public class TableFragment extends Fragment {
 			}});
 	
 		bowlsGroup = (BowlsGroup)view.findViewById(R.id.bowlsGroup);
+		bowlsGroup.attachBowlAgents(getActivity());
+		
 		tvQuestion = (TextView)view.findViewById(R.id.question);
 		btnOk = (Button)view.findViewById(R.id.btn_ok);
 		
@@ -100,7 +94,6 @@ public class TableFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try{
-			addBowlSpy = (AddBowlListener)activity;
 			okButtonSpy = (OkListener)activity;
 			noButtonSpy = (NoListener)activity;
 			tipSpy = (TipListener)activity;
@@ -126,14 +119,6 @@ public class TableFragment extends Fragment {
 		tvQuestion.setVisibility(View.VISIBLE);
 		btnOk.setVisibility(View.VISIBLE);
 		btnNo.setVisibility(View.VISIBLE);
-	}
-	
-	public interface AddBowlListener{
-		public void OnAddBowlListener();
-	}
-	
-	public interface SubBowlListener{
-		public void OnSubBowlListener();
 	}
 	
 	public interface OkListener{

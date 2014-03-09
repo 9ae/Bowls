@@ -1,4 +1,4 @@
-package me.valour.bowls;
+package me.valour.bowls.enums;
 
 public enum Action {
 
@@ -7,5 +7,5 @@ public enum Action {
 	CONFIRM_TAX, CONFIRM_TIP, 
 	CHANGE_TAX, CHANGE_TIP,
 	SET_TAX, SET_TIP, 
-	SELECT_BOWLS;
+	SELECT_BOWLS, CONFIRM_DELETE;
 }
