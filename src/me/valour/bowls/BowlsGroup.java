@@ -93,7 +93,7 @@ public class BowlsGroup extends FrameLayout {
 		for (int i = 1; i <= Kitchen.minBowls; i++) {
 			BowlView bowl = new BowlView(this.getContext());
 			bowl.setId(bowlsIdCounter);
-			bowl.setColors(Kitchen.assignColor(i+1));
+			bowl.setColors(Kitchen.assignColor(bowlsIdCounter));
 			bowls.add(bowl);
 			bowlsIdCounter++;
 			this.addView(bowl, defaultParams);
@@ -106,7 +106,7 @@ public class BowlsGroup extends FrameLayout {
 	private BowlView getNewBowl(){
 		int i = bowls.size()+1;
 		BowlView bowl = new BowlView(this.getContext());
-		bowl.setColors(Kitchen.assignColor(i));
+		bowl.setColors(Kitchen.assignColor(bowlsIdCounter));
 		if(measuredScreen){
 			bowl.setRadius(bowlRadius);
 		}
