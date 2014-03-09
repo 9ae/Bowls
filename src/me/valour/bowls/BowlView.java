@@ -1,5 +1,6 @@
 package me.valour.bowls;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -107,7 +108,7 @@ public class BowlView extends TextView{
 		 super.setX(newX);
 	 }
 	 
-	 @Override
+	@Override
 	 public void setY(float y){
 		 float newY = y - (float)radius;
 		 super.setY(newY);

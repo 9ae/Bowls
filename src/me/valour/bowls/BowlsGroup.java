@@ -27,11 +27,11 @@ public class BowlsGroup extends FrameLayout {
 
 	int mMeasuredWidth;
 	int mMeasuredHeight;
-	int centerX;
-	int centerY;
+	float centerX=0;
+	float centerY=0;
 	int tableRadius;
 	int bowlRadius;
-	boolean measuredScreen = false;
+	boolean measuredScreen;
 	boolean selectReady = false;
 	
 	FrameLayout.LayoutParams defaultParams;
@@ -74,7 +74,6 @@ public class BowlsGroup extends FrameLayout {
 			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + centerX;
 			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + centerY;
 			bowl.move((float)px, (float)py);
-			Log.d("vars",String.format("x=%f \t y=%f",px, py));
 			i++;
 		 }
 		 
@@ -84,7 +83,7 @@ public class BowlsGroup extends FrameLayout {
 	private void init() {
 		bowlSelect = new BowlSelectListener();
 		newBowlSpy = new NewBowlListener();
-
+		measuredScreen = false;
 		defaultParams = new FrameLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		setClickable(true);
@@ -122,12 +121,14 @@ public class BowlsGroup extends FrameLayout {
 	public void measureView(){
 		if(measuredScreen){
 			return;
-		}
+		} else {
 			mMeasuredWidth = getMeasuredWidth();
 			mMeasuredHeight = getMeasuredHeight();		
-			centerX = mMeasuredWidth / 2;
-			centerY = mMeasuredHeight / 2;		
-			tableRadius = Math.min(centerX, centerY);
+			int cx = mMeasuredWidth / 2;
+			int cy = mMeasuredHeight / 2;		
+			tableRadius = Math.min(cy, cy);
+			centerX = (float)cx;
+			centerY = (float)cy;
 			
 			double q = ((double) tableRadius * 2.0 * Math.PI)
 					/ (double) Kitchen.maxBowls;
@@ -135,11 +136,13 @@ public class BowlsGroup extends FrameLayout {
 			tableRadius -= bowlRadius;
 			Log.d("vars", String.format("bowl radius=%d", bowlRadius));
 			Log.d("vars", String.format("table radius=%d", tableRadius));
+			Log.d("vars", String.format("cx=%f \t cy=%f", centerX, centerY));
 			newBowl.setRadius(bowlRadius);
 			for(BowlView bv: bowls){
 				bv.setRadius(bowlRadius);
 			}
 			measuredScreen = true;
+		}
 	}
 
 	@Override
@@ -259,14 +262,10 @@ public class BowlsGroup extends FrameLayout {
 		private float prevY;
 		private float dx;
 		private float dy;
-		private float cx;
-		private float cy;
 		private boolean bowlMoved=false;
 		
 		public BowlSelectListener(){
 			selected = new ArrayList<User>();
-			cx = (float)centerX;
-			cy = (float)centerY;
 			dx = 0;
 			dy = 0;
 		}
@@ -296,7 +295,6 @@ public class BowlsGroup extends FrameLayout {
 				case MotionEvent.ACTION_DOWN:
 					prevX = bv.getX() + (float)bv.getRadius();
 					prevY = bv.getY() +  (float)bv.getRadius(); 
-					Log.d("vars","prevX="+prevX+" prevY="+prevY);
 					bowlMoved = false;
 					break;
 				case MotionEvent.ACTION_MOVE:
@@ -310,7 +308,8 @@ public class BowlsGroup extends FrameLayout {
 					if(bowlMoved && dx>10 && dy>10){
 						float x = prevX+dx;
 						float y = prevY+dy;
-						double angle = Kitchen.angleBetween(cx, cy, prevX, prevY, x, y);
+						double angle = Kitchen.angleBetween(centerX, centerY, prevX, prevY, x, y);
+						Log.d("vars", String.format("a:(%f, %f) \t b:(%f, %f) \t c:(%f, %f)", centerX, centerY, prevX, prevY, x, y));
 						Log.d("vars","angle="+Math.toDegrees(angle));
 						if(Math.abs(angle)>(Math.PI/2.0)){
 							deleteBowl(bv);
