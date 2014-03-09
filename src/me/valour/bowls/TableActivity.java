@@ -130,6 +130,18 @@ public class TableActivity extends Activity implements
 		numFragment.highlightTextField(false);
 		clearCenter();
 	}
+	
+	private void completeConfirmDelete(){
+		tableFragment.btnNo.setText(R.string.no);
+		if(splitEqually){
+			tableFragment.btnOk.setVisibility(View.INVISIBLE);
+			tableFragment.btnNo.setVisibility(View.INVISIBLE);
+			tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
+		} else {
+			tableFragment.tvQuestion.setText(R.string.q_enter_next_li);
+			action = Action.ITEM_PRICE;
+		}
+	}
 
 	private void registerItemPrice() {
 		double price = numFragment.getNumberValue();
@@ -229,7 +241,8 @@ public class TableActivity extends Activity implements
 			action = Action.SET_TIP;
 			break;
 		case CONFIRM_DELETE:
-			
+			deleteBowlQueue = null;
+			completeConfirmDelete();
 			break;
 		default:
 			break;
@@ -315,6 +328,9 @@ public class TableActivity extends Activity implements
 		if(deleteBowlQueue!=null){
 			tableFragment.bowlsGroup.removeBowl(deleteBowlQueue);
 			deleteBowlQueue = null;
+		}
+		if(action==Action.CONFIRM_DELETE){
+			completeConfirmDelete();
 		}
 	}
 

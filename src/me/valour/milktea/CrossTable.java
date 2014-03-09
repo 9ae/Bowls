@@ -2,6 +2,7 @@ package me.valour.milktea;
 
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -74,9 +75,11 @@ public class CrossTable<T,S,V> {
 	
 	public void rmRow(T row){
 		Set<Duo<T,S>> keySet = table.keySet();
-		for(Duo<T,S> pair: keySet){
+		Iterator<Duo<T,S>> it = keySet.iterator();
+		while(it.hasNext()){
+			Duo<T,S> pair = it.next();
 			if(pair.hasRow(row)){
-				table.remove(pair);
+				it.remove();
 			}
 		}
 	}
@@ -84,11 +87,12 @@ public class CrossTable<T,S,V> {
 	
 	public void rmCol(S col){
 		Set<Duo<T,S>> keySet = table.keySet();
-		for(Duo<T,S> pair: keySet){
+		Iterator<Duo<T,S>> it = keySet.iterator();
+		while(it.hasNext()){
+			Duo<T,S> pair = it.next();
 			if(pair.hasCol(col)){
-				table.remove(pair);
+				it.remove();
 			}
 		}
 	}
-	
 }

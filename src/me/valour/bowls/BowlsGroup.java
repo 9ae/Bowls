@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.R.color;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class BowlsGroup extends FrameLayout {
 
 	int mMeasuredWidth;
@@ -174,10 +176,16 @@ public class BowlsGroup extends FrameLayout {
 		newBowl = getNewBowl();
 	}
 	
-	public void removeBowl(BowlView bowl){
+	public void removeBowl(final BowlView bowl){
 		ViewPropertyAnimator ani = bowl.animate();
 		ani.alpha(0).setDuration(2000);
-		//ani.withEndAction(runnable)
+		ani.withEndAction(new Runnable(){
+			@Override
+			public void run() {
+				bowls.remove(bowl);
+				refreshBowls();
+			}	
+		});
 		ani.start();
 	}
 
@@ -283,7 +291,7 @@ public class BowlsGroup extends FrameLayout {
 						selected.add(bv.user);
 					}
 				} return false;
-			} else {
+			} else if (bowls.size()>2) {
 				switch(action){
 				case MotionEvent.ACTION_DOWN:
 					prevX = bv.getX() + (float)bv.getRadius();
@@ -316,6 +324,9 @@ public class BowlsGroup extends FrameLayout {
 					break;
 				}
 				return true;
+			}
+			else {
+				return false;
 			}
 		}
 		
