@@ -11,14 +11,6 @@
          android:layout_height="fill_parent"
          android:layout_alignParentTop="true"
          android:layout_centerVertical="true"  />
-
-    <Button
-        android:id="@+id/btn_addBowl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/plus_sign"
-        android:layout_alignLeft="@id/bowlsGroup"
-        android:layout_alignTop="@id/bowlsGroup" />
      
      <Button android:id="@+id/btn_presets"
         android:layout_width="wrap_content"
