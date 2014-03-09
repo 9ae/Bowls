@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import me.valour.toodles.R;
-import me.valour.toodles.TaskItem;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +46,7 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 	    taskView.setText(taskString);
 
 	    return todoView; */
+		  return null;
 	  }
 	
 }
