@@ -12,13 +12,22 @@ public class Kitchen {
 	public final static double tax = 8; 
 	
 	public static int assignColor(int i){
-		float hue = (256/8)*((float)i%8);
-		float sat = 255;
-		if(i>=8){
-		  int j = i/8;
-		sat = 192-(256/4)*(float)j;
+		float hue = 60*((float)(i%6+1));
+		float sat = 1;
+		float bright = 1;
+		if(i<=6){
+			sat = 1;
+			bright = 1;
 		}
-		float[] hsv = {hue,sat,255};
+		else if(i<=12){
+			hue -= 30; 
+		} else if( i<=18){
+			sat= (float)0.3;
+		} else {
+			hue -= 30;
+			sat = (float)0.3;
+		}
+		float[] hsv = {hue,sat,bright};
 		return Color.HSVToColor(hsv);
 	}
 	
