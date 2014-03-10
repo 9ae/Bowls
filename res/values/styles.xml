@@ -20,7 +20,7 @@
     <style name="NumberButton">
           <item name="android:minHeight">64dip</item>
           <item name="android:minWidth">64dip</item>
-          <item name="android:background">@color/primary_color</item>
+          <item name="android:background">@color/num_btn_colors</item>
           <item name="android:textColor">@color/accent_color</item>
           <item name="android:layout_margin">@dimen/number_buttons_margin</item>
           <item name="android:textSize">25sp</item>
