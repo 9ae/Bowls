@@ -142,6 +142,7 @@ public class NumberPadFragment extends Fragment {
 	
 	public void clearField(){
 		numberValue.setText("");
+		dotButton.setEnabled(true);
 	}
 	
 	public void highlightTextField(boolean highlight){
