@@ -14,12 +14,16 @@ import android.widget.TextView;
 
 public class LineItemAdapter extends ArrayAdapter<LineItem> {
 
+	private static LayoutInflater inflater=null;
+	
 	  public LineItemAdapter(Context context, int resource, List<LineItem> items) {
 		  super(context, resource, items);
+		  inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	  }
 
 	  @Override
 	  public View getView(int position, View convertView, ViewGroup parent) {
+		  
 	/*    LinearLayout todoView;
 
 	    TaskItem item = getItem(position);

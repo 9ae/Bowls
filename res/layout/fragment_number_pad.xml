@@ -127,11 +127,12 @@
         android:text="@string/no0"
         style="@style/NumberButton" />
       
-      <Button
+      <ImageButton
         android:id="@+id/nodel"
         android:layout_column="2"
         android:layout_row="4"
-        android:text="@string/nodel"
+        android:src="@android:drawable/sym_keyboard_delete"
+        android:contentDescription="DEL"
        	style="@style/NumberButton" />
 
 </GridLayout>
