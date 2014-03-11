@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/editLineItem"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:background="@android:drawable/ic_menu_edit" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/delLineItem"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:background="@android:drawable/ic_menu_close_clear_cancel"/>
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/lineItemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -36,9 +36,9 @@
     </RelativeLayout>
 
     <me.valour.bowls.LineItemColorsView
-        android:id="@+id/lineItemColorsView1"
+        android:id="@+id/lineItemColors"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:layout_weight="2" />
  
 </LinearLayout>

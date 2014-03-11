@@ -49,9 +49,7 @@ public class LineItemsFragment extends ListFragment {
 		super.onAttach(activity);
 		try {
 			bill = ((TableActivity)activity).getBill();
-			setListAdapter(new ArrayAdapter<LineItem>(getActivity(),
-					android.R.layout.simple_list_item_1, android.R.id.text1,
-					bill.getLineItems())); 
+			setListAdapter(new LineItemAdapter(getActivity(), R.layout.line_item, bill.getLineItems()));
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");

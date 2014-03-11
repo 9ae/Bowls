@@ -94,17 +94,6 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		}
 	}
 	
-	public User findUserById(int id){
-		User u = null;
-		for(User user: users){
-			if(user.bowlViewId==id){
-				u = user;
-				break;
-			}
-		}
-		return u;
-	}
-	
 	public boolean addUser(User u){
 		if(!users.contains(u)){
 			users.add(u);
@@ -112,23 +101,6 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 			return true;
 		} else {
 			return false;
-		}
-	}
-	
-	public boolean addUser(int id){
-		if(findUserById(id)==null){
-			User u = new User(id);
-			users.add(u);
-			addRow(u, lineItems, 0.0);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public void addUsers(List<Integer> ids){
-		for(Integer id: ids){
-			addUser(id);
 		}
 	}
 	
@@ -190,7 +162,6 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 				others.add(user);
 			}
 		}
-		
 		return others;
 	}
 	
@@ -239,6 +210,17 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	
 	public ArrayList<LineItem> getLineItems(){
 		return lineItems;
+	}
+	
+	public void populateLineItemsWithUsers(){
+		for(LineItem li: lineItems){
+			li.clearUsers();
+			for(User user: users){
+				if(get(user, li, 0.0)>0.0){
+					li.addUser(user);
+				}
+			}
+		}
 	}
 
 }

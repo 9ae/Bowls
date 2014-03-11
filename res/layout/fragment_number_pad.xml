@@ -131,8 +131,8 @@
         android:id="@+id/nodel"
         android:layout_column="2"
         android:layout_row="4"
-        android:src="@android:drawable/sym_keyboard_delete"
-        android:contentDescription="DEL"
+        android:src="@android:drawable/ic_input_delete"
+        android:contentDescription="@string/no"
        	style="@style/NumberButton" />
 
 </GridLayout>

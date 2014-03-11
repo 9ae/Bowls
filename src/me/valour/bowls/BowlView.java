@@ -18,7 +18,6 @@ import android.view.View.OnClickListener;
 public class BowlView extends TextView{
 	
 	private Paint primaryPaint;
-	private Paint textPaint;
 	private int radius;
 	public User user;
 	private boolean selected = false;
@@ -44,13 +43,8 @@ public class BowlView extends TextView{
 		 setClickable(true);
 		 this.setFocusable(true);
 		 setRadius(Kitchen.minRadius);
-		 user = null;
-		 
-		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		 primaryPaint.setColor(Color.GREEN);
-		 textPaint = new Paint(Paint.LINEAR_TEXT_FLAG);
-		 textPaint.setColor(Color.BLACK);
-		 textPaint.setTextSize((float)20.5);
+		 user = null;		 
+		 primaryPaint = null;
 		 
 		 originalX = 0;
 		 originalY = 0;
@@ -80,15 +74,12 @@ public class BowlView extends TextView{
 	 @Override
 	 public void setId(int id){
 		 super.setId(id);
-		 user = new User(id);
+		 user = new User(this);
 	 }
 	 
 	 public void setColors(int color){
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		 primaryPaint.setColor(color);
-		 textPaint = new Paint(Paint.LINEAR_TEXT_FLAG);
-		 textPaint.setColor(Color.BLACK);
-		 textPaint.setTextSize((float)20.5);
 	 }
 	 
 	 public void setRadius(int radius){
@@ -165,4 +156,9 @@ public class BowlView extends TextView{
 		primaryPaint.setAlpha(255);
 		this.invalidate();
 	}
+	
+	public Paint getPrimaryPaint() {
+		return primaryPaint;
+	}
+
 }

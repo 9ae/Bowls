@@ -1,6 +1,7 @@
 package me.valour.bowls;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -31,7 +32,16 @@ public class LineItemColorsView extends View {
 	 
 	 private void init(){
 		 palette = new ArrayList<Paint>();
-			black =  new Paint(Color.GRAY);
+		 black =  new Paint(Color.GRAY);
+	 }
+	 
+	 public void addColors(List<User> users){
+		 for(User u : users){
+			Paint p = u.view.getPrimaryPaint();
+			if(p!=null){
+				palette.add(p);
+			}
+		 }
 	 }
 
 	@Override
