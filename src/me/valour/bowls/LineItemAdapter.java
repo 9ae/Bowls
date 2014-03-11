@@ -85,7 +85,7 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 	    taskView.setText(taskString);
 
 	    return todoView; */
-		  return null;
+		  return returnView;
 	  }
 	
 }
