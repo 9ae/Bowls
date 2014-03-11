@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -59,7 +60,7 @@ public class NumberPadFragment extends Fragment {
 		((Button)view.findViewById(R.id.no7)).setOnClickListener(ourButtonListener);
 		((Button)view.findViewById(R.id.no8)).setOnClickListener(ourButtonListener);
 		((Button)view.findViewById(R.id.no9)).setOnClickListener(ourButtonListener);
-		((Button)view.findViewById(R.id.nodel)).setOnClickListener(ourButtonListener);
+		((ImageButton)view.findViewById(R.id.nodel)).setOnClickListener(ourButtonListener);
 		dotButton = (Button)view.findViewById(R.id.nodot);
 		dotButton.setOnClickListener(ourButtonListener);
 		
