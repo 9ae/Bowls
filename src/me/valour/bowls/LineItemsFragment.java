@@ -36,12 +36,23 @@ public class LineItemsFragment extends ListFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);	
 	}
-	
+
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_lineitems,container,false);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Fragment#onActivityCreated(android.os.Bundle)
+	 */
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		setListAdapter(new LineItemAdapter(getActivity(), bill.getLineItems()));
 	}
 
 	@Override
@@ -49,7 +60,7 @@ public class LineItemsFragment extends ListFragment {
 		super.onAttach(activity);
 		try {
 			bill = ((TableActivity)activity).getBill();
-			setListAdapter(new LineItemAdapter(getActivity(), R.layout.line_item, bill.getLineItems()));
+			
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");

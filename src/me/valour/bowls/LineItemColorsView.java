@@ -33,6 +33,7 @@ public class LineItemColorsView extends View {
 	 private void init(){
 		 palette = new ArrayList<Paint>();
 		 black =  new Paint(Color.GRAY);
+		 setMinimumHeight(10);
 	 }
 	 
 	 public void addColors(List<User> users){
@@ -42,6 +43,7 @@ public class LineItemColorsView extends View {
 				palette.add(p);
 			}
 		 }
+		 this.invalidate();
 	 }
 
 	@Override
