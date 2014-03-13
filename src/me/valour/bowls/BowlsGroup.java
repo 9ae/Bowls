@@ -43,6 +43,8 @@ public class BowlsGroup extends FrameLayout {
 	LinkedList<BowlView> bowls;
 	BowlView newBowl;
 	int bowlsIdCounter = 1;
+	int currentDisusedId = -1;
+	LinkedList<Integer> disusedIds;
 
 	public BowlsGroup(Context context) {
 		super(context);
@@ -100,12 +102,19 @@ public class BowlsGroup extends FrameLayout {
 			bowl.setOnTouchListener(bowlSelect);
 		}
 		
+		disusedIds = new LinkedList<Integer>();
 		newBowl = getNewBowl();
 	}
 	
 	private BowlView getNewBowl(){
 			BowlView bowl = new BowlView(this.getContext());
-			bowl.setColors(Kitchen.assignColor(bowlsIdCounter));
+			if(disusedIds.isEmpty()){
+				bowl.setColors(Kitchen.assignColor(bowlsIdCounter));
+				currentDisusedId = -1;
+			} else {
+				currentDisusedId = disusedIds.pop();
+				bowl.setColors(Kitchen.assignColor(currentDisusedId));
+			}
 			if(measuredScreen){
 				bowl.setRadius(bowlRadius);
 			}
@@ -168,9 +177,14 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	public void addBowlAt(int index){
-		newBowl.setId(bowlsIdCounter);
+		if(currentDisusedId==-1){
+			newBowl.setId(bowlsIdCounter);
+			bowlsIdCounter++;
+		} else {
+			newBowl.setId(currentDisusedId);
+			currentDisusedId = -1;
+		}
 		bowls.add(index, newBowl);
-		bowlsIdCounter++;
 		newBowl.setOnDragListener(null);
 		newBowl.setOnTouchListener(null);
 		newBowl.setOnTouchListener(bowlSelect);
@@ -191,6 +205,7 @@ public class BowlsGroup extends FrameLayout {
 		ani.withEndAction(new Runnable(){
 			@Override
 			public void run() {
+				disusedIds.add(bowl.getId());
 				bowls.remove(bowl);
 				refreshBowls();
 			}	
