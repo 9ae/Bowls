@@ -10,6 +10,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="zero_dollars">0.00</string>
+    <string name="zero_percent">0%</string>
     <string name="no1">1</string>
     <string name="no2">2</string>
     <string name="no3">3</string>
@@ -30,6 +31,11 @@
     <string name="tip">+ Tip</string>
     <string name="presets_button">Presets</string>
     <string name="bill">BILL</string>
+    <string name="new_li"> &lt;&lt; New Line Item &gt;&gt;</string>
+    <string name="bill_subtotal">Subtotal:</string>
+    <string name="bill_tax">Tax:</string>
+    <string name="bill_tip">Tip:</string>
+    <string name="bill_total">Total:</string>
     
     <string name="q_enter_first_li">Enter price of first line item</string>
     <string name="q_enter_next_li">Enter price of next line item</string>
