@@ -28,7 +28,7 @@ public class TableActivity extends Activity implements
 
 	private TableFragment tableFragment;
 	private NumberPadFragment numFragment;
-	private LineItemsFragment liFragment;
+	private BillFragment billFragment;
 	
 	private TextView billTab;
 	public boolean splitEqually;
@@ -51,10 +51,11 @@ public class TableActivity extends Activity implements
 
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
-		numFragment = (NumberPadFragment) fm
-				.findFragmentById(R.id.numpadFragment);
+		/*numFragment = (NumberPadFragment) fm
+				.findFragmentById(R.id.numpadFragment); */
+		numFragment = new NumberPadFragment();
 		
-		liFragment = new LineItemsFragment();
+		billFragment = (BillFragment) fm.findFragmentById(R.id.billFragment);
 
 		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -67,23 +68,6 @@ public class TableActivity extends Activity implements
 		tableFragment.tvQuestion.bringToFront();
 		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
 		
-		billTab = (TextView) this.findViewById(R.id.toggleBill);
-		billTab.setOnTouchListener( new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				int act = event.getAction();
-				if(act==MotionEvent.ACTION_DOWN){
-					return true;
-				} else {
-					if(event.getY()<-10){
-						showBill();
-					} else if(event.getY()>10){
-						hideBill();
-					}
-					return true;
-				}
-			}
-		});
 	}
 
 	public void applyTax() {
@@ -208,11 +192,11 @@ public class TableActivity extends Activity implements
 	}
 	
 	public void showBill(){
-		bill.populateLineItemsWithUsers();
+	/*	bill.populateLineItemsWithUsers();
 		billTab.animate().alpha((float)0.5).start();
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.replace(R.id.rightContainer, liFragment);
-		ft.commit();
+		ft.commit(); */
 	}
 	
 	public void hideBill(){

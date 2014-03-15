@@ -24,29 +24,17 @@
         android:layout_column="5"
         android:layout_rowSpan="9"
         android:layout_columnSpan="5"
-        android:padding="0dp" >
-      <fragment android:name="me.valour.bowls.NumberPadFragment" 
+        android:padding="0dp">
+      <!--  fragment android:name="me.valour.bowls.NumberPadFragment" 
         android:id="@+id/numpadFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        /-->
+        <fragment android:name="me.valour.bowls.BillFragment" 
+            android:id="@+id/billFragment"
+           android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
       </FrameLayout>
-      
-      <TextView android:id="@+id/toggleBill"
-          android:text="@string/bill"
-        android:layout_row="9"
-        android:layout_column="5"
-        android:layout_rowSpan="1"
-        android:layout_columnSpan="5"
-        android:layout_width="match_parent"
-         android:layout_height="match_parent"
-       	 android:lines="1"
-       	 android:background="@color/accent_color"
-       	 android:textColor="@color/text_color"
-       	 android:textSize="20sp"
-       	 android:textAlignment="center" />
-        
-      
 
 
 </GridLayout>
