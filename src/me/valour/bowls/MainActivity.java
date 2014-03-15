@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends Activity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		final Button pref = (Button)this.findViewById(R.id.btn_presets);
+
 	}
 	
 	@Override
@@ -39,6 +41,11 @@ public class MainActivity extends Activity {
 		Button btnOther = (Button)findViewById(R.id.btn_split_equally);
 		btnOther.setEnabled(false);
 		launchTableActivity(false);
+	}
+	
+	public void onOpenPresets(View view){
+		Intent intent = new Intent(this, PresetActivity.class);
+		startActivity(intent);
 	}
 
 }

@@ -20,8 +20,7 @@ import android.widget.TextView;
 public class TableActivity extends Activity implements
 		BowlsGroup.AddBowlListener, BowlsGroup.RemoveBowlListener,
 		TableFragment.OkListener, TableFragment.NoListener,
-		TableFragment.TaxListener, TableFragment.TipListener,
-		TableFragment.PresetListener {
+		TableFragment.TaxListener, TableFragment.TipListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -318,12 +317,6 @@ public class TableActivity extends Activity implements
 			txt = txt.replaceFirst("\\-", "\\+");
 		}
 		btn.setText(txt);
-	}
-
-	@Override
-	public void onPresetButtonPress(View v) {
-		Intent intent = new Intent(this, PresetActivity.class);
-		startActivity(intent);
 	}
 
 	@Override

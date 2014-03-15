@@ -12,14 +12,6 @@
          android:layout_alignParentTop="true"
          android:layout_centerVertical="true"  />
      
-     <Button android:id="@+id/btn_presets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/presets_button"
-       	android:layout_alignLeft="@id/bowlsGroup"
-        android:layout_alignBottom="@id/bowlsGroup"
-      />
-     
      <Button android:id="@+id/btn_tax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

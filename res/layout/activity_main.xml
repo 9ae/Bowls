@@ -5,22 +5,44 @@
     android:orientation="horizontal"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/btn_split_equally"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="@string/split_equally"
-        android:onClick="onSplitEqually"
-        style="?android:attr/borderlessButtonStyle" />
+        android:background="@drawable/ic_launcher">
+        
+     <Button android:id="@+id/btn_presets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/presets_button"
+        android:layout_gravity="center|bottom"
+        android:onClick="onOpenPresets" />
+    </FrameLayout>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:orientation="vertical"
+        android:layout_weight="1" >
 
-    <Button
-        android:id="@+id/btn_split_line"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:text="@string/split_line"
-        android:onClick="onSplitByItem"
-        style="?android:attr/borderlessButtonStyle" />
+        <Button
+            android:id="@+id/btn_split_equally"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onSplitEqually"
+            android:text="@string/split_equally" />
+
+        <Button
+            android:id="@+id/btn_split_line"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onSplitByItem"
+            android:text="@string/split_line" />
+    </LinearLayout>
 
 </LinearLayout>

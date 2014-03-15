@@ -18,7 +18,6 @@ public class TableFragment extends Fragment {
 	private NoListener noButtonSpy;
 	private TipListener tipSpy;
 	private TaxListener taxSpy;
-	private PresetListener presetSpy;
 	
 	public BowlsGroup bowlsGroup;
 	public TextView tvQuestion;
@@ -78,15 +77,6 @@ public class TableFragment extends Fragment {
 			}
 		});
 		
-		final Button pref = (Button)view.findViewById(R.id.btn_presets);
-		pref.setOnClickListener(new View.OnClickListener() {		
-			@Override
-			public void onClick(View v) {
-				presetSpy.onPresetButtonPress(v);
-				
-			}
-		});
-		
 		return view;
 	}
 
@@ -98,7 +88,6 @@ public class TableFragment extends Fragment {
 			noButtonSpy = (NoListener)activity;
 			tipSpy = (TipListener)activity;
 			taxSpy = (TaxListener)activity;
-			presetSpy = (PresetListener)activity;
 		} catch (ClassCastException e){
 			throw new ClassCastException(activity.toString()+" must implement OnNewItemAddedListener");
 		}
@@ -135,10 +124,6 @@ public class TableFragment extends Fragment {
 	
 	public interface TaxListener{
 		public void onTaxButtonPress(View v);
-	}
-	
-	public interface PresetListener{
-		public void onPresetButtonPress(View v);
 	}
 
 }
