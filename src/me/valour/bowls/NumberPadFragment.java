@@ -27,6 +27,8 @@ public class NumberPadFragment extends Fragment {
 	private LinearLayout fieldBox;
 	private InputFormat numberMode = InputFormat.DOLLAR;
 	
+	private Button enterButton;
+	
 	public static NumberPadFragment newInstance() {
 		NumberPadFragment fragment = new NumberPadFragment();
 		Bundle args = new Bundle();
@@ -66,6 +68,7 @@ public class NumberPadFragment extends Fragment {
 		
 		dollarSign = (TextView) view.findViewById(R.id.dollar_sign);
 		percentSign = (TextView) view.findViewById(R.id.percent_sign);
+		enterButton = (Button) view.findViewById(R.id.enter);
 		
 		if(numberMode==InputFormat.DOLLAR){
 			percentSign.setVisibility(View.INVISIBLE);

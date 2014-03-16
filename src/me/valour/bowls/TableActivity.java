@@ -20,7 +20,8 @@ import android.widget.TextView;
 public class TableActivity extends Activity implements
 		BowlsGroup.AddBowlListener, BowlsGroup.RemoveBowlListener,
 		TableFragment.OkListener, TableFragment.NoListener,
-		TableFragment.TaxListener, TableFragment.TipListener {
+		TableFragment.TaxListener, TableFragment.TipListener,
+		BillFragment.NewLineItemListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -30,7 +31,6 @@ public class TableActivity extends Activity implements
 	private NumberPadFragment numFragment;
 	private BillFragment billFragment;
 	
-	private TextView billTab;
 	public boolean splitEqually;
 	private Action action;
 	private LineItem selectedLineItem = null;
@@ -46,6 +46,7 @@ public class TableActivity extends Activity implements
 
 		bowlsCount = Kitchen.minBowls;
 		action = Action.ITEM_PRICE;
+		bill = new Bill(splitEqually, getTax(), getTip());
 
 		setContentView(R.layout.activity_table);
 
@@ -54,19 +55,20 @@ public class TableActivity extends Activity implements
 		/*numFragment = (NumberPadFragment) fm
 				.findFragmentById(R.id.numpadFragment); */
 		numFragment = new NumberPadFragment();
-		
-		billFragment = (BillFragment) fm.findFragmentById(R.id.billFragment);
-
+	
 		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-		bill = new Bill(splitEqually, getTax(), getTip());
-		if (splitEqually) {
+	/*	if (splitEqually) {
 			initSplitEqually();
 		} else {
 			initSplitLineItems();
-		}
-		tableFragment.tvQuestion.bringToFront();
+		} 
+		tableFragment.tvQuestion.bringToFront(); */
+		
 		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
+		
+		billFragment = (BillFragment) fm.findFragmentById(R.id.billFragment);
+		billFragment.clearSummary();
 		
 	}
 
@@ -189,18 +191,6 @@ public class TableActivity extends Activity implements
 			selectedLineItem = null;
 		}
 		tableFragment.bowlsGroup.refreshBowls();
-	}
-	
-	public void showBill(){
-	/*	bill.populateLineItemsWithUsers();
-		billTab.animate().alpha((float)0.5).start();
-		FragmentTransaction ft = fm.beginTransaction();
-		ft.replace(R.id.rightContainer, liFragment);
-		ft.commit(); */
-	}
-	
-	public void hideBill(){
-		
 	}
 
 	@Override
@@ -351,6 +341,17 @@ public class TableActivity extends Activity implements
 	
 	public Bill getBill(){
 		return bill;
+	}
+
+	@Override
+	public void OnNewLineItem() {
+		Log.d("vars", "new line item");
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
+	//	ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+		ft.replace(R.id.rightContainer, numFragment);
+		ft.addToBackStack(null);
+		ft.commit();
 	}
 
 }

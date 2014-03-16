@@ -1,0 +1,3 @@
+<resources>
+    <integer name="np_move_time">2000</integer>
+</resources>

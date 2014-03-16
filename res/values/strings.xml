@@ -11,6 +11,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="zero_dollars">0.00</string>
     <string name="zero_percent">0%</string>
+    <string name="x_dollars">$ %.2f</string>
+    <string name="x_percent">%.4f %%</string>
     <string name="no1">1</string>
     <string name="no2">2</string>
     <string name="no3">3</string>

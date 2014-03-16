@@ -79,7 +79,7 @@
          android:layout_height="@dimen/bill_line"
          android:layout_gravity="center"
          android:text="@string/new_li"
-         android:textColor="@color/primary_color"
+         android:textColor="@color/new_item_colors"
          android:textSize="@dimen/xlarge_font" />
     
 	<ListView android:id="@+id/lineItemsList"
