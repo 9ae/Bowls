@@ -3,14 +3,14 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:layout_gravity="top"
-    android:columnCount="3"
-    android:rowCount="6"
+    android:columnCount="4"
+    android:rowCount="5"
     tools:context=".NumberPadFragment"
     android:background="@color/background_color" >
 
      <LinearLayout
          android:id="@+id/enter_number_layout"
-         android:layout_width="match_parent"
+         android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_column="0"
          android:layout_columnSpan="3"
@@ -49,6 +49,17 @@
 
      </LinearLayout>
 
+           <Button
+          android:id="@+id/enter" 
+          android:layout_column="3"
+          android:layout_columnSpan="1"
+          android:layout_row="1"
+          android:layout_rowSpan="4"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:text="@string/done"
+          style="@style/NumberPadEnterButton" />
+     
       <Button
           android:id="@+id/no1"
           android:layout_column="0"
@@ -136,16 +147,5 @@
         android:contentDescription="@string/no"
        	style="@style/NumberButton" />
       
-      <TextView
-          android:id="@+id/enter"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_column="0"
-          android:layout_columnSpan="3"
-          android:layout_row="5"
-          android:layout_rowSpan="1"
-          android:minWidth="192dip"
-          android:text="@string/done"
-          android:gravity="center" />
 
 </me.valour.bowls.SlidingGridLayout>
