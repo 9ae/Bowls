@@ -21,7 +21,7 @@ public class TableActivity extends Activity implements
 		BowlsGroup.AddBowlListener, BowlsGroup.RemoveBowlListener,
 		TableFragment.OkListener, TableFragment.NoListener,
 		TableFragment.TaxListener, TableFragment.TipListener,
-		BillFragment.NewLineItemListener {
+		BillFragment.NewLineItemListener, NumberPadFragment.CloseNumpadListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -348,10 +348,21 @@ public class TableActivity extends Activity implements
 		Log.d("vars", "new line item");
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
-	//	ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
 	}
+	
+	public void closeNumberPad(){
+		FragmentTransaction ft = fm.beginTransaction();
+		fm.popBackStack();
+	}
+
+	@Override
+	public void numPadClose() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 }

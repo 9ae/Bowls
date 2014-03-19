@@ -5,13 +5,6 @@
     android:valueFrom="1"
     android:valueTo="0"
     android:valueType="floatType"
-    android:propertyName="xFraction"
-    android:duration="@integer/np_move_time" />
-<objectAnimator 
-    android:interpolator="@android:anim/linear_interpolator"
-    android:valueFrom="1"
-    android:valueTo="0"
-    android:valueType="floatType"
     android:propertyName="yFraction"
     android:duration="@integer/np_move_time" />
 </set>

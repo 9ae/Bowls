@@ -22,6 +22,7 @@ import android.widget.TextView;
 public class NumberPadFragment extends Fragment {
 	
 	private NumberPadListener ourButtonListener;
+	private CloseNumpadListener closeListener;
 	private TextView numberValue;
 	private Button dotButton;
 	private TextView dollarSign;
@@ -72,6 +73,15 @@ public class NumberPadFragment extends Fragment {
 		percentSign = (TextView) view.findViewById(R.id.percent_sign);
 		enterButton = (Button) view.findViewById(R.id.enter);
 		
+		enterButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		if(numberMode==InputFormat.DOLLAR){
 			percentSign.setVisibility(View.INVISIBLE);
 		} else {
@@ -81,7 +91,7 @@ public class NumberPadFragment extends Fragment {
 		numberValue = (TextView) view.findViewById(R.id.numberValue);
 		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
 		
-		view.setOnTouchListener(new View.OnTouchListener() {
+		/*view.setOnTouchListener(new View.OnTouchListener() {
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -90,7 +100,7 @@ public class NumberPadFragment extends Fragment {
 				}
 				return false;
 			}
-		});
+		}); */
 		
 		return view;
 	}
@@ -100,7 +110,7 @@ public class NumberPadFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			
+			closeListener = (CloseNumpadListener)activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -185,5 +195,9 @@ public class NumberPadFragment extends Fragment {
 				appendChar(b.getText());
 			}
 		}
+	}
+	
+	public interface CloseNumpadListener{
+		public void numPadClose();
 	}
 }
