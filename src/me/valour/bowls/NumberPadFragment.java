@@ -8,7 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,7 +29,7 @@ public class NumberPadFragment extends Fragment {
 	private LinearLayout fieldBox;
 	private InputFormat numberMode = InputFormat.DOLLAR;
 	
-	private Button enterButton;
+	private TextView enterTextView;
 	
 	public static NumberPadFragment newInstance() {
 		NumberPadFragment fragment = new NumberPadFragment();
@@ -68,7 +70,7 @@ public class NumberPadFragment extends Fragment {
 		
 		dollarSign = (TextView) view.findViewById(R.id.dollar_sign);
 		percentSign = (TextView) view.findViewById(R.id.percent_sign);
-		enterButton = (Button) view.findViewById(R.id.enter);
+		enterTextView = (TextView) view.findViewById(R.id.enter);
 		
 		if(numberMode==InputFormat.DOLLAR){
 			percentSign.setVisibility(View.INVISIBLE);
@@ -78,6 +80,17 @@ public class NumberPadFragment extends Fragment {
 		
 		numberValue = (TextView) view.findViewById(R.id.numberValue);
 		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
+		
+		view.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction()==MotionEvent.ACTION_DOWN){
+					Log.d("vars", "touched down");
+				}
+				return false;
+			}
+		});
 		
 		return view;
 	}

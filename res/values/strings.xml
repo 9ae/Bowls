@@ -39,6 +39,8 @@
     <string name="bill_tip">Tip:</string>
     <string name="bill_total">Total:</string>
     
+    <string name="done">Swipe to confirm</string>
+    
     <string name="q_enter_first_li">Enter price of first line item</string>
     <string name="q_enter_next_li">Enter price of next line item</string>
 	<string name="q_enter_subtotal">Enter subtotal</string>
