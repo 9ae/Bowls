@@ -57,18 +57,18 @@ public class TableActivity extends Activity implements
 		numFragment = new NumberPadFragment();
 	
 		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-	/*	if (splitEqually) {
-			initSplitEqually();
-		} else {
-			initSplitLineItems();
-		} 
-		tableFragment.tvQuestion.bringToFront(); */
 		
 		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
 		
 		billFragment = (BillFragment) fm.findFragmentById(R.id.billFragment);
 		billFragment.clearSummary();
+		
+		if (splitEqually) {
+			initSplitEqually();
+		} else {
+			initSplitLineItems();
+		} 
+		tableFragment.tvQuestion.bringToFront();
 		
 	}
 
@@ -121,6 +121,7 @@ public class TableActivity extends Activity implements
 
 	private void initSplitEqually() {
 		tableFragment.tvQuestion.setText(R.string.q_enter_subtotal);
+		billFragment.adjustForSplitEqually();
 	}
 
 	private void initSplitLineItems() {
@@ -161,13 +162,14 @@ public class TableActivity extends Activity implements
 			bill.divideEqually(li);
 			clearCenter();
 		} else {
-			tableFragment.tvQuestion.setText(R.string.q_select_bowls);
 			prepareForSelectingBowls(li);
 		}
 		tableFragment.bowlsGroup.refreshBowls();
 	}
 
 	private void prepareForSelectingBowls(LineItem li) {
+		tableFragment.tvQuestion.setText(R.string.q_select_bowls);
+		tableFragment.btnOk.setVisibility(View.VISIBLE);
 		selectedLineItem = li;
 		tableFragment.bowlsGroup.readyBowlSelect();
 		action = Action.SELECT_BOWLS;
@@ -185,7 +187,8 @@ public class TableActivity extends Activity implements
 			tableFragment.bowlsGroup.stopBowlSelect();
 
 			// move to being ready for next Item
-			tableFragment.tvQuestion.setText(R.string.q_enter_next_li);
+			tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
+			tableFragment.btnOk.setVisibility(View.INVISIBLE);
 			numFragment.clearField();
 			action = Action.ITEM_PRICE;
 			selectedLineItem = null;
@@ -354,14 +357,14 @@ public class TableActivity extends Activity implements
 	}
 	
 	public void closeNumberPad(){
-		FragmentTransaction ft = fm.beginTransaction();
 		fm.popBackStack();
 	}
 
 	@Override
 	public void numPadClose() {
-		// TODO Auto-generated method stub
-		
+		registerItemPrice();
+		closeNumberPad();
+	//	billFragment.updateList();
 	}
 	
 

@@ -63,7 +63,7 @@
          android:layout_height="wrap_content"
          android:padding="20dp"
          android:text="@string/no"
-         android:visibility="gone"
+         android:visibility="invisible"
          android:gravity="center" />
      	<Button
          android:id="@+id/btn_ok"
@@ -72,6 +72,7 @@
          android:padding="20dp"
          android:text="@string/ok"
          android:gravity="center"
+         android:visibility="invisible"
        	/>
          </TableRow>
 

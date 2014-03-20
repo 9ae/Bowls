@@ -78,7 +78,7 @@ public class NumberPadFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
+				closeListener.numPadClose();
 			}
 		});
 		
