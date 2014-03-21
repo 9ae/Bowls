@@ -9,7 +9,7 @@ import me.valour.milktea.*;
 public class Bill  extends CrossTable<User, LineItem, Double>{
 
 	private ArrayList<User> users; 
-	private ArrayList<LineItem> lineItems;
+	protected ArrayList<LineItem> lineItems;
 	private boolean splitEqually;
 	
 	private double subtotal;

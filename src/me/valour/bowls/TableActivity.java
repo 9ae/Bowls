@@ -164,6 +164,7 @@ public class TableActivity extends Activity implements
 		} else {
 			prepareForSelectingBowls(li);
 		}
+		billFragment.updatedList();
 		tableFragment.bowlsGroup.refreshBowls();
 	}
 

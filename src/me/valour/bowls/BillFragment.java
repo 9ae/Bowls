@@ -39,7 +39,8 @@ public class BillFragment extends Fragment {
         // Inflate the layout for this fragment
 		View view =  inflater.inflate(R.layout.fragment_bill, container, false);
 		listView = (ListView) view.findViewById(R.id.lineItemsList);
-		adapter = new LineItemAdapter(getActivity(), bill.getLineItems());
+		adapter = new LineItemAdapter(getActivity(), bill.lineItems);
+		adapter.setNotifyOnChange(true);
 		listView.setAdapter(adapter);
 		
 		amountSubtotal = (TextView) view.findViewById(R.id.subtotal_amount);
@@ -122,6 +123,10 @@ public class BillFragment extends Fragment {
 	public void adjustForSplitEqually(){
 		listView.setVisibility(View.GONE);
 		newLineItem.setVisibility(View.GONE);
+	}
+	
+	public void updatedList(){
+		adapter.notifyDataSetChanged();
 	}
 	
 	public interface NewLineItemListener{
