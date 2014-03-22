@@ -269,6 +269,14 @@ public class BowlsGroup extends FrameLayout {
 	public List<User> getSelectedUsers(){
 		return bowlSelect.selected;
 	}
+	
+	public void manualSelect(List<User> users){
+		bowlSelect.selected.addAll(users);
+		for(User u: users){
+			u.view.setSelected(true);
+			u.view.unfade();
+		}
+	}
 
 	
 	public void attachBowlAgents(Activity activity){

@@ -375,6 +375,8 @@ public class TableActivity extends Activity implements
 	@Override
 	public void SelectLineItem(int position) {
 		selectedLineItem = bill.lineItems.get(position);
+		tableFragment.bowlsGroup.readyBowlSelect();
+		tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
 	}
 	
 	@Override
@@ -394,6 +396,8 @@ public class TableActivity extends Activity implements
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
+		
+		tableFragment.bowlsGroup.stopBowlSelect();
 	}
 	
 	
@@ -405,6 +409,8 @@ public class TableActivity extends Activity implements
 	public void numPadClose(boolean isEditMode) {
 		if(isEditMode){
 			updateItemPrice();
+			tableFragment.bowlsGroup.readyBowlSelect();
+			tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
 		} else {
 			registerItemPrice();
 		}
