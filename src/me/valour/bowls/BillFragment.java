@@ -132,6 +132,14 @@ public class BillFragment extends Fragment {
 		return prevView!=null && selectedLI>-1;
 	}
 	
+	public void updateSubtotal(){
+		double sum = 0.0;
+		for(LineItem li: bill.lineItems){
+			sum += li.getPrice();
+		}
+		setSubtotal(sum);
+	}
+	
 	public void setSubtotal(double t){
 		amountSubtotal.setText(getString(R.string.x_dollars, t));
 	}
