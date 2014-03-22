@@ -409,7 +409,6 @@ public class TableActivity extends Activity implements
 			registerItemPrice();
 		}
 		closeNumberPad();
-	//	billFragment.updateList();
 	}
 
 

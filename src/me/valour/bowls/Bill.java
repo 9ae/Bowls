@@ -70,7 +70,14 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 			return;
 		}
 		double div = li.getPrice() / us.size();
+		double pdiv = 0.0;
+		if(li.priceChanged()){
+			pdiv = li.getPreviousPrice() / us.size();
+		}
 		for(User u: us){
+			if(pdiv!=0.0){
+				u.subtractSubtotal(pdiv);
+			}
 			set(u, li, div);
 			u.plusSubtotal(div);
 		}
@@ -155,13 +162,13 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	}
 	
 	public List<User> listUsers(LineItem li){
-		ArrayList<User> users = new ArrayList<User>();
+		ArrayList<User> liUsers = new ArrayList<User>();
 		for(User user: users){
 			if(get(user, li, 0.0)>0.0){
-				users.add(user);
+				liUsers.add(user);
 			}
 		}
-		return users;
+		return liUsers;
 	}
 	
 	public List<User> listOtherUsers(LineItem li, User u){
