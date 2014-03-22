@@ -84,7 +84,6 @@
     
 	<ListView android:id="@+id/lineItemsList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/light_fade"/>
+        android:layout_height="wrap_content"/>
     
 </LinearLayout>

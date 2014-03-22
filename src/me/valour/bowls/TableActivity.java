@@ -185,7 +185,9 @@ public class TableActivity extends Activity implements
 	private void prepareForSelectingBowls(LineItem li) {
 		tableFragment.tvQuestion.setText(R.string.q_select_bowls);
 		tableFragment.btnOk.setVisibility(View.VISIBLE);
-		selectedLineItem = li;
+		if(selectedLineItem!=li){
+			selectedLineItem = li;
+		}
 		tableFragment.bowlsGroup.readyBowlSelect();
 		action = Action.SELECT_BOWLS;
 	}
@@ -375,7 +377,7 @@ public class TableActivity extends Activity implements
 	@Override
 	public void SelectLineItem(int position) {
 		selectedLineItem = bill.lineItems.get(position);
-		tableFragment.bowlsGroup.readyBowlSelect();
+		prepareForSelectingBowls(selectedLineItem);
 		tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
 	}
 	
@@ -409,7 +411,7 @@ public class TableActivity extends Activity implements
 	public void numPadClose(boolean isEditMode) {
 		if(isEditMode){
 			updateItemPrice();
-			tableFragment.bowlsGroup.readyBowlSelect();
+			prepareForSelectingBowls(selectedLineItem);
 			tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
 		} else {
 			registerItemPrice();
