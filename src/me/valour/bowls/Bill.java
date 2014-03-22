@@ -154,6 +154,16 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		return count;
 	}
 	
+	public List<User> listUsers(LineItem li){
+		ArrayList<User> users = new ArrayList<User>();
+		for(User user: users){
+			if(get(user, li, 0.0)>0.0){
+				users.add(user);
+			}
+		}
+		return users;
+	}
+	
 	public List<User> listOtherUsers(LineItem li, User u){
 		ArrayList<User> others = new ArrayList<User>();
 		for(User user: users){
@@ -206,21 +216,6 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		double t = percentTip * u.getSubtotal();
 		u.setTip(t);
 		return t;
-	}
-	
-	public ArrayList<LineItem> getLineItems(){
-		return lineItems;
-	}
-	
-	public void populateLineItemsWithUsers(){
-		for(LineItem li: lineItems){
-			li.clearUsers();
-			for(User user: users){
-				if(get(user, li, 0.0)>0.0){
-					li.addUser(user);
-				}
-			}
-		}
 	}
 
 }

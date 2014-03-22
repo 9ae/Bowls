@@ -4,37 +4,32 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!--   ImageButton
-            android:id="@+id/delLineItem"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"/ -->
-        
-        <ImageButton
-            android:id="@+id/editLineItem"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_edit" />
-        
          <TextView
-            android:id="@+id/lineItemPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/primary_color"
-            android:text="@string/hello_world"
-            android:layout_gravity="center|center" />
-         
+             android:id="@+id/tap2edit"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             android:layout_alignParentTop="true"
+             android:text="@string/fade_edit"
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textColor="@color/light_fade"
+             android:visibility="invisible" />
 
-    </LinearLayout>
+         <TextView
+             android:id="@+id/lineItemPrice"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/tap2edit"
+             android:layout_centerHorizontal="true"
+             android:text="@string/hello_world"
+             android:textColor="@color/primary_color" />
+
+    </RelativeLayout>
 
     <me.valour.bowls.LineItemColorsView
         android:id="@+id/lineItemColors"

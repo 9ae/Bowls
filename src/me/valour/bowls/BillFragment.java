@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,9 +26,12 @@ public class BillFragment extends Fragment {
 	private ListView listView;
 	private LineItemAdapter adapter;
 	
-	private NewLineItemListener newLineItemSpy; 
+	private LineItemListener newLineItemSpy; 
 	
 	public BillFragment(){}
+	
+	private int selectedLI = -1;
+	private View prevView = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,24 @@ public class BillFragment extends Fragment {
 		adapter.setNotifyOnChange(true);
 		listView.setAdapter(adapter);
 		
+		listView.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int position,
+					long id) {
+				if(selectedLI==position){ //go into edit mode
+					newLineItemSpy.EditLineItem();
+				} else {
+					if(hasSelectedLineItem()){
+						deselectLineItem();
+					}
+					selectLineItem(view, position);
+					//TODO: re-select the chosen bowls
+				}
+			}
+			
+		});
+		
 		amountSubtotal = (TextView) view.findViewById(R.id.subtotal_amount);
 		amountTotal = (TextView) view.findViewById(R.id.total_amount);
 		percentTax = (TextView) view.findViewById(R.id.tax_percent);
@@ -54,6 +77,9 @@ public class BillFragment extends Fragment {
 		newLineItem.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(hasSelectedLineItem()){
+					deselectLineItem();
+				}
 				newLineItemSpy.OnNewLineItem();
 			}
 		});
@@ -70,7 +96,7 @@ public class BillFragment extends Fragment {
 		super.onAttach(activity);
 		try {
 			bill = ((TableActivity)activity).getBill();
-			newLineItemSpy = (NewLineItemListener) activity;
+			newLineItemSpy = (LineItemListener) activity;
 			
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
@@ -85,6 +111,25 @@ public class BillFragment extends Fragment {
 	public void onDetach() {
 		// TODO Auto-generated method stub
 		super.onDetach();
+	}
+	
+	public void selectLineItem(View view, int position){
+		view.findViewById(R.id.tap2edit).setVisibility(View.VISIBLE);
+		prevView = view;
+		selectedLI = position;
+		newLineItemSpy.SelectLineItem(position);
+	}
+	
+	public void deselectLineItem(){
+		if(prevView!=null){
+			prevView.findViewById(R.id.tap2edit).setVisibility(View.INVISIBLE);
+		}
+		prevView = null;
+		selectedLI = -1;
+	}
+	
+	public boolean hasSelectedLineItem(){
+		return prevView!=null && selectedLI>-1;
 	}
 	
 	public void setSubtotal(double t){
@@ -129,7 +174,9 @@ public class BillFragment extends Fragment {
 		adapter.notifyDataSetChanged();
 	}
 	
-	public interface NewLineItemListener{
+	public interface LineItemListener{
 		public void OnNewLineItem();
+		public void SelectLineItem(int position);
+		public void EditLineItem();
 	}
 }

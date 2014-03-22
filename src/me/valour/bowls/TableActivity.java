@@ -3,6 +3,7 @@ package me.valour.bowls;
 import java.util.List;
 
 import me.valour.bowls.enums.Action;
+import me.valour.bowls.enums.InputFormat;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,7 +22,7 @@ public class TableActivity extends Activity implements
 		BowlsGroup.AddBowlListener, BowlsGroup.RemoveBowlListener,
 		TableFragment.OkListener, TableFragment.NoListener,
 		TableFragment.TaxListener, TableFragment.TipListener,
-		BillFragment.NewLineItemListener, NumberPadFragment.CloseNumpadListener {
+		BillFragment.LineItemListener, NumberPadFragment.CloseNumpadListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -167,6 +168,19 @@ public class TableActivity extends Activity implements
 		billFragment.updatedList();
 		tableFragment.bowlsGroup.refreshBowls();
 	}
+	
+	private void updateItemPrice(){
+		double price = numFragment.getNumberValue();
+		selectedLineItem.setPrice(price);
+		if(splitEqually){
+			bill.redivideEqually();
+			clearCenter();
+		} else {
+			bill.divideAmongst(selectedLineItem, bill.listUsers(selectedLineItem));
+		}
+		billFragment.updatedList();
+		tableFragment.bowlsGroup.refreshBowls();
+	}
 
 	private void prepareForSelectingBowls(LineItem li) {
 		tableFragment.tvQuestion.setText(R.string.q_select_bowls);
@@ -190,7 +204,6 @@ public class TableActivity extends Activity implements
 			// move to being ready for next Item
 			tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
 			tableFragment.btnOk.setVisibility(View.INVISIBLE);
-			numFragment.clearField();
 			action = Action.ITEM_PRICE;
 			selectedLineItem = null;
 		}
@@ -350,6 +363,32 @@ public class TableActivity extends Activity implements
 	@Override
 	public void OnNewLineItem() {
 		Log.d("vars", "new line item");
+		numFragment.setArguments(new Bundle());
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
+		ft.replace(R.id.rightContainer, numFragment);
+		ft.addToBackStack("bill");
+		ft.commit();
+	}
+	
+
+	@Override
+	public void SelectLineItem(int position) {
+		selectedLineItem = bill.lineItems.get(position);
+	}
+	
+	@Override
+	public void EditLineItem() {
+		if(selectedLineItem==null){
+			return;
+		}
+		double price = selectedLineItem.getPrice();
+		
+		Bundle bundle = new Bundle();
+		bundle.putDouble("numberValue", price);
+		bundle.putBoolean("percentMode",false);
+		numFragment.setArguments(bundle);
+		
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
 		ft.replace(R.id.rightContainer, numFragment);
@@ -357,16 +396,21 @@ public class TableActivity extends Activity implements
 		ft.commit();
 	}
 	
+	
 	public void closeNumberPad(){
 		fm.popBackStack();
 	}
 
 	@Override
-	public void numPadClose() {
-		registerItemPrice();
+	public void numPadClose(boolean isEditMode) {
+		if(isEditMode){
+			updateItemPrice();
+		} else {
+			registerItemPrice();
+		}
 		closeNumberPad();
 	//	billFragment.updateList();
 	}
-	
+
 
 }

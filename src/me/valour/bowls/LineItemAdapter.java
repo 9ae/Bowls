@@ -38,28 +38,12 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 			  returnView = convertView;
 		  }
 		  
-		  ImageButton btnEdit = (ImageButton) returnView.findViewById(R.id.editLineItem);
-		//  ImageButton btnDel = (ImageButton) returnView.findViewById(R.id.delLineItem);
+
 		  TextView tvPrice = (TextView) returnView.findViewById(R.id.lineItemPrice);
 	//	  LineItemColorsView vColors = (LineItemColorsView) returnView.findViewById(R.id.lineItemColors);
 		 
 		  tvPrice.setText(li.toString());
 		//  vColors.addColors(li.listUsers());
-		  btnEdit.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Log.d("vars","edit price");
-			}
-		});
-		  
-		/*  btnDel.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Log.d("vars","delete line item");
-			}
-		}); */
 		 
 		  return returnView;
 	  }

@@ -52,7 +52,7 @@ public class LineItemsFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		setListAdapter(new LineItemAdapter(getActivity(), bill.getLineItems()));
+		setListAdapter(new LineItemAdapter(getActivity(), bill.lineItems));
 	}
 
 	@Override

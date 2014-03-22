@@ -8,12 +8,10 @@ public class LineItem {
 	 * Price of item
 	 */
 	private double price;
-	private ArrayList<User> users;
 //	public int shares;
 	
 	public LineItem(double price){
 		this.price = price;
-		 users = new ArrayList<User>();
 	//	shares = 0;
 	}
 	
@@ -52,18 +50,6 @@ public class LineItem {
 	@Override
 	public String toString(){
 		return String.format("$ %.2f", price);
-	}
-	
-	public void clearUsers(){
-		users.clear();
-	}
-	
-	public void addUser(User user){
-		users.add(user);
-	}
-	
-	public ArrayList<User> listUsers(){
-		return users;
 	}
 	
 /*	public double pricePerUser(){

@@ -32,6 +32,8 @@ public class NumberPadFragment extends Fragment {
 	
 	private Button enterButton;
 	
+	private boolean isEditMode = false;
+	
 	public static NumberPadFragment newInstance() {
 		NumberPadFragment fragment = new NumberPadFragment();
 		Bundle args = new Bundle();
@@ -78,7 +80,7 @@ public class NumberPadFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				closeListener.numPadClose();
+				closeListener.numPadClose(isEditMode);
 			}
 		});
 		
@@ -90,6 +92,18 @@ public class NumberPadFragment extends Fragment {
 		
 		numberValue = (TextView) view.findViewById(R.id.numberValue);
 		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
+		
+		Bundle bundle = this.getArguments();
+		if(bundle.containsKey("numberValue")){
+			double no = bundle.getDouble("numberValue");
+			InputFormat inf = InputFormat.DOLLAR;
+			if(bundle.getBoolean("percentMode", false)){
+				inf = InputFormat.PERCENT;
+			}
+			setValue(no, inf);
+		} else {
+			clearField();
+		}
 		
 		/*view.setOnTouchListener(new View.OnTouchListener() {
 			
@@ -170,6 +184,23 @@ public class NumberPadFragment extends Fragment {
 	public void clearField(){
 		numberValue.setText("");
 		dotButton.setEnabled(true);
+		isEditMode = false;
+	}
+	
+	public void setValue(double value, InputFormat mode){
+		String strVal;
+		if(mode==InputFormat.DOLLAR){
+			strVal = String.format("%.2f", value);
+		} else {
+			strVal = String.format("%.4f", value);
+		}
+		numberValue.setText(strVal);
+		if(strVal.contains(".")){
+			dotButton.setEnabled(false);
+		} else {
+			dotButton.setEnabled(true);
+		}
+		isEditMode = true;
 	}
 	
 	public void highlightTextField(boolean highlight){
@@ -198,6 +229,6 @@ public class NumberPadFragment extends Fragment {
 	}
 	
 	public interface CloseNumpadListener{
-		public void numPadClose();
+		public void numPadClose(boolean isEditMode);
 	}
 }
