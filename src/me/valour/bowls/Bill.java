@@ -66,6 +66,27 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	}
 	
 	public void divideAmongst(LineItem li, List<User> us){
+		List<User> prevUsers = listUsers(li); 
+		if(us.isEmpty()){
+			return;
+		}
+		double div = li.getPrice() / us.size();
+		for(User u: us){
+			if(prevUsers.contains(u)){
+				u.subtractSubtotal(get(u, li, 0.0));
+				prevUsers.remove(u);
+			}
+			set(u, li, div);
+			u.plusSubtotal(div);
+		}
+		for(User v: prevUsers){
+			v.subtractSubtotal(get(v, li, 0.0));
+			set(v, li, 0.0);
+		}
+	}
+	
+	public void redivideAmongst(LineItem li){
+		List<User> us =  listUsers(li); 
 		if(us.isEmpty()){
 			return;
 		}

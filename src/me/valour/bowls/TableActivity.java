@@ -176,7 +176,7 @@ public class TableActivity extends Activity implements
 			bill.redivideEqually();
 			clearCenter();
 		} else {
-			bill.divideAmongst(selectedLineItem, bill.listUsers(selectedLineItem));
+			bill.redivideAmongst(selectedLineItem);
 		}
 		billFragment.updatedList();
 		tableFragment.bowlsGroup.refreshBowls();
