@@ -12,7 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class BillFragment extends Fragment {
+public class BillFragment extends Fragment implements Bill.BillChangesAgent{
 
 	private Bill bill;
 	private TextView amountSubtotal;
@@ -97,7 +97,7 @@ public class BillFragment extends Fragment {
 		try {
 			bill = ((TableActivity)activity).getBill();
 			newLineItemSpy = (LineItemListener) activity;
-			
+			bill.attachAgent(this);
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -131,7 +131,7 @@ public class BillFragment extends Fragment {
 	public boolean hasSelectedLineItem(){
 		return prevView!=null && selectedLI>-1;
 	}
-	
+	/*
 	public void updateSubtotal(){
 		double sum = 0.0;
 		for(LineItem li: bill.lineItems){
@@ -139,37 +139,38 @@ public class BillFragment extends Fragment {
 		}
 		setSubtotal(sum);
 	}
+	*/
 	
-	public void setSubtotal(double t){
+	private void setSubtotal(double t){
 		amountSubtotal.setText(getString(R.string.x_dollars, t));
 	}
 	
-	public void setTotal(double t){
+	private void setTotal(double t){
 		amountTotal.setText(getString(R.string.x_dollars, t));
 	}
 	
-	public void setTaxPercent(double t){
-		percentTax.setText(getString(R.string.x_percent, t));
+	private void setTaxPercent(double t){
+		percentTax.setText(getString(R.string.x_percent, (t*100)));
 	}
 	
-	public void setTipPercent(double t){
-		percentTip.setText(getString(R.string.x_percent, t));
+	private void setTipPercent(double t){
+		percentTip.setText(getString(R.string.x_percent, (t*100)));
 	}
 	
-	public void setTaxAmount(double t){
+	private void setTaxAmount(double t){
 		amountTax.setText(getString(R.string.x_dollars, t));
 	}
 	
-	public void setTipAmount(double t){
+	private void setTipAmount(double t){
 		amountTip.setText(getString(R.string.x_dollars, t));
 	}
 	
 	public void clearSummary(){
 		setSubtotal(0.0);
 		setTotal(0.0);
-		setTaxPercent(0.0);
+		setTaxPercent(bill.getTax());
 		setTaxAmount(0.0);
-		setTipPercent(0.0);
+		setTipPercent(bill.getTip());
 		setTipAmount(0.0);
 	}
 	
@@ -187,4 +188,49 @@ public class BillFragment extends Fragment {
 		public void SelectLineItem(int position);
 		public void EditLineItem();
 	}
+
+	@Override
+	public void subtotalChanged() {
+		setSubtotal(bill.getSubtotal());
+		updateTotal();
+	}
+
+	@Override
+	public void taxChanged(boolean rateChanged) {
+		if(rateChanged){
+			setTaxPercent(bill.getTax());
+		}
+		setTaxAmount(bill.calculateTax());
+		updateTotal();
+	}
+
+	@Override
+	public void tipChanged(boolean rateChanged) {
+		if(rateChanged){
+			setTipPercent(bill.getTip());
+		}
+		setTipAmount(bill.calculateTip());
+		updateTotal();
+	}
+
+	@Override
+	public void updateTotal() {
+		double total = bill.getSubtotal() + bill.calculateTax() + bill.calculateTip();
+		setTotal(total);
+	}
+/*
+	@Override
+	public void taxCleared() {
+		setTaxPercent(0.0);
+		setTaxAmount(0.0);
+		setTotal(bill.getSubtotal());
+	}
+
+	@Override
+	public void tipCleared() {
+		setTipPercent(0.0);
+		setTipAmount(0.0);
+		setTotal(bill.getSubtotal());
+	}
+	*/
 }

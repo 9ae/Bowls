@@ -44,6 +44,8 @@ public class TableActivity extends Activity implements
 
 		Intent intent = getIntent();
 		splitEqually = intent.getBooleanExtra("splitEqually", true);
+		
+		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
 		bowlsCount = Kitchen.minBowls;
 		action = Action.ITEM_PRICE;
@@ -53,11 +55,7 @@ public class TableActivity extends Activity implements
 
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
-		/*numFragment = (NumberPadFragment) fm
-				.findFragmentById(R.id.numpadFragment); */
 		numFragment = new NumberPadFragment();
-	
-		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
 		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
 		
@@ -74,7 +72,7 @@ public class TableActivity extends Activity implements
 	}
 
 	public void applyTax() {
-		bill.calculateTax();
+		bill.applyTax();
 		tableFragment.bowlsGroup.refreshBowls();
 	}
 
@@ -82,8 +80,8 @@ public class TableActivity extends Activity implements
 		if (sp == null) {
 			return 0.0;
 		} else {
-			String stringTax = sp.getString("default_tax",
-					Double.toString(Kitchen.tax));
+
+			String stringTax = sp.getString("default_tax", getString(R.string.tax_percent));
 			return Double.parseDouble(stringTax) / 100.0;
 		}
 	}
@@ -97,16 +95,16 @@ public class TableActivity extends Activity implements
 	}
 
 	public void applyTip() {
-		bill.calculateTip();
+		bill.applyTip();
 		tableFragment.bowlsGroup.refreshBowls();
+		
 	}
 
 	public double getTip() {
 		if (sp == null) {
 			return 0.0;
 		} else {
-			String stringTip = sp.getString("default_tip",
-					Double.toString(Kitchen.tip));
+			String stringTip = sp.getString("default_tip", getString(R.string.tip_percent));
 			return Double.parseDouble(stringTip) / 100.0;
 		}
 	}
@@ -171,7 +169,7 @@ public class TableActivity extends Activity implements
 	
 	private void updateItemPrice(){
 		double price = numFragment.getNumberValue();
-		selectedLineItem.setPrice(price);
+		bill.updateLineItemPrice(selectedLineItem, price);
 		if(splitEqually){
 			bill.redivideEqually();
 			clearCenter();
@@ -417,7 +415,6 @@ public class TableActivity extends Activity implements
 			registerItemPrice();
 		}
 		closeNumberPad();
-		billFragment.updateSubtotal();
 	}
 
 
