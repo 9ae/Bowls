@@ -84,25 +84,25 @@ public class NumberPadFragment extends Fragment {
 			}
 		});
 		
-		if(numberMode==InputFormat.DOLLAR){
-			percentSign.setVisibility(View.INVISIBLE);
-		} else {
-			dollarSign.setVisibility(View.INVISIBLE);
-		}
-		
 		numberValue = (TextView) view.findViewById(R.id.numberValue);
 		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
 		
 		Bundle bundle = this.getArguments();
 		if(bundle.containsKey("numberValue")){
 			double no = bundle.getDouble("numberValue");
-			InputFormat inf = InputFormat.DOLLAR;
+			
 			if(bundle.getBoolean("percentMode", false)){
-				inf = InputFormat.PERCENT;
+				numberMode = InputFormat.PERCENT;
 			}
-			setValue(no, inf);
+			setValue(no);
 		} else {
 			clearField();
+		}
+		
+		if(numberMode==InputFormat.DOLLAR){
+			percentSign.setVisibility(View.INVISIBLE);
+		} else {
+			dollarSign.setVisibility(View.INVISIBLE);
 		}
 		
 		/*view.setOnTouchListener(new View.OnTouchListener() {
@@ -187,9 +187,9 @@ public class NumberPadFragment extends Fragment {
 		isEditMode = false;
 	}
 	
-	public void setValue(double value, InputFormat mode){
+	public void setValue(double value){
 		String strVal;
-		if(mode==InputFormat.DOLLAR){
+		if(numberMode==InputFormat.DOLLAR){
 			strVal = String.format("%.2f", value);
 		} else {
 			strVal = String.format("%.4f", value);

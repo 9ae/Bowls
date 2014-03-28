@@ -252,20 +252,16 @@ public class TableActivity extends Activity implements
 	public void OnNoButtonPress() {
 		switch (action) {
 		case CONFIRM_TAX:
-			numFragment.clearField();
-			numFragment.highlightTextField(true);
-			numFragment.setAsPercentMode();
-			tableFragment.tvQuestion.setText(R.string.q_enter_tax_percent);
+			openNumberPadForPercentChange(bill.getTax());
 			tableFragment.btnNo.setVisibility(View.INVISIBLE);
+			tableFragment.btnOk.setVisibility(View.INVISIBLE);
 			action = Action.SET_TAX;
 			break;
 
 		case CONFIRM_TIP:
-			numFragment.clearField();
-			numFragment.highlightTextField(true);
-			numFragment.setAsPercentMode();
-			tableFragment.tvQuestion.setText(R.string.q_enter_tip_percent);
+			openNumberPadForPercentChange(bill.getTip());
 			tableFragment.btnNo.setVisibility(View.INVISIBLE);
+			tableFragment.btnOk.setVisibility(View.INVISIBLE);
 			action = Action.SET_TIP;
 			break;
 		case CONFIRM_DELETE:
@@ -400,6 +396,18 @@ public class TableActivity extends Activity implements
 		tableFragment.bowlsGroup.stopBowlSelect();
 	}
 	
+	public void openNumberPadForPercentChange(double percent){
+		Bundle bundle = new Bundle();
+		bundle.putDouble("numberValue", percent*100);
+		bundle.putBoolean("percentMode",true);
+		numFragment.setArguments(bundle);
+		
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
+		ft.replace(R.id.rightContainer, numFragment);
+		ft.addToBackStack(null);
+		ft.commit();
+	}
 	
 	public void closeNumberPad(){
 		fm.popBackStack();
@@ -408,9 +416,23 @@ public class TableActivity extends Activity implements
 	@Override
 	public void numPadClose(boolean isEditMode) {
 		if(isEditMode){
-			updateItemPrice();
-			prepareForSelectingBowls(selectedLineItem);
-			tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
+			switch(action){
+			case SET_TAX:
+				setTax(numFragment.getStringValue(), false);
+				applyTax();
+				clearCenter();
+				break;
+			case SET_TIP:
+				setTip(numFragment.getStringValue(), false);
+				applyTip();
+				clearCenter();
+				break;
+			default:
+				updateItemPrice();
+				prepareForSelectingBowls(selectedLineItem);
+				tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
+				break;
+			}
 		} else {
 			registerItemPrice();
 		}
