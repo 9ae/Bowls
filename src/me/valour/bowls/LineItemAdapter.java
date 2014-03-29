@@ -19,15 +19,19 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 
 //	private static LayoutInflater inflater=null;
 	
-	  public LineItemAdapter(Context context, List<LineItem> items) {
+	private LineItemAgent agent;
+	
+	  public LineItemAdapter(Context context, List<LineItem> items, BillFragment bf) {
 		  super(context, R.layout.line_item, items);
+		  agent = (LineItemAgent) bf;
 		//  inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	  }
+
 
 	  @Override
 	  public View getView(int position, View convertView, ViewGroup parent) {
 		  
-		  LineItem li = this.getItem(position);
+		  final LineItem li = this.getItem(position);
 		  
 		  View returnView;
 		  
@@ -36,16 +40,28 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 			  returnView = inflater.inflate(R.layout.line_item, parent, false);
 		  } else {
 			  returnView = convertView;
-		  }
-		  
+		  }  
 
 		  TextView tvPrice = (TextView) returnView.findViewById(R.id.lineItemPrice);
+		  ImageButton delButton = (ImageButton) returnView.findViewById(R.id.lineDelete);
 	//	  LineItemColorsView vColors = (LineItemColorsView) returnView.findViewById(R.id.lineItemColors);
 		 
+		  final int index = position;
+		  
 		  tvPrice.setText(li.toString());
+		  delButton.setOnClickListener( new View.OnClickListener() {		
+			@Override
+			public void onClick(View arg0) {
+				agent.deleteLI(index, li);
+			}
+		});
 		//  vColors.addColors(li.listUsers());
 		 
 		  return returnView;
+	  }
+	  
+	  public interface LineItemAgent{
+		  public void deleteLI(int position, LineItem li);
 	  }
 	
 }

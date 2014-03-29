@@ -439,5 +439,10 @@ public class TableActivity extends Activity implements
 		closeNumberPad();
 	}
 
+	@Override
+	public void updateBowlsPrice() {
+		tableFragment.bowlsGroup.refreshBowls();
+	}
+
 
 }

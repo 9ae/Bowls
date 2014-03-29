@@ -133,6 +133,7 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 			}
 		}
 		rmCol(delItem);
+		changeAgent.subtotalChanged();
 	}
 	
 	public void divideAmongst(LineItem li, List<User> us){

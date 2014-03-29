@@ -9,6 +9,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/lineDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/minus_sign"
+            android:src="@android:drawable/ic_input_delete"
+            android:layout_alignParentLeft="true" />
+        
          <TextView
              android:id="@+id/tap2edit"
              android:layout_width="wrap_content"

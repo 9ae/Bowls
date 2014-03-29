@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class BillFragment extends Fragment implements Bill.BillChangesAgent{
+public class BillFragment extends Fragment implements Bill.BillChangesAgent, LineItemAdapter.LineItemAgent{
 
 	private Bill bill;
 	private TextView amountSubtotal;
@@ -44,7 +45,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent{
         // Inflate the layout for this fragment
 		View view =  inflater.inflate(R.layout.fragment_bill, container, false);
 		listView = (ListView) view.findViewById(R.id.lineItemsList);
-		adapter = new LineItemAdapter(getActivity(), bill.lineItems);
+		adapter = new LineItemAdapter(getActivity(), bill.lineItems, this);
 		adapter.setNotifyOnChange(true);
 		listView.setAdapter(adapter);
 		
@@ -187,6 +188,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent{
 		public void OnNewLineItem();
 		public void SelectLineItem(int position);
 		public void EditLineItem();
+		public void updateBowlsPrice();
 	}
 
 	@Override
@@ -233,4 +235,12 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent{
 		setTotal(bill.getSubtotal());
 	}
 	*/
+
+	@Override
+	public void deleteLI(int position, LineItem li) {
+		Log.d("vars", "ready to delete "+li.toString());
+		bill.rmLineItem(position);
+		newLineItemSpy.updateBowlsPrice();
+		adapter.notifyDataSetChanged();
+	}
 }
