@@ -52,7 +52,7 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 		  delButton.setOnClickListener( new View.OnClickListener() {		
 			@Override
 			public void onClick(View arg0) {
-				agent.deleteLI(index, li);
+				agent.deleteLI(index);
 			}
 		});
 		//  vColors.addColors(li.listUsers());
@@ -61,7 +61,7 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 	  }
 	  
 	  public interface LineItemAgent{
-		  public void deleteLI(int position, LineItem li);
+		  public void deleteLI(int position);
 	  }
 	
 }

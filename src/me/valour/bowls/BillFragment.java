@@ -237,8 +237,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 	*/
 
 	@Override
-	public void deleteLI(int position, LineItem li) {
-		Log.d("vars", "ready to delete "+li.toString());
+	public void deleteLI(int position) {
 		bill.rmLineItem(position);
 		newLineItemSpy.updateBowlsPrice();
 		adapter.notifyDataSetChanged();
