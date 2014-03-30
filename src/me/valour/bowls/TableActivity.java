@@ -183,6 +183,7 @@ public class TableActivity extends Activity implements
 
 	private void prepareForSelectingBowls(LineItem li) {
 		tableFragment.tvQuestion.setText(R.string.q_select_bowls);
+		tableFragment.tvQuestion.setVisibility(View.VISIBLE);
 		tableFragment.btnOk.setVisibility(View.VISIBLE);
 		if(selectedLineItem!=li){
 			selectedLineItem = li;
