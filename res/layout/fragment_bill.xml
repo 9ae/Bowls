@@ -8,9 +8,11 @@
     <TableLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <TableRow 
+  <TableRow 
        android:layout_width="match_parent"
-       android:layout_height="@dimen/bill_line">
+       android:layout_height="@dimen/bill_line"
+       android:gravity="bottom">
+       
     <TextView
         style="@style/BillLabel"
         android:text="@string/bill_subtotal"
@@ -22,6 +24,15 @@
         style="@style/BillValue"
         android:layout_weight="4"
         android:text="@string/zero_dollars" />
+    
+    <ImageButton 
+        android:id="@+id/edit_subtotal"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_menu_edit"
+        android:background="@android:color/transparent"
+        android:visibility="invisible" />
         
     </TableRow>
     <TableRow 
@@ -39,6 +50,8 @@
     	    android:text="@string/zero_dollars"
     	    android:layout_weight="4"
     	    style="@style/BillValue" />
+    	
+    	 <Space android:layout_weight="1" />
     </TableRow>
         <TableRow 
         android:layout_width="match_parent"
@@ -55,6 +68,8 @@
     	    android:text="@string/zero_dollars"
     	    android:layout_weight="4"
     	    style="@style/BillValue" />
+    	
+    	 <Space android:layout_weight="1" />
     </TableRow>
     <TableRow 
        android:layout_width="match_parent"
@@ -69,7 +84,7 @@
         android:text="@string/zero_dollars"
         android:layout_weight="4"
         style="@style/BillValue"/>
-        
+      <Space android:layout_weight="1" />
     </TableRow>
     </TableLayout>
     

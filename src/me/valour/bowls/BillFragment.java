@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 
 	private Bill bill;
 	private TextView amountSubtotal;
+	private ImageButton editSubtotal;
 	private TextView percentTax;
 	private TextView amountTax;
 	private TextView percentTip;
@@ -73,6 +75,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 		amountTax = (TextView) view.findViewById(R.id.tax_amount);
 		percentTip = (TextView) view.findViewById(R.id.tip_percent);
 		amountTip = (TextView) view.findViewById(R.id.tip_amount);
+		editSubtotal = (ImageButton) view.findViewById(R.id.edit_subtotal);
 		
 		newLineItem = (TextView) view.findViewById(R.id.newLineItem);
 		newLineItem.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +181,14 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 	public void adjustForSplitEqually(){
 		listView.setVisibility(View.GONE);
 		newLineItem.setVisibility(View.GONE);
+		editSubtotal.setVisibility(View.VISIBLE);
+		editSubtotal.setOnClickListener( new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				newLineItemSpy.EditSubtotal();
+			}
+		});
+		
 	}
 	
 	public void updatedList(){
@@ -189,6 +200,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 		public void SelectLineItem(int position);
 		public void EditLineItem();
 		public void updateBowlsPrice();
+		public void EditSubtotal();
 	}
 
 	@Override

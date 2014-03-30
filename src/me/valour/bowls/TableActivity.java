@@ -177,8 +177,8 @@ public class TableActivity extends Activity implements
 			clearCenter();
 		} else {
 			bill.redivideAmongst(selectedLineItem);
+			billFragment.updatedList();
 		}
-		billFragment.updatedList();
 		tableFragment.bowlsGroup.refreshBowls();
 	}
 
@@ -429,7 +429,7 @@ public class TableActivity extends Activity implements
 				clearCenter();
 				break;
 			case EDIT_SUBTOTAL:
-				
+				updateItemPrice();
 				break;
 			default:
 				updateItemPrice();
@@ -446,6 +446,13 @@ public class TableActivity extends Activity implements
 	@Override
 	public void updateBowlsPrice() {
 		tableFragment.bowlsGroup.refreshBowls();
+	}
+
+	@Override
+	public void EditSubtotal() {
+		action = Action.EDIT_SUBTOTAL;
+		selectedLineItem = bill.lineItems.get(0); 
+		EditLineItem();
 	}
 
 
