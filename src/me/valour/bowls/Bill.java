@@ -9,13 +9,18 @@ import me.valour.milktea.*;
 public class Bill  extends CrossTable<User, LineItem, Double>{
 
 	private ArrayList<User> users; 
-	private ArrayList<LineItem> lineItems;
+	protected ArrayList<LineItem> lineItems;
 	private boolean splitEqually;
 	
 	private double subtotal;
 
 	private double percentTip;
 	private double percentTax;
+	
+	private boolean appliedTip = false;
+	private boolean appliedTax = false;
+	
+	private BillChangesAgent changeAgent;
 	
 	public Bill(boolean splitEqually, double tax, double tip){
 		super();
@@ -37,12 +42,69 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		return percentTax;
 	}
 	
+	public double calculateTip(){
+		if(appliedTip){
+			return subtotal * percentTip;
+		} else {
+			return 0.0;
+		}
+	}
+	
+	public double calculateTax(){
+		if(appliedTax){
+			return subtotal * percentTax;
+		} else {
+			return 0.0;
+		}
+	}
+	
 	public void setTax(double tax){
 		percentTax = tax;
+		changeAgent.taxChanged(true);
 	}
 	
 	public void setTip(double tip){
 		percentTip = tip;
+		changeAgent.tipChanged(true);
+	}
+	
+	public void applyTip(){
+		for(User u: users){
+			u.applyTip(percentTip);
+		}
+		appliedTip = true;
+		changeAgent.tipChanged(false);
+	//	return subtotal * percentTip;
+	}
+	
+	public void applyTax(){
+		for(User u: users){
+			u.applyTax(percentTax);
+		}
+		appliedTax = true;
+		changeAgent.taxChanged(false);
+	//	return subtotal * percentTax;
+	}
+	
+	public void clearTip(){
+		for(User u: users){
+			u.setTip(0.0);
+		}
+		appliedTip = false;
+		changeAgent.tipChanged(false);
+	}
+	
+	public void clearTax(){
+		for(User u: users){
+			u.setTax(0.0);
+		}
+		appliedTax = false;
+		changeAgent.taxChanged(false);
+	}
+	
+	
+	public double getSubtotal(){
+		return subtotal;
 	}
 	
 	public LineItem addLineItem(double price){
@@ -50,7 +112,15 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		lineItems.add(li);
 		addCol(li, users, 0.0);
 		subtotal += price;
+		changeAgent.subtotalChanged();
 		return li;
+	}
+	
+	public void updateLineItemPrice(LineItem li, double newPrice){
+		subtotal -= li.getPrice();
+		subtotal += newPrice;
+		li.setPrice(newPrice);
+		changeAgent.subtotalChanged();
 	}
 	
 	public void rmLineItem(int index){
@@ -63,14 +133,43 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 			}
 		}
 		rmCol(delItem);
+		changeAgent.subtotalChanged();
 	}
 	
 	public void divideAmongst(LineItem li, List<User> us){
+		List<User> prevUsers = listUsers(li); 
 		if(us.isEmpty()){
 			return;
 		}
 		double div = li.getPrice() / us.size();
 		for(User u: us){
+			if(prevUsers.contains(u)){
+				u.subtractSubtotal(get(u, li, 0.0));
+				prevUsers.remove(u);
+			}
+			set(u, li, div);
+			u.plusSubtotal(div);
+		}
+		for(User v: prevUsers){
+			v.subtractSubtotal(get(v, li, 0.0));
+			set(v, li, 0.0);
+		}
+	}
+	
+	public void redivideAmongst(LineItem li){
+		List<User> us =  listUsers(li); 
+		if(us.isEmpty()){
+			return;
+		}
+		double div = li.getPrice() / us.size();
+		double pdiv = 0.0;
+		if(li.priceChanged()){
+			pdiv = li.getPreviousPrice() / us.size();
+		}
+		for(User u: us){
+			if(pdiv!=0.0){
+				u.subtractSubtotal(pdiv);
+			}
 			set(u, li, div);
 			u.plusSubtotal(div);
 		}
@@ -81,30 +180,30 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	}
 	
 	public void redivideEqually(){
-		clearUserSubtotals();
 		if(lineItems.size()!=1){
 			return;
 		} 
 		divideEqually(lineItems.get(0));
 	}
 	
-	public void clearUserSubtotals(){
+	public void reapplyTax(){
+		if(!appliedTax){
+			return;
+		}
 		for(User u: users){
-			u.setSubtotal(0.0);
+			u.setTax(u.getSubtotal()*percentTax);
 		}
 	}
 	
-	public User findUserById(int id){
-		User u = null;
-		for(User user: users){
-			if(user.bowlViewId==id){
-				u = user;
-				break;
-			}
+	public void reapplyTip(){
+		if(!appliedTip){
+			return;
 		}
-		return u;
+		for(User u: users){
+			u.setTip(u.getSubtotal()*percentTip);
+		}
 	}
-	
+
 	public boolean addUser(User u){
 		if(!users.contains(u)){
 			users.add(u);
@@ -112,23 +211,6 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 			return true;
 		} else {
 			return false;
-		}
-	}
-	
-	public boolean addUser(int id){
-		if(findUserById(id)==null){
-			User u = new User(id);
-			users.add(u);
-			addRow(u, lineItems, 0.0);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public void addUsers(List<Integer> ids){
-		for(Integer id: ids){
-			addUser(id);
 		}
 	}
 	
@@ -182,6 +264,16 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		return count;
 	}
 	
+	public List<User> listUsers(LineItem li){
+		ArrayList<User> liUsers = new ArrayList<User>();
+		for(User user: users){
+			if(get(user, li, 0.0)>0.0){
+				liUsers.add(user);
+			}
+		}
+		return liUsers;
+	}
+	
 	public List<User> listOtherUsers(LineItem li, User u){
 		ArrayList<User> others = new ArrayList<User>();
 		for(User user: users){
@@ -190,35 +282,9 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 				others.add(user);
 			}
 		}
-		
 		return others;
 	}
 	
-	public double calculateTip(){
-		for(User u: users){
-			u.applyTip(percentTip);
-		}
-		return subtotal * percentTip;
-	}
-	
-	public double calculateTax(){
-		for(User u: users){
-			u.applyTax(percentTax);
-		}
-		return subtotal * percentTax;
-	}
-	
-	public void clearTip(){
-		for(User u: users){
-			u.setTip(0.0);
-		}
-	}
-	
-	public void clearTax(){
-		for(User u: users){
-			u.setTax(0.0);
-		}
-	}
 	
 	public void splitEqually(ArrayList<User> users){
 		this.splitEqually = true;
@@ -235,6 +301,17 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		double t = percentTip * u.getSubtotal();
 		u.setTip(t);
 		return t;
+	}
+	
+	public void attachAgent(BillFragment fragment){
+		changeAgent = (BillChangesAgent)fragment;
+	}
+	
+	public interface BillChangesAgent{
+		public void subtotalChanged();
+		public void taxChanged(boolean rateChanged);
+		public void tipChanged(boolean rateChanged);
+		public void updateTotal();
 	}
 
 }

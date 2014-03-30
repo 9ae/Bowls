@@ -2,18 +2,17 @@ package me.valour.bowls;
 
 public class User {
 
-	public final int bowlViewId;
 	private double subtotal;
 	private double tax;
 	private double tip;
-	
-//	private ArrayList<LineItem> items;
-	
-	public User(int id){
-		bowlViewId = id;
+	public final BowlView view;
+
+	public User(BowlView view){
+	//	bowlViewId = id;
 		subtotal = 0.0;
 		tax = 0.0;
 		tip = 0.0;
+		this.view = view;
 	//	items = new ArrayList<LineItem>();
 	}
 
@@ -81,6 +80,7 @@ public class User {
 		return subtotal + tax + tip;
 	}
 	
+
 /*	public boolean had(LineItem item){
 		return items.contains(item);
 	}

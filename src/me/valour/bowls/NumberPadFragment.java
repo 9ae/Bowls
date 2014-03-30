@@ -8,10 +8,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,12 +22,17 @@ import android.widget.TextView;
 public class NumberPadFragment extends Fragment {
 	
 	private NumberPadListener ourButtonListener;
+	private CloseNumpadListener closeListener;
 	private TextView numberValue;
 	private Button dotButton;
 	private TextView dollarSign;
 	private TextView percentSign;
 	private LinearLayout fieldBox;
 	private InputFormat numberMode = InputFormat.DOLLAR;
+	
+	private Button enterButton;
+	
+	private boolean isEditMode = false;
 	
 	public static NumberPadFragment newInstance() {
 		NumberPadFragment fragment = new NumberPadFragment();
@@ -59,12 +67,37 @@ public class NumberPadFragment extends Fragment {
 		((Button)view.findViewById(R.id.no7)).setOnClickListener(ourButtonListener);
 		((Button)view.findViewById(R.id.no8)).setOnClickListener(ourButtonListener);
 		((Button)view.findViewById(R.id.no9)).setOnClickListener(ourButtonListener);
-		((Button)view.findViewById(R.id.nodel)).setOnClickListener(ourButtonListener);
+		((ImageButton)view.findViewById(R.id.nodel)).setOnClickListener(ourButtonListener);
 		dotButton = (Button)view.findViewById(R.id.nodot);
 		dotButton.setOnClickListener(ourButtonListener);
 		
 		dollarSign = (TextView) view.findViewById(R.id.dollar_sign);
 		percentSign = (TextView) view.findViewById(R.id.percent_sign);
+		enterButton = (Button) view.findViewById(R.id.enter);
+		
+		enterButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				closeListener.numPadClose(isEditMode);
+			}
+		});
+		
+		numberValue = (TextView) view.findViewById(R.id.numberValue);
+		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
+		
+		Bundle bundle = this.getArguments();
+		if(bundle.containsKey("numberValue")){
+			double no = bundle.getDouble("numberValue");
+			
+			if(bundle.getBoolean("percentMode", false)){
+				numberMode = InputFormat.PERCENT;
+			}
+			setValue(no);
+		} else {
+			clearField();
+		}
 		
 		if(numberMode==InputFormat.DOLLAR){
 			percentSign.setVisibility(View.INVISIBLE);
@@ -72,8 +105,16 @@ public class NumberPadFragment extends Fragment {
 			dollarSign.setVisibility(View.INVISIBLE);
 		}
 		
-		numberValue = (TextView) view.findViewById(R.id.numberValue);
-		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
+		/*view.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction()==MotionEvent.ACTION_DOWN){
+					Log.d("vars", "touched down");
+				}
+				return false;
+			}
+		}); */
 		
 		return view;
 	}
@@ -83,7 +124,7 @@ public class NumberPadFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			
+			closeListener = (CloseNumpadListener)activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnFragmentInteractionListener");
@@ -142,6 +183,24 @@ public class NumberPadFragment extends Fragment {
 	
 	public void clearField(){
 		numberValue.setText("");
+		dotButton.setEnabled(true);
+		isEditMode = false;
+	}
+	
+	public void setValue(double value){
+		String strVal;
+		if(numberMode==InputFormat.DOLLAR){
+			strVal = String.format("%.2f", value);
+		} else {
+			strVal = String.format("%.4f", value);
+		}
+		numberValue.setText(strVal);
+		if(strVal.contains(".")){
+			dotButton.setEnabled(false);
+		} else {
+			dotButton.setEnabled(true);
+		}
+		isEditMode = true;
 	}
 	
 	public void highlightTextField(boolean highlight){
@@ -167,5 +226,9 @@ public class NumberPadFragment extends Fragment {
 				appendChar(b.getText());
 			}
 		}
+	}
+	
+	public interface CloseNumpadListener{
+		public void numPadClose(boolean isEditMode);
 	}
 }

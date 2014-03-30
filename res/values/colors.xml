@@ -4,4 +4,6 @@
   <color name="text_color">#FF880000</color>
   <color name="primary_color">#FFCC0033</color>
   <color name="accent_color">#FFFFFF66</color>
+  <color name="fade">#FF050505</color>
+  <color name="light_fade">#88000000</color>
 </resources>

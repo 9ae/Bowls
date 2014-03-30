@@ -11,14 +11,14 @@
     
     <EditTextPreference 
         android:key="default_tax"
-        android:defaultValue="8"
+        android:defaultValue="@string/tax_percent"
         android:title="Tax Percent"
         android:inputType="numberDecimal" 
         />
     
     <EditTextPreference 
         android:key="default_tip"
-        android:defaultValue="15"
+        android:defaultValue="@string/tip_percent"
         android:title="Tip Percent"
         android:inputType="numberDecimal"
         />

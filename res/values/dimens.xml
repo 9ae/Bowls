@@ -3,5 +3,10 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">0dp</dimen>
     <dimen name="activity_vertical_margin">0dp</dimen>
-
+    <dimen name="bill_line">40dp</dimen>
+    <dimen name="xlarge_font">30dp</dimen>
+    <dimen name="large_font">20dp</dimen>
+    <dimen name="med_font">16dp</dimen>
+	<dimen name="small_font">12dp</dimen>
+	<dimen name="xsmall_font">10dp</dimen>
 </resources>

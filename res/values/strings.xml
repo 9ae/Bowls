@@ -10,6 +10,11 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="zero_dollars">0.00</string>
+    <string name="zero_percent">0%</string>
+    <string name="x_dollars">$ %f</string>
+    <string name="x_percent">%.2f %%</string>
+    <string name="tax_percent">8.65</string>
+    <string name="tip_percent">15</string>
     <string name="no1">1</string>
     <string name="no2">2</string>
     <string name="no3">3</string>
@@ -21,7 +26,6 @@
     <string name="no9">9</string>
     <string name="nodot">.</string>
     <string name="no0">0</string>
-    <string name="nodel">&lt;</string>
     <string name="split_equally">Split Equally</string>
     <string name="split_line">Add Line Items</string>
     <string name="ok">OK</string>
@@ -30,6 +34,15 @@
     <string name="tax">+ Tax</string>
     <string name="tip">+ Tip</string>
     <string name="presets_button">Presets</string>
+    <string name="bill">BILL</string>
+    <string name="new_li"> &lt;&lt; New Line Item &gt;&gt;</string>
+    <string name="bill_subtotal">Subtotal:</string>
+    <string name="bill_tax">Tax:</string>
+    <string name="bill_tip">Tip:</string>
+    <string name="bill_total">Total:</string>
+    
+    <string name="done">ENTER</string>
+    <string name="fade_edit">Tap again to EDIT</string>
     
     <string name="q_enter_first_li">Enter price of first line item</string>
     <string name="q_enter_next_li">Enter price of next line item</string>

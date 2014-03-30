@@ -3,22 +3,26 @@ package me.valour.bowls;
 import java.util.List;
 
 import me.valour.bowls.enums.Action;
+import me.valour.bowls.enums.InputFormat;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class TableActivity extends Activity implements
 		BowlsGroup.AddBowlListener, BowlsGroup.RemoveBowlListener,
 		TableFragment.OkListener, TableFragment.NoListener,
 		TableFragment.TaxListener, TableFragment.TipListener,
-		TableFragment.PresetListener {
+		BillFragment.LineItemListener, NumberPadFragment.CloseNumpadListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -26,6 +30,8 @@ public class TableActivity extends Activity implements
 
 	private TableFragment tableFragment;
 	private NumberPadFragment numFragment;
+	private BillFragment billFragment;
+	
 	public boolean splitEqually;
 	private Action action;
 	private LineItem selectedLineItem = null;
@@ -38,40 +44,44 @@ public class TableActivity extends Activity implements
 
 		Intent intent = getIntent();
 		splitEqually = intent.getBooleanExtra("splitEqually", true);
+		
+		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
 		bowlsCount = Kitchen.minBowls;
 		action = Action.ITEM_PRICE;
+		bill = new Bill(splitEqually, getTax(), getTip());
 
 		setContentView(R.layout.activity_table);
 
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
-		numFragment = (NumberPadFragment) fm
-				.findFragmentById(R.id.numpadFragment);
-
-		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-		bill = new Bill(splitEqually, getTax(), getTip());
+		numFragment = new NumberPadFragment();
+		
+		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
+		
+		billFragment = (BillFragment) fm.findFragmentById(R.id.billFragment);
+		billFragment.clearSummary();
+		
 		if (splitEqually) {
 			initSplitEqually();
 		} else {
 			initSplitLineItems();
-		}
+		} 
 		tableFragment.tvQuestion.bringToFront();
-		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
+		
 	}
 
 	public void applyTax() {
-		bill.calculateTax();
-		tableFragment.bowlsGroup.refreshBowls();
+		bill.applyTax();
+		updateBowlsPrice();
 	}
 
 	public double getTax() {
 		if (sp == null) {
 			return 0.0;
 		} else {
-			String stringTax = sp.getString("default_tax",
-					Double.toString(Kitchen.tax));
+
+			String stringTax = sp.getString("default_tax", getString(R.string.tax_percent));
 			return Double.parseDouble(stringTax) / 100.0;
 		}
 	}
@@ -85,16 +95,15 @@ public class TableActivity extends Activity implements
 	}
 
 	public void applyTip() {
-		bill.calculateTip();
-		tableFragment.bowlsGroup.refreshBowls();
+		bill.applyTip();
+		updateBowlsPrice();
 	}
 
 	public double getTip() {
 		if (sp == null) {
 			return 0.0;
 		} else {
-			String stringTip = sp.getString("default_tip",
-					Double.toString(Kitchen.tip));
+			String stringTip = sp.getString("default_tip", getString(R.string.tip_percent));
 			return Double.parseDouble(stringTip) / 100.0;
 		}
 	}
@@ -110,6 +119,9 @@ public class TableActivity extends Activity implements
 
 	private void initSplitEqually() {
 		tableFragment.tvQuestion.setText(R.string.q_enter_subtotal);
+		billFragment.adjustForSplitEqually();
+		action = Action.ENTER_SUBTOTAL;
+		OnNewLineItem();
 	}
 
 	private void initSplitLineItems() {
@@ -150,14 +162,32 @@ public class TableActivity extends Activity implements
 			bill.divideEqually(li);
 			clearCenter();
 		} else {
-			tableFragment.tvQuestion.setText(R.string.q_select_bowls);
 			prepareForSelectingBowls(li);
+			billFragment.updatedList();
 		}
-		tableFragment.bowlsGroup.refreshBowls();
+		updateBowlsPrice();
+	}
+	
+	private void updateItemPrice(){
+		double price = numFragment.getNumberValue();
+		bill.updateLineItemPrice(selectedLineItem, price);
+		if(splitEqually){
+			bill.redivideEqually();
+			clearCenter();
+		} else {
+			bill.redivideAmongst(selectedLineItem);
+			billFragment.updatedList();
+		}
+		updateBowlsPrice();
 	}
 
 	private void prepareForSelectingBowls(LineItem li) {
-		selectedLineItem = li;
+		tableFragment.tvQuestion.setText(R.string.q_select_bowls);
+		tableFragment.tvQuestion.setVisibility(View.VISIBLE);
+		tableFragment.btnOk.setVisibility(View.VISIBLE);
+		if(selectedLineItem!=li){
+			selectedLineItem = li;
+		}
 		tableFragment.bowlsGroup.readyBowlSelect();
 		action = Action.SELECT_BOWLS;
 	}
@@ -174,12 +204,12 @@ public class TableActivity extends Activity implements
 			tableFragment.bowlsGroup.stopBowlSelect();
 
 			// move to being ready for next Item
-			tableFragment.tvQuestion.setText(R.string.q_enter_next_li);
-			numFragment.clearField();
+			tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
+			tableFragment.btnOk.setVisibility(View.INVISIBLE);
 			action = Action.ITEM_PRICE;
 			selectedLineItem = null;
 		}
-		tableFragment.bowlsGroup.refreshBowls();
+		updateBowlsPrice();
 	}
 
 	@Override
@@ -224,20 +254,16 @@ public class TableActivity extends Activity implements
 	public void OnNoButtonPress() {
 		switch (action) {
 		case CONFIRM_TAX:
-			numFragment.clearField();
-			numFragment.highlightTextField(true);
-			numFragment.setAsPercentMode();
-			tableFragment.tvQuestion.setText(R.string.q_enter_tax_percent);
+			openNumberPadForPercentChange(bill.getTax());
 			tableFragment.btnNo.setVisibility(View.INVISIBLE);
+			tableFragment.btnOk.setVisibility(View.INVISIBLE);
 			action = Action.SET_TAX;
 			break;
 
 		case CONFIRM_TIP:
-			numFragment.clearField();
-			numFragment.highlightTextField(true);
-			numFragment.setAsPercentMode();
-			tableFragment.tvQuestion.setText(R.string.q_enter_tip_percent);
+			openNumberPadForPercentChange(bill.getTip());
 			tableFragment.btnNo.setVisibility(View.INVISIBLE);
+			tableFragment.btnOk.setVisibility(View.INVISIBLE);
 			action = Action.SET_TIP;
 			break;
 		case CONFIRM_DELETE:
@@ -260,7 +286,7 @@ public class TableActivity extends Activity implements
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
 			bill.clearTip();
-			tableFragment.bowlsGroup.refreshBowls();
+			updateBowlsPrice();
 			txt = txt.replaceFirst("\\-", "\\+");
 		}
 		btn.setText(txt);
@@ -276,16 +302,10 @@ public class TableActivity extends Activity implements
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
 			bill.clearTax();
-			tableFragment.bowlsGroup.refreshBowls();
+			updateBowlsPrice();
 			txt = txt.replaceFirst("\\-", "\\+");
 		}
 		btn.setText(txt);
-	}
-
-	@Override
-	public void onPresetButtonPress(View v) {
-		Intent intent = new Intent(this, PresetActivity.class);
-		startActivity(intent);
 	}
 
 	@Override
@@ -297,10 +317,11 @@ public class TableActivity extends Activity implements
 			bill.addUser(user);
 			if (splitEqually) {
 				bill.redivideEqually();
+				bill.reapplyTax();
+				bill.reapplyTip();
+				updateBowlsPrice();
 			}
-		}
-		Log.d("vars", String.format("bowls=%d", bowlsCount));
-		
+		}	
 	}
 
 	@Override
@@ -332,6 +353,112 @@ public class TableActivity extends Activity implements
 		if(action==Action.CONFIRM_DELETE){
 			completeConfirmDelete();
 		}
+		bill.reapplyTax();
+		bill.reapplyTip();
+		updateBowlsPrice();
 	}
+	
+	public Bill getBill(){
+		return bill;
+	}
+
+	@Override
+	public void OnNewLineItem() {
+		Log.d("vars", "new line item");
+		numFragment.setArguments(new Bundle());
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
+		ft.replace(R.id.rightContainer, numFragment);
+		ft.addToBackStack("bill");
+		ft.commit();
+	}
+	
+
+	@Override
+	public void SelectLineItem(int position) {
+		selectedLineItem = bill.lineItems.get(position);
+		prepareForSelectingBowls(selectedLineItem);
+		tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
+	}
+	
+	@Override
+	public void EditLineItem() {
+		if(selectedLineItem==null){
+			return;
+		}
+		double price = selectedLineItem.getPrice();
+		
+		Bundle bundle = new Bundle();
+		bundle.putDouble("numberValue", price);
+		bundle.putBoolean("percentMode",false);
+		numFragment.setArguments(bundle);
+		
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
+		ft.replace(R.id.rightContainer, numFragment);
+		ft.addToBackStack(null);
+		ft.commit();
+		
+		tableFragment.bowlsGroup.stopBowlSelect();
+	}
+	
+	public void openNumberPadForPercentChange(double percent){
+		Bundle bundle = new Bundle();
+		bundle.putDouble("numberValue", percent*100);
+		bundle.putBoolean("percentMode",true);
+		numFragment.setArguments(bundle);
+		
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
+		ft.replace(R.id.rightContainer, numFragment);
+		ft.addToBackStack(null);
+		ft.commit();
+	}
+	
+	public void closeNumberPad(){
+		fm.popBackStack();
+	}
+
+	@Override
+	public void numPadClose(boolean isEditMode) {
+		if(isEditMode){
+			switch(action){
+			case SET_TAX:
+				setTax(numFragment.getStringValue(), false);
+				applyTax();
+				clearCenter();
+				break;
+			case SET_TIP:
+				setTip(numFragment.getStringValue(), false);
+				applyTip();
+				clearCenter();
+				break;
+			case EDIT_SUBTOTAL:
+				updateItemPrice();
+				break;
+			default:
+				updateItemPrice();
+				prepareForSelectingBowls(selectedLineItem);
+				tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
+				break;
+			}
+		} else {
+			registerItemPrice();
+		}
+		closeNumberPad();
+	}
+
+	@Override
+	public void updateBowlsPrice() {
+		tableFragment.bowlsGroup.refreshBowls();
+	}
+
+	@Override
+	public void EditSubtotal() {
+		action = Action.EDIT_SUBTOTAL;
+		selectedLineItem = bill.lineItems.get(0); 
+		EditLineItem();
+	}
+
 
 }

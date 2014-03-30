@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/lineDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/minus_sign"
+            android:src="@android:drawable/ic_delete"
+			android:background="@android:color/transparent"
+            android:layout_alignParentLeft="true" />
+        
+         <TextView
+             android:id="@+id/tap2edit"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             android:layout_alignParentTop="true"
+             android:text="@string/fade_edit"
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textColor="@color/light_fade"
+             android:visibility="invisible" />
+
+         <TextView
+             android:id="@+id/lineItemPrice"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/tap2edit"
+             android:layout_centerHorizontal="true"
+             android:text="@string/hello_world"
+             android:textColor="@color/primary_color" />
+
+    </RelativeLayout>
+
+    <me.valour.bowls.LineItemColorsView
+        android:id="@+id/lineItemColors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+ 
+</LinearLayout>

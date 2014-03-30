@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".BillFragment">
+    
+    <TableLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+  <TableRow 
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/bill_line"
+       android:gravity="bottom">
+       
+    <TextView
+        style="@style/BillLabel"
+        android:text="@string/bill_subtotal"
+        android:layout_weight="4"/>
+    <Space android:layout_weight="2" />
+
+    <TextView
+        android:id="@+id/subtotal_amount"
+        style="@style/BillValue"
+        android:layout_weight="4"
+        android:text="@string/zero_dollars" />
+    
+    <ImageButton 
+        android:id="@+id/edit_subtotal"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_menu_edit"
+        android:background="@android:color/transparent"
+        android:visibility="invisible" />
+        
+    </TableRow>
+    <TableRow 
+        android:layout_width="match_parent"
+       android:layout_height="@dimen/bill_line">
+    	<TextView style="@style/BillLabel"
+    	    android:text="@string/bill_tax"
+    	    android:layout_weight="4" />
+    	<TextView android:id="@+id/tax_percent"
+    	    android:text="@string/zero_percent"
+    	    style="@style/BillSubLabel"
+    	    android:layout_weight="2" />
+    	<TextView
+    	    android:id="@+id/tax_amount"
+    	    android:text="@string/zero_dollars"
+    	    android:layout_weight="4"
+    	    style="@style/BillValue" />
+    	
+    	 <Space android:layout_weight="1" />
+    </TableRow>
+        <TableRow 
+        android:layout_width="match_parent"
+       android:layout_height="@dimen/bill_line">
+    	<TextView style="@style/BillLabel"
+    	    android:text="@string/bill_tip"
+    	    android:layout_weight="4" />
+    	<TextView android:id="@+id/tip_percent"
+    	    android:text="@string/zero_percent"
+    	    style="@style/BillSubLabel"
+    	    android:layout_weight="2" />
+    	<TextView
+    	    android:id="@+id/tip_amount"
+    	    android:text="@string/zero_dollars"
+    	    android:layout_weight="4"
+    	    style="@style/BillValue" />
+    	
+    	 <Space android:layout_weight="1" />
+    </TableRow>
+    <TableRow 
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/bill_line">
+    <TextView
+        style="@style/BillLabel"
+        android:text="@string/bill_total"
+        android:layout_weight="4"/>
+    <Space android:layout_weight="2" />
+    <TextView 
+        android:id="@+id/total_amount"
+        android:text="@string/zero_dollars"
+        android:layout_weight="4"
+        style="@style/BillValue"/>
+      <Space android:layout_weight="1" />
+    </TableRow>
+    </TableLayout>
+    
+         <TextView
+         android:id="@+id/newLineItem"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/bill_line"
+         android:layout_gravity="center"
+         android:text="@string/new_li"
+         android:textColor="@color/new_item_colors"
+         android:textSize="@dimen/xlarge_font" />
+    
+	<ListView android:id="@+id/lineItemsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    
+</LinearLayout>

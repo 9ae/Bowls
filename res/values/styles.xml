@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -20,10 +20,33 @@
     <style name="NumberButton">
           <item name="android:minHeight">64dip</item>
           <item name="android:minWidth">64dip</item>
-          <item name="android:background">@color/primary_color</item>
+          <item name="android:background">@color/num_btn_colors</item>
           <item name="android:textColor">@color/accent_color</item>
           <item name="android:layout_margin">@dimen/number_buttons_margin</item>
           <item name="android:textSize">25sp</item>
+    </style>
+    
+    <style name="NumberPadEnterButton">
+         <item name="android:background">@color/num_btn_colors</item>
+          <item name="android:textColor">@color/accent_color</item>
+          <item name="android:layout_margin">@dimen/number_buttons_margin</item>
+          <item name="android:textSize">30sp</item>
+    </style>
+    
+    <style name="BillLabel">
+        <item name="android:textSize">@dimen/large_font</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+    
+    <style name="BillSubLabel">
+        <item name="android:textSize">@dimen/xsmall_font</item>
+        <item name="android:textColor">@color/fade</item>
+    </style>
+    
+    <style name="BillValue">
+        <item name="android:textSize">@dimen/med_font</item>
+        <item name="android:textColor">@color/primary_color</item>
     </style>
 
 </resources>

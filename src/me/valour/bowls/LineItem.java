@@ -8,6 +8,7 @@ public class LineItem {
 	 * Price of item
 	 */
 	private double price;
+	private double previousPrice=0.0;
 //	public int shares;
 	
 	public LineItem(double price){
@@ -40,11 +41,30 @@ public class LineItem {
 	}
 	*/
 	public void setPrice(double price){
+		this.previousPrice = this.price;
 		this.price = price;
 	}
 	
 	public double getPrice(){
 		return this.price;
+	}
+	
+	public double getPreviousPrice(){
+		return this.previousPrice;
+	}
+	
+	public boolean priceChanged(){
+		if(previousPrice<=0.0){
+			return false;
+		} else {
+			return previousPrice!=price;
+		}
+		
+	}
+	
+	@Override
+	public String toString(){
+		return String.format("$ %.2f", price);
 	}
 	
 /*	public double pricePerUser(){
