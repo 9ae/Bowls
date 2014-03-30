@@ -73,7 +73,7 @@ public class TableActivity extends Activity implements
 
 	public void applyTax() {
 		bill.applyTax();
-		tableFragment.bowlsGroup.refreshBowls();
+		updateBowlsPrice();
 	}
 
 	public double getTax() {
@@ -96,8 +96,7 @@ public class TableActivity extends Activity implements
 
 	public void applyTip() {
 		bill.applyTip();
-		tableFragment.bowlsGroup.refreshBowls();
-		
+		updateBowlsPrice();
 	}
 
 	public double getTip() {
@@ -166,7 +165,7 @@ public class TableActivity extends Activity implements
 			prepareForSelectingBowls(li);
 			billFragment.updatedList();
 		}
-		tableFragment.bowlsGroup.refreshBowls();
+		updateBowlsPrice();
 	}
 	
 	private void updateItemPrice(){
@@ -179,7 +178,7 @@ public class TableActivity extends Activity implements
 			bill.redivideAmongst(selectedLineItem);
 			billFragment.updatedList();
 		}
-		tableFragment.bowlsGroup.refreshBowls();
+		updateBowlsPrice();
 	}
 
 	private void prepareForSelectingBowls(LineItem li) {
@@ -209,7 +208,7 @@ public class TableActivity extends Activity implements
 			action = Action.ITEM_PRICE;
 			selectedLineItem = null;
 		}
-		tableFragment.bowlsGroup.refreshBowls();
+		updateBowlsPrice();
 	}
 
 	@Override
@@ -286,7 +285,7 @@ public class TableActivity extends Activity implements
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
 			bill.clearTip();
-			tableFragment.bowlsGroup.refreshBowls();
+			updateBowlsPrice();
 			txt = txt.replaceFirst("\\-", "\\+");
 		}
 		btn.setText(txt);
@@ -302,7 +301,7 @@ public class TableActivity extends Activity implements
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
 			bill.clearTax();
-			tableFragment.bowlsGroup.refreshBowls();
+			updateBowlsPrice();
 			txt = txt.replaceFirst("\\-", "\\+");
 		}
 		btn.setText(txt);
@@ -353,6 +352,9 @@ public class TableActivity extends Activity implements
 		if(action==Action.CONFIRM_DELETE){
 			completeConfirmDelete();
 		}
+		bill.reapplyTax();
+		bill.reapplyTip();
+		updateBowlsPrice();
 	}
 	
 	public Bill getBill(){
