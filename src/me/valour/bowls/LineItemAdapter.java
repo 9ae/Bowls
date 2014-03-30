@@ -16,15 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class LineItemAdapter extends ArrayAdapter<LineItem> {
-
-//	private static LayoutInflater inflater=null;
 	
 	private LineItemAgent agent;
 	
 	  public LineItemAdapter(Context context, List<LineItem> items, BillFragment bf) {
 		  super(context, R.layout.line_item, items);
 		  agent = (LineItemAgent) bf;
-		//  inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	  }
 
 

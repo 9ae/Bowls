@@ -19,10 +19,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class TableActivity extends Activity implements
-		BowlsGroup.AddBowlListener, BowlsGroup.RemoveBowlListener,
+		BowlsGroup.BowlsGroupAgent, 
 		TableFragment.OkListener, TableFragment.NoListener,
 		TableFragment.TaxListener, TableFragment.TipListener,
-		BillFragment.LineItemListener, NumberPadFragment.CloseNumpadListener {
+		BillFragment.BillFragmentAgent, NumberPadFragment.CloseNumpadListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -121,7 +121,7 @@ public class TableActivity extends Activity implements
 		tableFragment.tvQuestion.setText(R.string.q_enter_subtotal);
 		billFragment.adjustForSplitEqually();
 		action = Action.ENTER_SUBTOTAL;
-		OnNewLineItem();
+		onNewLineItem();
 	}
 
 	private void initSplitLineItems() {
@@ -361,9 +361,13 @@ public class TableActivity extends Activity implements
 	public Bill getBill(){
 		return bill;
 	}
+	
+	/*
+	 * BillFragmentAgent methods BEGIN
+	 */
 
 	@Override
-	public void OnNewLineItem() {
+	public void onNewLineItem() {
 		Log.d("vars", "new line item");
 		numFragment.setArguments(new Bundle());
 		FragmentTransaction ft = fm.beginTransaction();
@@ -375,14 +379,14 @@ public class TableActivity extends Activity implements
 	
 
 	@Override
-	public void SelectLineItem(int position) {
+	public void selectLineItem(int position) {
 		selectedLineItem = bill.lineItems.get(position);
 		prepareForSelectingBowls(selectedLineItem);
 		tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
 	}
 	
 	@Override
-	public void EditLineItem() {
+	public void editLineItem() {
 		if(selectedLineItem==null){
 			return;
 		}
@@ -401,6 +405,23 @@ public class TableActivity extends Activity implements
 		
 		tableFragment.bowlsGroup.stopBowlSelect();
 	}
+	
+	@Override
+	public void updateBowlsPrice() {
+		tableFragment.bowlsGroup.refreshBowls();
+	}
+
+	@Override
+	public void editSubtotal() {
+		action = Action.EDIT_SUBTOTAL;
+		selectedLineItem = bill.lineItems.get(0); 
+		editLineItem();
+	}
+	
+	/*
+	 * BillFragmentAgent methods END
+	 */
+
 	
 	public void openNumberPadForPercentChange(double percent){
 		Bundle bundle = new Bundle();
@@ -447,18 +468,5 @@ public class TableActivity extends Activity implements
 		}
 		closeNumberPad();
 	}
-
-	@Override
-	public void updateBowlsPrice() {
-		tableFragment.bowlsGroup.refreshBowls();
-	}
-
-	@Override
-	public void EditSubtotal() {
-		action = Action.EDIT_SUBTOTAL;
-		selectedLineItem = bill.lineItems.get(0); 
-		EditLineItem();
-	}
-
 
 }
