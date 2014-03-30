@@ -20,9 +20,9 @@ import android.widget.TextView;
 
 public class TableActivity extends Activity implements
 		BowlsGroup.BowlsGroupAgent, 
-		TableFragment.OkListener, TableFragment.NoListener,
-		TableFragment.TaxListener, TableFragment.TipListener,
-		BillFragment.BillFragmentAgent, NumberPadFragment.CloseNumpadListener {
+		TableFragment.ButtonAgent,
+		BillFragment.BillFragmentAgent, 
+		NumberPadFragment.CloseNumpadListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -49,7 +49,7 @@ public class TableActivity extends Activity implements
 
 		bowlsCount = Kitchen.minBowls;
 		action = Action.ITEM_PRICE;
-		bill = new Bill(splitEqually, getTax(), getTip());
+		bill = new Bill(getTax(), getTip());
 
 		setContentView(R.layout.activity_table);
 

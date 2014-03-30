@@ -10,7 +10,6 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 
 	private ArrayList<User> users; 
 	protected ArrayList<LineItem> lineItems;
-	private boolean splitEqually;
 	
 	private double subtotal;
 
@@ -22,9 +21,8 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	
 	private BillChangesAgent changeAgent;
 	
-	public Bill(boolean splitEqually, double tax, double tip){
+	public Bill(double tax, double tip){
 		super();
-		this.splitEqually = splitEqually;
 		
 		users = new ArrayList<User>();
 		lineItems = new ArrayList<LineItem>();
@@ -283,12 +281,6 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 			}
 		}
 		return others;
-	}
-	
-	
-	public void splitEqually(ArrayList<User> users){
-		this.splitEqually = true;
-		this.users = users;
 	}
 	
 	public double calculateUserTax(User u){
