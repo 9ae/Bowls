@@ -121,6 +121,8 @@ public class TableActivity extends Activity implements
 	private void initSplitEqually() {
 		tableFragment.tvQuestion.setText(R.string.q_enter_subtotal);
 		billFragment.adjustForSplitEqually();
+		action = Action.ENTER_SUBTOTAL;
+		OnNewLineItem();
 	}
 
 	private void initSplitLineItems() {
@@ -162,8 +164,8 @@ public class TableActivity extends Activity implements
 			clearCenter();
 		} else {
 			prepareForSelectingBowls(li);
+			billFragment.updatedList();
 		}
-		billFragment.updatedList();
 		tableFragment.bowlsGroup.refreshBowls();
 	}
 	
@@ -315,10 +317,9 @@ public class TableActivity extends Activity implements
 			bill.addUser(user);
 			if (splitEqually) {
 				bill.redivideEqually();
+				updateBowlsPrice();
 			}
-		}
-		Log.d("vars", String.format("bowls=%d", bowlsCount));
-		
+		}	
 	}
 
 	@Override
@@ -426,6 +427,9 @@ public class TableActivity extends Activity implements
 				setTip(numFragment.getStringValue(), false);
 				applyTip();
 				clearCenter();
+				break;
+			case EDIT_SUBTOTAL:
+				
 				break;
 			default:
 				updateItemPrice();

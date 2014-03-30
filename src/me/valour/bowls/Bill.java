@@ -180,19 +180,12 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	}
 	
 	public void redivideEqually(){
-		clearUserSubtotals();
 		if(lineItems.size()!=1){
 			return;
 		} 
 		divideEqually(lineItems.get(0));
 	}
-	
-	public void clearUserSubtotals(){
-		for(User u: users){
-			u.setSubtotal(0.0);
-		}
-	}
-	
+
 	public boolean addUser(User u){
 		if(!users.contains(u)){
 			users.add(u);
