@@ -317,6 +317,8 @@ public class TableActivity extends Activity implements
 			bill.addUser(user);
 			if (splitEqually) {
 				bill.redivideEqually();
+				bill.reapplyTax();
+				bill.reapplyTip();
 				updateBowlsPrice();
 			}
 		}	

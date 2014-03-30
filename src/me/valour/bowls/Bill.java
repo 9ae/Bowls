@@ -185,6 +185,24 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		} 
 		divideEqually(lineItems.get(0));
 	}
+	
+	public void reapplyTax(){
+		if(!appliedTax){
+			return;
+		}
+		for(User u: users){
+			u.setTax(u.getSubtotal()*percentTax);
+		}
+	}
+	
+	public void reapplyTip(){
+		if(!appliedTip){
+			return;
+		}
+		for(User u: users){
+			u.setTip(u.getSubtotal()*percentTip);
+		}
+	}
 
 	public boolean addUser(User u){
 		if(!users.contains(u)){
