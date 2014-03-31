@@ -46,12 +46,13 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 		  final int index = position;
 		  
 		  tvPrice.setText(li.toString());
-		  delButton.setOnClickListener( new View.OnClickListener() {		
+		  delButton.setFocusable(false);
+	  delButton.setOnClickListener( new View.OnClickListener() {		
 			@Override
 			public void onClick(View arg0) {
 				agent.deleteLI(index);
 			}
-		});
+		}); 
 		//  vColors.addColors(li.listUsers());
 		 
 		  return returnView;
