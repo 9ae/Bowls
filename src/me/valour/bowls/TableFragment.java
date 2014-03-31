@@ -17,9 +17,9 @@ public class TableFragment extends Fragment {
 	private ButtonAgent buttonAgent;
 	
 	public BowlsGroup bowlsGroup;
-	public TextView tvQuestion;
-	public Button btnOk;
-	public Button btnNo;
+	private TextView tvQuestion;
+	private Button btnOk;
+	private Button btnNo;
 	
 	
 	public TableFragment() {
@@ -91,6 +91,41 @@ public class TableFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 
+	}
+	
+	public void setQuestionText(String s){
+		if(s==null){
+			tvQuestion.setVisibility(View.INVISIBLE);
+		} else {
+			tvQuestion.setText(s);
+			tvQuestion.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	public void setQuestionText(int s){
+			tvQuestion.setText(s);
+			tvQuestion.setVisibility(View.VISIBLE);
+	}
+	
+	public void showNoButton(boolean show){
+		if(show){
+			btnNo.setVisibility(View.VISIBLE);
+		} else {
+			btnNo.setVisibility(View.INVISIBLE);
+		}
+	}
+	
+	public void setNoButtonText(int s){
+			btnNo.setText(s);
+			btnNo.setVisibility(View.VISIBLE);
+	}
+	
+	public void showOkButton(boolean show){
+		if(show){
+			btnOk.setVisibility(View.VISIBLE);
+		} else {
+			btnOk.setVisibility(View.INVISIBLE);
+		}
 	}
 	
 	public void askToAppy(String type, double value){
