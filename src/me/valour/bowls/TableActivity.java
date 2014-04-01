@@ -116,7 +116,7 @@ public class TableActivity extends Activity implements
 	}
 
 	private void initSplitEqually() {
-		tableFragment.setQuestionText(R.string.q_enter_subtotal);
+		tableFragment.setQuestionText(null);
 		
 		billFragment.adjustForSplitEqually();
 		action = Action.ENTER_SUBTOTAL;
@@ -124,7 +124,7 @@ public class TableActivity extends Activity implements
 	}
 
 	private void initSplitLineItems() {
-		tableFragment.setQuestionText(R.string.q_enter_first_li);
+		tableFragment.setQuestionText(null);
 	}
 
 	private void clearCenter() {

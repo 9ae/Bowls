@@ -20,6 +20,7 @@ import android.view.View.MeasureSpec;
 import android.view.ViewPropertyAnimator;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -41,6 +42,7 @@ public class BowlsGroup extends FrameLayout {
 
 	LinkedList<BowlView> bowls;
 	BowlView newBowl;
+	ImageButton trashBowl;
 	int bowlsIdCounter = 1;
 	int currentDisusedId = -1;
 	LinkedList<Integer> disusedIds;
@@ -66,7 +68,7 @@ public class BowlsGroup extends FrameLayout {
 		
 		double angleDelta = Math.PI*2.0/bowls.size();
 		double topX = 0;
-		double topY = -1.0*tableRadius;
+		double topY = -1.0*tableRadius;	
 		
 		int i= 0;
 		 for(BowlView bowl: bowls){
@@ -103,6 +105,11 @@ public class BowlsGroup extends FrameLayout {
 		
 		disusedIds = new LinkedList<Integer>();
 		newBowl = getNewBowl();
+		
+		trashBowl = new ImageButton(this.getContext());
+		trashBowl.setImageResource(android.R.drawable.ic_delete);
+		this.addView(trashBowl, defaultParams);
+		trashBowl.setVisibility(View.GONE);
 	}
 	
 	private BowlView getNewBowl(){
@@ -149,6 +156,15 @@ public class BowlsGroup extends FrameLayout {
 				bv.setRadius(bowlRadius);
 			}
 			measuredScreen = true;
+			
+			newBowl.setX(centerX-(bowlRadius/2));
+			newBowl.setY(centerX-(bowlRadius/2));
+			
+			float s = (float)(bowlRadius*2);
+			trashBowl.setMinimumHeight((int)s);
+			trashBowl.setMinimumWidth((int)s);
+			trashBowl.setX(centerX-s/2);
+			trashBowl.setY(centerY-s/2);
 		}
 	}
 
