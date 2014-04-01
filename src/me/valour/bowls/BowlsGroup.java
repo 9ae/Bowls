@@ -37,8 +37,7 @@ public class BowlsGroup extends FrameLayout {
 	FrameLayout.LayoutParams defaultParams;
 	BowlSelectListener bowlSelect;
 	NewBowlListener newBowlSpy;
-	AddBowlListener addBowlAgent;
-	RemoveBowlListener rmBowlAgent;
+	BowlsGroupAgent agent;
 
 	LinkedList<BowlView> bowls;
 	BowlView newBowl;
@@ -188,7 +187,7 @@ public class BowlsGroup extends FrameLayout {
 		newBowl.setOnDragListener(null);
 		newBowl.setOnTouchListener(null);
 		newBowl.setOnTouchListener(bowlSelect);
-		addBowlAgent.addUser(newBowl.user);
+		agent.addUser(newBowl.user);
 		
 		newBowl = getNewBowl();
 		
@@ -280,8 +279,7 @@ public class BowlsGroup extends FrameLayout {
 
 	
 	public void attachBowlAgents(Activity activity){
-		addBowlAgent = (AddBowlListener)activity;
-		rmBowlAgent = (RemoveBowlListener)activity;
+		agent = (BowlsGroupAgent) activity;
 	}
 	
 	private class BowlSelectListener implements OnTouchListener{
@@ -300,7 +298,7 @@ public class BowlsGroup extends FrameLayout {
 		}
 		
 		public boolean deleteBowl(BowlView bowl){
-			if(rmBowlAgent.removeUserConfirm(bowl)){
+			if(agent.removeUserConfirm(bowl)){
 				removeBowl(bowl);
 				Log.d("vars","delete this bowl");
 			}
@@ -485,15 +483,11 @@ public class BowlsGroup extends FrameLayout {
 			    return false;
 			}
 		}
-		}
-
-	public interface AddBowlListener{
-		public void addUser(User user);
 	}
 	
-	public interface RemoveBowlListener{
-		public boolean removeUserConfirm(BowlView bv);
-		
+	public interface BowlsGroupAgent{
+		public void addUser(User user);
+		public boolean removeUserConfirm(BowlView bv);	
 		public void removeUserDo(User user);
 	}
 

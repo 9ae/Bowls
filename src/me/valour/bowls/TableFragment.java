@@ -14,15 +14,12 @@ import android.widget.TextView;
 
 public class TableFragment extends Fragment {
 
-	private OkListener okButtonSpy;
-	private NoListener noButtonSpy;
-	private TipListener tipSpy;
-	private TaxListener taxSpy;
+	private ButtonAgent buttonAgent;
 	
 	public BowlsGroup bowlsGroup;
-	public TextView tvQuestion;
-	public Button btnOk;
-	public Button btnNo;
+	private TextView tvQuestion;
+	private Button btnOk;
+	private Button btnNo;
 	
 	
 	public TableFragment() {
@@ -44,14 +41,14 @@ public class TableFragment extends Fragment {
 		tip.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				tipSpy.onTipButtonPress(v);
+				buttonAgent.onTipButtonPress(v);
 			}});
 		
 		final Button tax = (Button)view.findViewById(R.id.btn_tax);
 		tax.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				taxSpy.onTaxButtonPress(v);
+				buttonAgent.onTaxButtonPress(v);
 			}});
 	
 		bowlsGroup = (BowlsGroup)view.findViewById(R.id.bowlsGroup);
@@ -63,7 +60,7 @@ public class TableFragment extends Fragment {
 		btnOk.setOnClickListener(new View.OnClickListener() {		
 			@Override
 			public void onClick(View v) {
-				okButtonSpy.OnOkButtonPress();
+				buttonAgent.OnOkButtonPress();
 			}
 		});
 		
@@ -73,7 +70,7 @@ public class TableFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				noButtonSpy.OnNoButtonPress();
+				buttonAgent.OnNoButtonPress();
 			}
 		});
 		
@@ -84,10 +81,7 @@ public class TableFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try{
-			okButtonSpy = (OkListener)activity;
-			noButtonSpy = (NoListener)activity;
-			tipSpy = (TipListener)activity;
-			taxSpy = (TaxListener)activity;
+			buttonAgent = (ButtonAgent)activity;
 		} catch (ClassCastException e){
 			throw new ClassCastException(activity.toString()+" must implement OnNewItemAddedListener");
 		}
@@ -99,30 +93,63 @@ public class TableFragment extends Fragment {
 
 	}
 	
+	public void setQuestionText(String s){
+		if(s==null){
+			tvQuestion.setVisibility(View.INVISIBLE);
+		} else {
+			tvQuestion.setText(s);
+			tvQuestion.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	public void setQuestionText(int s){
+		tvQuestion.setText(s);
+		tvQuestion.setVisibility(View.VISIBLE);
+	}
+	
+	public void setQuestionText(int s, Object ...objects){
+		tvQuestion.setText(getString(s, objects));
+		tvQuestion.setVisibility(View.VISIBLE);
+	}
+	
+	public void showNoButton(boolean show){
+		if(show){
+			btnNo.setVisibility(View.VISIBLE);
+		} else {
+			btnNo.setVisibility(View.INVISIBLE);
+		}
+	}
+	
+	public void setNoButtonText(int s){
+			btnNo.setText(s);
+			btnNo.setVisibility(View.VISIBLE);
+	}
+	
+	public void showOkButton(boolean show){
+		if(show){
+			btnOk.setVisibility(View.VISIBLE);
+		} else {
+			btnOk.setVisibility(View.INVISIBLE);
+		}
+	}
+	
 	public void askToAppy(String type, double value){
 		Log.d("vars",value+"");
 		double wholeNumber = value*100.0;
 		Log.d("vars",wholeNumber+"");
-		String question = String.format("Do you want to apply %.2f%% %s?", wholeNumber, type);
-		tvQuestion.setText(question);
+		tvQuestion.setText(getString(R.string.q_ask_percent, wholeNumber, type));
 		tvQuestion.setVisibility(View.VISIBLE);
 		btnOk.setVisibility(View.VISIBLE);
 		btnNo.setVisibility(View.VISIBLE);
 	}
 	
-	public interface OkListener{
+	public interface ButtonAgent{
 		public void OnOkButtonPress();
-	}
-	
-	public interface NoListener{
+
 		public void OnNoButtonPress();
-	}
-	
-	public interface TipListener{
+
 		public void onTipButtonPress(View v);
-	}
-	
-	public interface TaxListener{
+
 		public void onTaxButtonPress(View v);
 	}
 

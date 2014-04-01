@@ -16,15 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class LineItemAdapter extends ArrayAdapter<LineItem> {
-
-//	private static LayoutInflater inflater=null;
 	
 	private LineItemAgent agent;
 	
 	  public LineItemAdapter(Context context, List<LineItem> items, BillFragment bf) {
 		  super(context, R.layout.line_item, items);
 		  agent = (LineItemAgent) bf;
-		//  inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	  }
 
 
@@ -44,18 +41,17 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 
 		  TextView tvPrice = (TextView) returnView.findViewById(R.id.lineItemPrice);
 		  ImageButton delButton = (ImageButton) returnView.findViewById(R.id.lineDelete);
-	//	  LineItemColorsView vColors = (LineItemColorsView) returnView.findViewById(R.id.lineItemColors);
 		 
 		  final int index = position;
 		  
 		  tvPrice.setText(li.toString());
-		  delButton.setOnClickListener( new View.OnClickListener() {		
+		  delButton.setFocusable(false);
+	  delButton.setOnClickListener( new View.OnClickListener() {		
 			@Override
 			public void onClick(View arg0) {
 				agent.deleteLI(index);
 			}
-		});
-		//  vColors.addColors(li.listUsers());
+		}); 
 		 
 		  return returnView;
 	  }

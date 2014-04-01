@@ -3,7 +3,6 @@ package me.valour.bowls;
 import java.util.List;
 
 import me.valour.bowls.enums.Action;
-import me.valour.bowls.enums.InputFormat;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,16 +12,14 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class TableActivity extends Activity implements
-		BowlsGroup.AddBowlListener, BowlsGroup.RemoveBowlListener,
-		TableFragment.OkListener, TableFragment.NoListener,
-		TableFragment.TaxListener, TableFragment.TipListener,
-		BillFragment.LineItemListener, NumberPadFragment.CloseNumpadListener {
+		BowlsGroup.BowlsGroupAgent, 
+		TableFragment.ButtonAgent,
+		BillFragment.BillFragmentAgent, 
+		NumberPadFragment.CloseNumpadListener {
 
 	private int bowlsCount;
 	private Bill bill;
@@ -34,8 +31,10 @@ public class TableActivity extends Activity implements
 	
 	public boolean splitEqually;
 	private Action action;
+	
+	private SharedPreferences sp;
+	
 	private LineItem selectedLineItem = null;
-	SharedPreferences sp;
 	private BowlView deleteBowlQueue = null;
 
 	@Override
@@ -49,7 +48,7 @@ public class TableActivity extends Activity implements
 
 		bowlsCount = Kitchen.minBowls;
 		action = Action.ITEM_PRICE;
-		bill = new Bill(splitEqually, getTax(), getTip());
+		bill = new Bill(getTax(), getTip());
 
 		setContentView(R.layout.activity_table);
 
@@ -67,7 +66,6 @@ public class TableActivity extends Activity implements
 		} else {
 			initSplitLineItems();
 		} 
-		tableFragment.tvQuestion.bringToFront();
 		
 	}
 
@@ -118,22 +116,22 @@ public class TableActivity extends Activity implements
 	}
 
 	private void initSplitEqually() {
-		tableFragment.tvQuestion.setText(R.string.q_enter_subtotal);
+		tableFragment.setQuestionText(R.string.q_enter_subtotal);
+		
 		billFragment.adjustForSplitEqually();
 		action = Action.ENTER_SUBTOTAL;
-		OnNewLineItem();
+		onNewLineItem();
 	}
 
 	private void initSplitLineItems() {
-		tableFragment.tvQuestion.setText(R.string.q_enter_first_li);
+		tableFragment.setQuestionText(R.string.q_enter_first_li);
 	}
 
 	private void clearCenter() {
 		action = Action.NONE;
-		tableFragment.btnOk.setVisibility(View.INVISIBLE);
-		tableFragment.tvQuestion.setText("");
-		tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
-		tableFragment.btnNo.setVisibility(View.INVISIBLE);
+		tableFragment.setQuestionText(null);
+		tableFragment.showNoButton(false);
+		tableFragment.showOkButton(false);
 	}
 
 	private void completePercentChange() {
@@ -144,13 +142,13 @@ public class TableActivity extends Activity implements
 	}
 	
 	private void completeConfirmDelete(){
-		tableFragment.btnNo.setText(R.string.no);
+		tableFragment.setNoButtonText(R.string.no);
 		if(splitEqually){
-			tableFragment.btnOk.setVisibility(View.INVISIBLE);
-			tableFragment.btnNo.setVisibility(View.INVISIBLE);
-			tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
+			tableFragment.setQuestionText(null);
+			tableFragment.showNoButton(false);
+			tableFragment.showOkButton(false);
 		} else {
-			tableFragment.tvQuestion.setText(R.string.q_enter_next_li);
+			tableFragment.setQuestionText(R.string.q_enter_next_li);
 			action = Action.ITEM_PRICE;
 		}
 	}
@@ -182,9 +180,8 @@ public class TableActivity extends Activity implements
 	}
 
 	private void prepareForSelectingBowls(LineItem li) {
-		tableFragment.tvQuestion.setText(R.string.q_select_bowls);
-		tableFragment.tvQuestion.setVisibility(View.VISIBLE);
-		tableFragment.btnOk.setVisibility(View.VISIBLE);
+		tableFragment.setQuestionText(R.string.q_select_bowls);
+		tableFragment.showOkButton(true);
 		if(selectedLineItem!=li){
 			selectedLineItem = li;
 		}
@@ -196,7 +193,7 @@ public class TableActivity extends Activity implements
 		if (selectedLineItem != null) {
 			List<User> consumers = tableFragment.bowlsGroup.getSelectedUsers();
 			if(consumers.isEmpty()){
-				tableFragment.tvQuestion.setText(R.string.q_min_select);
+				tableFragment.setQuestionText(R.string.q_min_select);
 				return;
 			}
 			bill.divideAmongst(selectedLineItem, consumers);
@@ -204,8 +201,8 @@ public class TableActivity extends Activity implements
 			tableFragment.bowlsGroup.stopBowlSelect();
 
 			// move to being ready for next Item
-			tableFragment.tvQuestion.setVisibility(View.INVISIBLE);
-			tableFragment.btnOk.setVisibility(View.INVISIBLE);
+			tableFragment.setQuestionText(null);
+			tableFragment.showOkButton(false);
 			action = Action.ITEM_PRICE;
 			selectedLineItem = null;
 		}
@@ -255,15 +252,15 @@ public class TableActivity extends Activity implements
 		switch (action) {
 		case CONFIRM_TAX:
 			openNumberPadForPercentChange(bill.getTax());
-			tableFragment.btnNo.setVisibility(View.INVISIBLE);
-			tableFragment.btnOk.setVisibility(View.INVISIBLE);
+			tableFragment.showNoButton(false);
+			tableFragment.showOkButton(false);
 			action = Action.SET_TAX;
 			break;
 
 		case CONFIRM_TIP:
 			openNumberPadForPercentChange(bill.getTip());
-			tableFragment.btnNo.setVisibility(View.INVISIBLE);
-			tableFragment.btnOk.setVisibility(View.INVISIBLE);
+			tableFragment.showNoButton(false);
+			tableFragment.showOkButton(false);
 			action = Action.SET_TIP;
 			break;
 		case CONFIRM_DELETE:
@@ -331,11 +328,9 @@ public class TableActivity extends Activity implements
 			removeUserDo(user);
 			return true;
 		} else {
-			tableFragment.tvQuestion.setText(R.string.q_user_has_balance);
-			tableFragment.btnOk.setVisibility(View.VISIBLE);
-			tableFragment.btnNo.setVisibility(View.VISIBLE);
-			tableFragment.tvQuestion.setVisibility(View.VISIBLE);
-			tableFragment.btnNo.setText(R.string.cancel);
+			tableFragment.setQuestionText(R.string.q_user_has_balance);
+			tableFragment.setNoButtonText(R.string.cancel);
+			tableFragment.showOkButton(true);
 			action = Action.CONFIRM_DELETE;
 			deleteBowlQueue = bv;
 			return false;
@@ -361,11 +356,19 @@ public class TableActivity extends Activity implements
 	public Bill getBill(){
 		return bill;
 	}
+	
+	/*
+	 * BillFragmentAgent methods BEGIN
+	 */
 
 	@Override
-	public void OnNewLineItem() {
+	public void onNewLineItem() {
 		Log.d("vars", "new line item");
-		numFragment.setArguments(new Bundle());
+		Bundle bundle = new Bundle();
+		if(splitEqually){
+			bundle.putString("hint", getString(R.string.q_enter_subtotal));
+		}
+		numFragment.setArguments(bundle);
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
 		ft.replace(R.id.rightContainer, numFragment);
@@ -375,14 +378,14 @@ public class TableActivity extends Activity implements
 	
 
 	@Override
-	public void SelectLineItem(int position) {
+	public void selectLineItem(int position) {
 		selectedLineItem = bill.lineItems.get(position);
 		prepareForSelectingBowls(selectedLineItem);
 		tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
 	}
 	
 	@Override
-	public void EditLineItem() {
+	public void editLineItem() {
 		if(selectedLineItem==null){
 			return;
 		}
@@ -402,10 +405,36 @@ public class TableActivity extends Activity implements
 		tableFragment.bowlsGroup.stopBowlSelect();
 	}
 	
+	@Override
+	public void updateBowlsPrice() {
+		tableFragment.bowlsGroup.refreshBowls();
+	}
+
+	@Override
+	public void editSubtotal() {
+		action = Action.EDIT_SUBTOTAL;
+		selectedLineItem = bill.lineItems.get(0); 
+		editLineItem();
+	}
+	
+	/*
+	 * BillFragmentAgent methods END
+	 */
+
+	
 	public void openNumberPadForPercentChange(double percent){
 		Bundle bundle = new Bundle();
 		bundle.putDouble("numberValue", percent*100);
 		bundle.putBoolean("percentMode",true);
+		
+		if(action==Action.SET_TAX){
+			bundle.putString("hint", getString(R.string.q_enter_tax_percent));
+		}
+		
+		if(action==Action.SET_TIP){
+			bundle.putString("hint", getString(R.string.q_enter_tip_percent));
+		}
+		
 		numFragment.setArguments(bundle);
 		
 		FragmentTransaction ft = fm.beginTransaction();
@@ -447,18 +476,5 @@ public class TableActivity extends Activity implements
 		}
 		closeNumberPad();
 	}
-
-	@Override
-	public void updateBowlsPrice() {
-		tableFragment.bowlsGroup.refreshBowls();
-	}
-
-	@Override
-	public void EditSubtotal() {
-		action = Action.EDIT_SUBTOTAL;
-		selectedLineItem = bill.lineItems.get(0); 
-		EditLineItem();
-	}
-
 
 }

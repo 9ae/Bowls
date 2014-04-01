@@ -14,7 +14,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class BillFragment extends Fragment implements Bill.BillChangesAgent, LineItemAdapter.LineItemAgent{
+public class BillFragment extends Fragment implements 
+	Bill.BillChangesAgent, 
+	LineItemAdapter.LineItemAgent{
 
 	private Bill bill;
 	private TextView amountSubtotal;
@@ -29,7 +31,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 	private ListView listView;
 	private LineItemAdapter adapter;
 	
-	private LineItemListener newLineItemSpy; 
+	private BillFragmentAgent agent; 
 	
 	public BillFragment(){}
 	
@@ -57,7 +59,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 			public void onItemClick(AdapterView<?> adapterView, View view, int position,
 					long id) {
 				if(selectedLI==position){ //go into edit mode
-					newLineItemSpy.EditLineItem();
+					agent.editLineItem();
 				} else {
 					if(hasSelectedLineItem()){
 						deselectLineItem();
@@ -84,7 +86,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 				if(hasSelectedLineItem()){
 					deselectLineItem();
 				}
-				newLineItemSpy.OnNewLineItem();
+				agent.onNewLineItem();
 			}
 		});
 		
@@ -100,7 +102,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 		super.onAttach(activity);
 		try {
 			bill = ((TableActivity)activity).getBill();
-			newLineItemSpy = (LineItemListener) activity;
+			agent = (BillFragmentAgent) activity;
 			bill.attachAgent(this);
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
@@ -121,12 +123,19 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 		view.findViewById(R.id.tap2edit).setVisibility(View.VISIBLE);
 		prevView = view;
 		selectedLI = position;
-		newLineItemSpy.SelectLineItem(position);
+		agent.selectLineItem(position);
+		
+		 ImageButton delButton = (ImageButton) view.findViewById(R.id.lineDelete);
+		 delButton.setEnabled(false);
+		 delButton.setVisibility(View.INVISIBLE);
 	}
 	
 	public void deselectLineItem(){
 		if(prevView!=null){
 			prevView.findViewById(R.id.tap2edit).setVisibility(View.INVISIBLE);
+			 ImageButton delButton = (ImageButton) prevView.findViewById(R.id.lineDelete);
+			 delButton.setEnabled(true);
+			 delButton.setVisibility(View.VISIBLE);
 		}
 		prevView = null;
 		selectedLI = -1;
@@ -185,7 +194,7 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 		editSubtotal.setOnClickListener( new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				newLineItemSpy.EditSubtotal();
+				agent.editSubtotal();
 			}
 		});
 		
@@ -195,14 +204,18 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 		adapter.notifyDataSetChanged();
 	}
 	
-	public interface LineItemListener{
-		public void OnNewLineItem();
-		public void SelectLineItem(int position);
-		public void EditLineItem();
+	public interface BillFragmentAgent{
+		public void onNewLineItem();
+		public void selectLineItem(int position);
+		public void editLineItem();
 		public void updateBowlsPrice();
-		public void EditSubtotal();
+		public void editSubtotal();
 	}
 
+	/*
+	 * BillChangesAgent methods begin
+	 */
+	
 	@Override
 	public void subtotalChanged() {
 		setSubtotal(bill.getSubtotal());
@@ -232,26 +245,19 @@ public class BillFragment extends Fragment implements Bill.BillChangesAgent, Lin
 		double total = bill.getSubtotal() + bill.calculateTax() + bill.calculateTip();
 		setTotal(total);
 	}
-/*
-	@Override
-	public void taxCleared() {
-		setTaxPercent(0.0);
-		setTaxAmount(0.0);
-		setTotal(bill.getSubtotal());
-	}
+	
+	/*
+	 * BillChangesAgent methods end
+	 */
 
-	@Override
-	public void tipCleared() {
-		setTipPercent(0.0);
-		setTipAmount(0.0);
-		setTotal(bill.getSubtotal());
-	}
-	*/
-
+	/*
+	 * LineItemAgent methods
+	 */
+	
 	@Override
 	public void deleteLI(int position) {
 		bill.rmLineItem(position);
-		newLineItemSpy.updateBowlsPrice();
+		agent.updateBowlsPrice();
 		adapter.notifyDataSetChanged();
 	}
 }

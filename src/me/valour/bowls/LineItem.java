@@ -16,30 +16,12 @@ public class LineItem {
 	//	shares = 0;
 	}
 	
-/*	public LineItem(double price, ArrayList<User> users){
-		this.price = price;
-		shares = users.size();
-		double perUser = price/(double)shares;
-		for(User u : users){
-			u.justAdd(this, perUser);
-		}
-	}
-	*/
 	/**
 	 * Add or removes user
 	 * @param id BowlView.id
 	 * @return true if user is added, false if user is removed
 	 */
-/*	public boolean toggleUser(User u){
-		if(u.had(this)){
-			u.add(this);
-			return false;
-		} else{
-			u.rm(this);
-			return true;
-		}
-	}
-	*/
+
 	public void setPrice(double price){
 		this.previousPrice = this.price;
 		this.price = price;
@@ -67,12 +49,5 @@ public class LineItem {
 		return String.format("$ %.2f", price);
 	}
 	
-/*	public double pricePerUser(){
-		if(shares==0){
-			return 0.0;
-		} else {
-			return price / (double)shares;
-		}
-	}
-	*/
+
 }

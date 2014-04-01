@@ -88,6 +88,12 @@ public class NumberPadFragment extends Fragment {
 		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
 		
 		Bundle bundle = this.getArguments();
+		
+		if(bundle.containsKey("hint")){
+			String hint = bundle.getString("hint");
+			numberValue.setHint(hint);
+		}
+		
 		if(bundle.containsKey("numberValue")){
 			double no = bundle.getDouble("numberValue");
 			
