@@ -124,11 +124,18 @@ public class BillFragment extends Fragment implements
 		prevView = view;
 		selectedLI = position;
 		agent.selectLineItem(position);
+		
+		 ImageButton delButton = (ImageButton) view.findViewById(R.id.lineDelete);
+		 delButton.setEnabled(false);
+		 delButton.setVisibility(View.INVISIBLE);
 	}
 	
 	public void deselectLineItem(){
 		if(prevView!=null){
 			prevView.findViewById(R.id.tap2edit).setVisibility(View.INVISIBLE);
+			 ImageButton delButton = (ImageButton) prevView.findViewById(R.id.lineDelete);
+			 delButton.setEnabled(true);
+			 delButton.setVisibility(View.VISIBLE);
 		}
 		prevView = null;
 		selectedLI = -1;
