@@ -11,8 +11,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="zero_dollars">0.00</string>
     <string name="zero_percent">0%</string>
-    <string name="x_dollars">$ %f</string>
-    <string name="x_percent">%.2f %%</string>
+    <string name="x_dollars">$ %.2f</string>
+    <string name="x_percent">%.4f %%</string>
     <string name="tax_percent">8.65</string>
     <string name="tip_percent">15</string>
     <string name="no1">1</string>
@@ -51,6 +51,7 @@
 	<string name="q_enter_tax_percent">Enter tax percent</string>
 	<string name="q_enter_tip_percent">Enter tip percent</string>
 	<string name="q_min_select">Atleast one user must be selected</string>
+	<string name="q_ask_percent" formatted="false">Do you want to apply %.4f%% %s?</string>
 	<string name="q_user_has_balance">Deleting user with non-zero balance. 
 	    	\nShared items will have their price redistributed. 
 	    	\nItems associated only with this user will deleted.</string>

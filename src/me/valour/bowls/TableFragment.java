@@ -103,8 +103,13 @@ public class TableFragment extends Fragment {
 	}
 	
 	public void setQuestionText(int s){
-			tvQuestion.setText(s);
-			tvQuestion.setVisibility(View.VISIBLE);
+		tvQuestion.setText(s);
+		tvQuestion.setVisibility(View.VISIBLE);
+	}
+	
+	public void setQuestionText(int s, Object ...objects){
+		tvQuestion.setText(getString(s, objects));
+		tvQuestion.setVisibility(View.VISIBLE);
 	}
 	
 	public void showNoButton(boolean show){
@@ -132,8 +137,7 @@ public class TableFragment extends Fragment {
 		Log.d("vars",value+"");
 		double wholeNumber = value*100.0;
 		Log.d("vars",wholeNumber+"");
-		String question = String.format("Do you want to apply %.2f%% %s?", wholeNumber, type);
-		tvQuestion.setText(question);
+		tvQuestion.setText(getString(R.string.q_ask_percent, wholeNumber, type));
 		tvQuestion.setVisibility(View.VISIBLE);
 		btnOk.setVisibility(View.VISIBLE);
 		btnNo.setVisibility(View.VISIBLE);
