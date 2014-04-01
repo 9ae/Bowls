@@ -1,13 +1,4 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:key="left_right"
-        android:defaultValue="true"
-        android:title="Number pad align"
-        android:switchTextOn="RIGHT"
-        android:switchTextOff="LEFT"
-        android:summaryOn="Number pad on right side"
-        android:summaryOff="Number pad on left side"
-        />
     
     <EditTextPreference 
         android:key="default_tax"
