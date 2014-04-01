@@ -16,15 +16,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tax"
-        android:layout_alignRight="@id/bowlsGroup"
-        android:layout_alignTop="@id/bowlsGroup" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
      
      <Button android:id="@+id/btn_tip"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:text="@string/tip"
-        android:layout_alignRight="@id/bowlsGroup"
-        android:layout_alignBottom="@id/bowlsGroup" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true" />
 
     <TableLayout
          android:layout_width="wrap_content"

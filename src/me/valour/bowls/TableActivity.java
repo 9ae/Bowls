@@ -364,7 +364,11 @@ public class TableActivity extends Activity implements
 	@Override
 	public void onNewLineItem() {
 		Log.d("vars", "new line item");
-		numFragment.setArguments(new Bundle());
+		Bundle bundle = new Bundle();
+		if(splitEqually){
+			bundle.putString("hint", getString(R.string.q_enter_subtotal));
+		}
+		numFragment.setArguments(bundle);
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
 		ft.replace(R.id.rightContainer, numFragment);
@@ -422,6 +426,15 @@ public class TableActivity extends Activity implements
 		Bundle bundle = new Bundle();
 		bundle.putDouble("numberValue", percent*100);
 		bundle.putBoolean("percentMode",true);
+		
+		if(action==Action.SET_TAX){
+			bundle.putString("hint", getString(R.string.q_enter_tax_percent));
+		}
+		
+		if(action==Action.SET_TIP){
+			bundle.putString("hint", getString(R.string.q_enter_tip_percent));
+		}
+		
 		numFragment.setArguments(bundle);
 		
 		FragmentTransaction ft = fm.beginTransaction();

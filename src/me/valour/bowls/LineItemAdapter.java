@@ -41,7 +41,6 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 
 		  TextView tvPrice = (TextView) returnView.findViewById(R.id.lineItemPrice);
 		  ImageButton delButton = (ImageButton) returnView.findViewById(R.id.lineDelete);
-	//	  LineItemColorsView vColors = (LineItemColorsView) returnView.findViewById(R.id.lineItemColors);
 		 
 		  final int index = position;
 		  
@@ -53,7 +52,6 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 				agent.deleteLI(index);
 			}
 		}); 
-		//  vColors.addColors(li.listUsers());
 		 
 		  return returnView;
 	  }
