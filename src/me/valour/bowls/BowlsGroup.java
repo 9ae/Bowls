@@ -157,12 +157,12 @@ public class BowlsGroup extends FrameLayout {
 			}
 			measuredScreen = true;
 			
-		//	newBowl.setX(centerX-(bowlRadius/2));
-		//	newBowl.setY(centerX-(bowlRadius/2));
+			newBowl.setX(centerX);
+			newBowl.setY(centerY-(bowlRadius/2));
 			
 			float s = (float)(2*tableRadius-4*bowlRadius);
-			if((s-10)>2*bowlRadius){
-				s -= 10;
+			if((s*0.9)>2*bowlRadius){
+				s *= 0.9;
 			}
 			trashBowl.setMinimumHeight((int)s);
 			trashBowl.setMinimumWidth((int)s);
