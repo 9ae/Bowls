@@ -234,7 +234,7 @@ public class BowlsGroup extends FrameLayout {
 	
 	public void removeBowl(final BowlView bowl){
 		ViewPropertyAnimator ani = bowl.animate();
-		ani.alpha(0).setDuration(2000);
+		ani.alpha(0).setDuration(1000);
 		ani.withEndAction(new Runnable(){
 			@Override
 			public void run() {
@@ -317,13 +317,13 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	private class DeleteDropListener implements OnDragListener{
-		BowlView bv = null;
 		
 		@Override
 		public boolean onDrag(View v, DragEvent event) {
 			switch (event.getAction()) {
 		    case DragEvent.ACTION_DRAG_STARTED:
 		        //no action necessary
+		    	((BowlView)event.getLocalState()).setVisibility(View.INVISIBLE);
 		        break;
 		    case DragEvent.ACTION_DRAG_ENTERED:
 		        //no action necessary
@@ -333,35 +333,39 @@ public class BowlsGroup extends FrameLayout {
 				float x = event.getX();
 				float y = event.getY();
 		    	Log.d("vars", "location ("+x+","+y+")");
-		    //	testDelete(x, y);
 		    	break;
 		    case DragEvent.ACTION_DRAG_EXITED:        
 		    	Log.d("vars", "exit");
 		        break;
 		    case DragEvent.ACTION_DROP:
-		    	
-		    	bv = (BowlView)event.getLocalState();
-		    	Log.d("vars", "drop "+bv.getId());
+		    	Log.d("vars", "drop "+v.getId());
 		        break;
 		    case DragEvent.ACTION_DRAG_ENDED:
-		    	Log.d("vars", "ended "+v.getId());
 		    	if(v.getId()!=-1){
-		    		handleEnd();
+		    		final BowlView view = ((BowlView)event.getLocalState());
+		    		if(event.getResult()){
+		    			view.post(new Runnable(){
+							@Override
+							public void run() {
+								removeBowl(view);
+								addRemoveIcons(true);
+							}});
+		    			Log.d("vars","ended delete");
+		    		} else {
+		    			view.post(new Runnable(){
+							@Override
+							public void run() {
+								view.setVisibility(View.VISIBLE);
+								addRemoveIcons(true);
+							}});
+		    			Log.d("vars","ended keep");
+		    		}
 		    	}
 		        break;
 		    default:
 		        break;
 		} 
 			return true;
-		}
-		
-		private void handleEnd(){
-			if(bv==null){
-			//	selectedForDelete.setVisibility(View.VISIBLE);
-			} else {
-				removeBowl(bv);
-			}
-			addRemoveIcons(true);
 		}
 		
 	}
@@ -427,7 +431,6 @@ public class BowlsGroup extends FrameLayout {
 					ClipData data = ClipData.newPlainText("", "");
 					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
 					selectedForDelete = bv;
-					bv.setVisibility(View.INVISIBLE);
 					v.startDrag(data, shadowBuilder, v, 0);
 					
 				//	bv.setX(prevX+dx);
