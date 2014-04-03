@@ -148,7 +148,9 @@ public class TableActivity extends Activity implements
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
 		} else {
-			tableFragment.setQuestionText(R.string.q_enter_next_li);
+			tableFragment.setQuestionText(null);
+			tableFragment.showNoButton(false);
+			tableFragment.showOkButton(false);
 			action = Action.ITEM_PRICE;
 		}
 	}
@@ -264,6 +266,7 @@ public class TableActivity extends Activity implements
 			action = Action.SET_TIP;
 			break;
 		case CONFIRM_DELETE:
+			tableFragment.bowlsGroup.nullifyDelete(deleteBowlQueue);
 			deleteBowlQueue = null;
 			completeConfirmDelete();
 			break;

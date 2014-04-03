@@ -208,6 +208,11 @@ public class BowlsGroup extends FrameLayout {
 		}
 	}
 	
+	public void clearCenter(){
+		newBowl.setVisibility(View.GONE);
+		trashBowl.setVisibility(View.GONE);
+	}
+	
 	public void addBowl(){
 		if(currentDisusedId==-1){
 			newBowl.setId(bowlsIdCounter);
@@ -244,6 +249,7 @@ public class BowlsGroup extends FrameLayout {
 			}	
 		});
 		ani.start();
+		addRemoveIcons(true);
 	}
 
 	public void refreshBowls() {
@@ -291,6 +297,7 @@ public class BowlsGroup extends FrameLayout {
 		selectReady = true;
 		clearSelection();
 		bowlsFocus(false);
+		clearCenter();
 	}
 	
 	public void stopBowlSelect(){
@@ -316,7 +323,20 @@ public class BowlsGroup extends FrameLayout {
 		agent = (BowlsGroupAgent) activity;
 	}
 	
+	public void nullifyDelete(BowlView bv){
+		bv.setVisibility(View.VISIBLE);
+		addRemoveIcons(true);
+	}
+	
 	private class DeleteDropListener implements OnDragListener{
+		
+		public boolean deleteBowl(BowlView bowl){
+			if(agent.removeUserConfirm(bowl)){
+				removeBowl(bowl);
+				Log.d("vars","delete this bowl");
+			}
+			return true;
+		}
 		
 		@Override
 		public boolean onDrag(View v, DragEvent event) {
@@ -339,6 +359,9 @@ public class BowlsGroup extends FrameLayout {
 		        break;
 		    case DragEvent.ACTION_DROP:
 		    	Log.d("vars", "drop "+v.getId());
+		    	if(v.getId()!=-1){
+		    		return(false);
+		    	}
 		        break;
 		    case DragEvent.ACTION_DRAG_ENDED:
 		    	if(v.getId()!=-1){
@@ -347,8 +370,8 @@ public class BowlsGroup extends FrameLayout {
 		    			view.post(new Runnable(){
 							@Override
 							public void run() {
-								removeBowl(view);
-								addRemoveIcons(true);
+								clearCenter();
+								deleteBowl(view);
 							}});
 		    			Log.d("vars","ended delete");
 		    		} else {
@@ -396,14 +419,6 @@ public class BowlsGroup extends FrameLayout {
 			return deleteBowl;
 		}
 		
-		public boolean deleteBowl(BowlView bowl){
-			if(agent.removeUserConfirm(bowl)){
-				removeBowl(bowl);
-				Log.d("vars","delete this bowl");
-			}
-			return true;
-		}
-		
 		@Override
 		public boolean onTouch(View v, MotionEvent move) {
 			BowlView bv = (BowlView)v;
@@ -425,37 +440,15 @@ public class BowlsGroup extends FrameLayout {
 					break;
 				case MotionEvent.ACTION_MOVE:
 					bowlMoved = true;
-				//	dx = move.getX();
-				//	dy = move.getY();
+
 					addRemoveIcons(false);
 					ClipData data = ClipData.newPlainText("", "");
 					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
-					selectedForDelete = bv;
 					v.startDrag(data, shadowBuilder, v, 0);
 					
-				//	bv.setX(prevX+dx);
-				//	bv.setY(prevY+dy);
 					break;
 				case MotionEvent.ACTION_UP:
-					if(deleteBowl){
-						deleteBowl(bv);
-					}
-					addRemoveIcons(true);
-				/*	if(bowlMoved && dx>10 && dy>10){
-						float x = prevX+dx;
-						float y = prevY+dy;
-						double angle = Kitchen.angleBetween(centerX, centerY, prevX, prevY, x, y);
-						Log.d("vars", String.format("a:(%f, %f) \t b:(%f, %f) \t c:(%f, %f)", centerX, centerY, prevX, prevY, x, y));
-						Log.d("vars","angle="+Math.toDegrees(angle));
-						if(Math.abs(angle)>(Math.PI/2.0)){
-							deleteBowl(bv);
-						} else {
-							Log.d("vars","keep this bowl");
-							bv.resetPosition();
-						}
-					}  else { */
-					//	bv.resetPosition();
-				//	}
+					
 					break;
 				}
 				return true;
