@@ -47,6 +47,8 @@ public class BowlsGroup extends FrameLayout {
 	int bowlsIdCounter = 1;
 	int currentDisusedId = -1;
 	LinkedList<Integer> disusedIds;
+	
+	BowlView selectedForDelete;
 
 	public BowlsGroup(Context context) {
 		super(context);
@@ -315,7 +317,8 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	private class DeleteDropListener implements OnDragListener{
-
+		BowlView bv = null;
+		
 		@Override
 		public boolean onDrag(View v, DragEvent event) {
 			switch (event.getAction()) {
@@ -324,8 +327,7 @@ public class BowlsGroup extends FrameLayout {
 		        break;
 		    case DragEvent.ACTION_DRAG_ENTERED:
 		        //no action necessary
-		    	Log.d("vars", "entered "+((View)event.getLocalState()).getId());
-		    	Log.d("vars", "view "+v.getId());
+		    	Log.d("vars", "entered ");
 		        break;
 		    case DragEvent.ACTION_DRAG_LOCATION:
 				float x = event.getX();
@@ -337,16 +339,29 @@ public class BowlsGroup extends FrameLayout {
 		    	Log.d("vars", "exit");
 		        break;
 		    case DragEvent.ACTION_DROP:
-		    	Log.d("vars", "drop");
+		    	
+		    	bv = (BowlView)event.getLocalState();
+		    	Log.d("vars", "drop "+bv.getId());
 		        break;
 		    case DragEvent.ACTION_DRAG_ENDED:
-		    	Log.d("vars", "ended");
-		    	
+		    	Log.d("vars", "ended "+v.getId());
+		    	if(v.getId()!=-1){
+		    		handleEnd();
+		    	}
 		        break;
 		    default:
 		        break;
 		} 
 			return true;
+		}
+		
+		private void handleEnd(){
+			if(bv==null){
+			//	selectedForDelete.setVisibility(View.VISIBLE);
+			} else {
+				removeBowl(bv);
+			}
+			addRemoveIcons(true);
 		}
 		
 	}
@@ -411,6 +426,8 @@ public class BowlsGroup extends FrameLayout {
 					addRemoveIcons(false);
 					ClipData data = ClipData.newPlainText("", "");
 					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+					selectedForDelete = bv;
+					bv.setVisibility(View.INVISIBLE);
 					v.startDrag(data, shadowBuilder, v, 0);
 					
 				//	bv.setX(prevX+dx);
@@ -477,9 +494,6 @@ public class BowlsGroup extends FrameLayout {
 			}
 			
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			/*	ClipData data = ClipData.newPlainText("", "");
-				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-				view.startDrag(data, shadowBuilder, view, 0); */
 				BowlView bv = (BowlView)view;
 				if(bv==newBowl){
 					addBowl();
