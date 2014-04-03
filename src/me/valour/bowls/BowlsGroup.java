@@ -36,8 +36,9 @@ public class BowlsGroup extends FrameLayout {
 	boolean selectReady = false;
 	
 	FrameLayout.LayoutParams defaultParams;
-	BowlSelectListener bowlSelect;
-	NewBowlListener newBowlSpy;
+	BowlSelectListener selectListener;
+	NewBowlListener newListener;
+	DeleteDropListener deleteListener;
 	BowlsGroupAgent agent;
 
 	LinkedList<BowlView> bowls;
@@ -84,8 +85,9 @@ public class BowlsGroup extends FrameLayout {
 	}
 
 	private void init() {
-		bowlSelect = new BowlSelectListener();
-		newBowlSpy = new NewBowlListener();
+		selectListener = new BowlSelectListener();
+		newListener = new NewBowlListener();
+		deleteListener = new DeleteDropListener();
 		measuredScreen = false;
 		defaultParams = new FrameLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -100,7 +102,7 @@ public class BowlsGroup extends FrameLayout {
 			bowls.add(bowl);
 			bowlsIdCounter++;
 			this.addView(bowl, defaultParams);
-			bowl.setOnTouchListener(bowlSelect);
+			bowl.setOnTouchListener(selectListener);
 		}
 		
 		disusedIds = new LinkedList<Integer>();
@@ -110,6 +112,7 @@ public class BowlsGroup extends FrameLayout {
 		trashBowl.setBackgroundResource(android.R.drawable.ic_delete);
 		this.addView(trashBowl, defaultParams);
 		trashBowl.setVisibility(View.GONE);
+		trashBowl.setOnDragListener(deleteListener);
 	}
 	
 	private BowlView getNewBowl(){
@@ -127,7 +130,7 @@ public class BowlsGroup extends FrameLayout {
 			bowl.setX(centerX);
 			bowl.setY(centerY-(bowlRadius/2));
 			this.addView(bowl, defaultParams);
-			bowl.setOnTouchListener(newBowlSpy);
+			bowl.setOnTouchListener(newListener);
 			bowl.bringToFront();
 			return bowl;
 	}
@@ -214,8 +217,8 @@ public class BowlsGroup extends FrameLayout {
 		bowls.add(newBowl);
 		newBowl.setOnDragListener(null);
 		newBowl.setOnTouchListener(null);
-		newBowl.setOnTouchListener(bowlSelect);
-		newBowl.setOnDragListener(bowlSelect);
+		newBowl.setOnTouchListener(selectListener);
+		newBowl.setOnDragListener(deleteListener);
 		agent.addUser(newBowl.user);
 		
 		newBowl = getNewBowl();
@@ -276,7 +279,7 @@ public class BowlsGroup extends FrameLayout {
 	
 	
 	public void clearSelection(){
-		bowlSelect.selected.clear();
+		selectListener.selected.clear();
 		for(BowlView bv: bowls){
 			bv.setSelected(false);
 		}
@@ -295,11 +298,11 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	public List<User> getSelectedUsers(){
-		return bowlSelect.selected;
+		return selectListener.selected;
 	}
 	
 	public void manualSelect(List<User> users){
-		bowlSelect.selected.addAll(users);
+		selectListener.selected.addAll(users);
 		for(User u: users){
 			u.view.setSelected(true);
 			u.view.unfade();
@@ -311,7 +314,44 @@ public class BowlsGroup extends FrameLayout {
 		agent = (BowlsGroupAgent) activity;
 	}
 	
-	private class BowlSelectListener implements OnTouchListener, OnDragListener{
+	private class DeleteDropListener implements OnDragListener{
+
+		@Override
+		public boolean onDrag(View v, DragEvent event) {
+			switch (event.getAction()) {
+		    case DragEvent.ACTION_DRAG_STARTED:
+		        //no action necessary
+		        break;
+		    case DragEvent.ACTION_DRAG_ENTERED:
+		        //no action necessary
+		    	Log.d("vars", "entered "+((View)event.getLocalState()).getId());
+		    	Log.d("vars", "view "+v.getId());
+		        break;
+		    case DragEvent.ACTION_DRAG_LOCATION:
+				float x = event.getX();
+				float y = event.getY();
+		    	Log.d("vars", "location ("+x+","+y+")");
+		    //	testDelete(x, y);
+		    	break;
+		    case DragEvent.ACTION_DRAG_EXITED:        
+		    	Log.d("vars", "exit");
+		        break;
+		    case DragEvent.ACTION_DROP:
+		    	Log.d("vars", "drop");
+		        break;
+		    case DragEvent.ACTION_DRAG_ENDED:
+		    	Log.d("vars", "ended");
+		    	
+		        break;
+		    default:
+		        break;
+		} 
+			return true;
+		}
+		
+	}
+	
+	private class BowlSelectListener implements OnTouchListener{
 
 		public List<User> selected;
 		private float prevX;
@@ -342,40 +382,6 @@ public class BowlsGroup extends FrameLayout {
 				removeBowl(bowl);
 				Log.d("vars","delete this bowl");
 			}
-			return true;
-		}
-		
-		@Override
-		public boolean onDrag(View v, DragEvent event) {
-			BowlView bv = (BowlView)event.getLocalState();
-			switch (event.getAction()) {
-			    case DragEvent.ACTION_DRAG_STARTED:
-			        //no action necessary
-			        break;
-			    case DragEvent.ACTION_DRAG_ENTERED:
-			        //no action necessary
-			    	Log.d("vars", "entered "+event.getLocalState());
-			    	
-			        break;
-			    case DragEvent.ACTION_DRAG_LOCATION:
-			    	Log.d("vars", "location");
-					float x = event.getX();
-					float y = event.getY();
-			    //	testDelete(x, y);
-			    	break;
-			    case DragEvent.ACTION_DRAG_EXITED:        
-			    	Log.d("vars", "exit");
-			        break;
-			    case DragEvent.ACTION_DROP:
-			    	Log.d("vars", "drop");
-			        break;
-			    case DragEvent.ACTION_DRAG_ENDED:
-			    	Log.d("vars", "ended");
-			    	
-			        break;
-			    default:
-			        break;
-			} 
 			return true;
 		}
 		
