@@ -26,32 +26,33 @@
     <string name="no9">9</string>
     <string name="nodot">.</string>
     <string name="no0">0</string>
-    <string name="split_equally">Split Equally</string>
-    <string name="split_line">Add Line Items</string>
-    <string name="ok">OK</string>
+    <string name="split_equally">Split total equally</string>
+    <string name="split_line">Split by bill items</string>
+    <string name="ok">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="tax">+ Tax</string>
     <string name="tip">+ Tip</string>
-    <string name="presets_button">Presets</string>
+    <string name="presets_button">Preferences</string>
     <string name="bill">BILL</string>
-    <string name="new_li"> &lt;&lt; New Line Item &gt;&gt;</string>
+    <string name="new_li"> &lt;&lt; Add new item &gt;&gt;</string>
     <string name="bill_subtotal">Subtotal:</string>
     <string name="bill_tax">Tax:</string>
     <string name="bill_tip">Tip:</string>
     <string name="bill_total">Total:</string>
     
-    <string name="done">ENTER</string>
-    <string name="fade_edit">Tap again to EDIT</string>
+    <string name="done">OK</string>
+    <string name="fade_edit">Edit by tapping again</string>
     
-    <string name="q_enter_first_li">Enter price of first line item</string>
-    <string name="q_enter_next_li">Enter price of next line item</string>
-	<string name="q_enter_subtotal">Enter subtotal</string>
-	<string name="q_select_bowls">Touch those who had it</string>
-	<string name="q_enter_tax_percent">Enter tax percent</string>
-	<string name="q_enter_tip_percent">Enter tip percent</string>
-	<string name="q_min_select">Atleast one user must be selected</string>
+    <string name="q_enter_first_li">First item price</string></string>
+    <string name="q_enter_next_li">Next item price</string>
+    <string name="q_enter_subtotal">Subtotal</string>
+	<string name="q_select_bowls">Who had it? Tap them</string>
+	<string name="q_enter_tax_percent">Tax dollars</string>
+	<string name="q_enter_tip_percent">Tip percent</string>
+	<string name="q_min_select">Select at least one bowl</string>
 	<string name="q_ask_percent" formatted="false">Do you want to apply %.4f%% %s?</string>
+	<string name="q_ask_amount" formatted="false"></string>
 	<string name="q_user_has_balance">Deleting user with non-zero balance. 
 	    	\nShared items will have their price redistributed. 
 	    	\nItems associated only with this user will deleted.</string>
