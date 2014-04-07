@@ -38,4 +38,25 @@ public class Kitchen {
 		return (float) Math.acos(dot/scalar);
 	}
 	
+	private static int colorDifference(int r0, int g0, int b0, int r1, int g1, int b1){
+		  return (Math.max(r0,r1) - Math.min(r0,r1)) +
+		  (Math.max(g0,g1) - Math.min(g0,g1)) +
+		  (Math.max(b0,b1) - Math.min(b0,b1));
+		}
+		 
+	public static int calculateTextColor(int color){
+		  int r = Color.red(color);
+		  int g = Color.green(color);
+		  int b = Color.blue(color);
+		  
+		  int whiteDiff = colorDifference(255,255,255,r,g,b);
+		  int blackDiff = colorDifference(0,0,0,r,g,b);
+		  
+		  if(whiteDiff>blackDiff){
+		    return Color.WHITE;
+		  } else {
+		    return Color.BLACK;
+		  }
+		}
+	
 }

@@ -105,6 +105,7 @@ public class BowlsGroup extends FrameLayout {
 			bowlsIdCounter++;
 			this.addView(bowl, defaultParams);
 			bowl.setOnTouchListener(selectListener);
+			bowl.setOnDragListener(deleteListener);
 		}
 		
 		disusedIds = new LinkedList<Integer>();
@@ -222,8 +223,6 @@ public class BowlsGroup extends FrameLayout {
 			currentDisusedId = -1;
 		}
 		bowls.add(newBowl);
-		newBowl.setOnDragListener(null);
-		newBowl.setOnTouchListener(null);
 		newBowl.setOnTouchListener(selectListener);
 		newBowl.setOnDragListener(deleteListener);
 		agent.addUser(newBowl.user);
@@ -238,17 +237,17 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	public void removeBowl(final BowlView bowl){
-		ViewPropertyAnimator ani = bowl.animate();
+	/*	ViewPropertyAnimator ani = bowl.animate();
 		ani.alpha(0).setDuration(1000);
 		ani.withEndAction(new Runnable(){
 			@Override
-			public void run() {
+			public void run() { */
 				disusedIds.add(bowl.getId());
 				bowls.remove(bowl);
 				refreshBowls();
-			}	
+		/*	}	
 		});
-		ani.start();
+		ani.start(); */
 		addRemoveIcons(true);
 	}
 
@@ -396,27 +395,10 @@ public class BowlsGroup extends FrameLayout {
 	private class BowlSelectListener implements OnTouchListener{
 
 		public List<User> selected;
-		private float prevX;
-		private float prevY;
-		private float dx;
-		private float dy;
-		private boolean bowlMoved=false;
-		private boolean deleteBowl = false;
 		
 		public BowlSelectListener(){
 			selected = new ArrayList<User>();
-			dx = 0;
-			dy = 0;
-		}
-		
-		public boolean testDelete(float x, float y){
-			deleteBowl = trashBowl.getX()<x && x<(trashBowl.getX()+trashBowl.getWidth())
-					&& trashBowl.getY()<y && y<(trashBowl.getY()+trashBowl.getHeight());
-			String s = String.format("%f < %f < %f and %f < %f <%f", trashBowl.getX(), x, trashBowl.getX()+trashBowl.getWidth(),
-					trashBowl.getY(), y, trashBowl.getY()+trashBowl.getHeight() );
-			Log.d("vars",s);
-		//	Log.d("vars","verdict="+deleteBowl+" ("+x+","+y+")");
-			return deleteBowl;
+
 		}
 		
 		@Override
@@ -434,18 +416,12 @@ public class BowlsGroup extends FrameLayout {
 			} else if (bowls.size()>Kitchen.minBowls) {
 				switch(action){
 				case MotionEvent.ACTION_DOWN:
-					prevX = bv.getX() + (float)bv.getRadius();
-					prevY = bv.getY() +  (float)bv.getRadius(); 
-					bowlMoved = false;
 					break;
 				case MotionEvent.ACTION_MOVE:
-					bowlMoved = true;
-
 					addRemoveIcons(false);
 					ClipData data = ClipData.newPlainText("", "");
 					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
 					v.startDrag(data, shadowBuilder, v, 0);
-					
 					break;
 				case MotionEvent.ACTION_UP:
 					
@@ -461,27 +437,6 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	public class NewBowlListener implements OnTouchListener{
-		
-		public boolean testAdd(float x, float y){
-			float center_x = (float)centerX;
-			float center_y = (float)centerY;
-			float radius = (float)(tableRadius);
-			return Math.pow(x - center_x,2) + Math.pow(y - center_y,2) <= (radius*radius);
-		}
-		
-		public double findAngle(float x, float y){
-			double angle = 0;
-			float px = bowls.getFirst().getX();
-			float py = bowls.getFirst().getY();
-			float cx = (float)centerX;
-			float cy = (float)centerY;
-			angle = (Math.atan2(x - cx,y - cy)- Math.atan2(px- cx,py- cy));
-			if(angle<0){
-				angle = Math.PI*2 - Math.abs(angle);
-			}
-			Log.d("vars","angle="+angle);
-			return angle;
-		}
 
 		@Override
 		public boolean onTouch(View view, MotionEvent event) {
@@ -495,12 +450,6 @@ public class BowlsGroup extends FrameLayout {
 					addBowl();
 				}
 			    return true;
-			} else if(event.getAction() == MotionEvent.ACTION_MOVE){
-				
-				return true;
-			} else if (event.getAction() == MotionEvent.ACTION_UP){
-
-				return true;
 			} 
 			else {
 			    return false;
