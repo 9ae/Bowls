@@ -104,7 +104,6 @@ public class BowlsGroup extends FrameLayout {
 			bowlsIdCounter++;
 			this.addView(bowl, defaultParams);
 			bowl.setOnTouchListener(selectListener);
-			bowl.setOnDragListener(deleteListener);
 		}
 		
 		disusedIds = new LinkedList<Integer>();
@@ -206,7 +205,6 @@ public class BowlsGroup extends FrameLayout {
 		bowl.move(centerX, centerY-(bowlRadius/2));
 		this.addView(bowl, defaultParams);
 		bowl.setOnTouchListener(selectListener);
-		bowl.setOnDragListener(deleteListener);
 		bowl.bringToFront();
 		return bowl;
 }
@@ -235,6 +233,7 @@ public class BowlsGroup extends FrameLayout {
 			currentDisusedId = disusedIds.removeFirst();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
 			Log.d("vars","x="+currentDisusedId);
+			Log.d("vars","recycle size="+disusedIds.size());
 		}
 		newBowl.invalidate();
 		
@@ -367,7 +366,7 @@ public class BowlsGroup extends FrameLayout {
 		    	}
 		        break;
 		    case DragEvent.ACTION_DRAG_ENDED:
-		    	if(v.getId()!=-1){
+		    	if(v.getId()==-1){
 		    		final BowlView view = ((BowlView)event.getLocalState());
 		    		if(event.getResult()){
 		    			view.post(new Runnable(){
@@ -384,7 +383,6 @@ public class BowlsGroup extends FrameLayout {
 								view.setVisibility(View.VISIBLE);
 								addRemoveIcons(true);
 							}});
-		    		
 		    		}
 		    	}
 		        break;
@@ -423,6 +421,7 @@ public class BowlsGroup extends FrameLayout {
 					break;
 				case MotionEvent.ACTION_MOVE:
 					addRemoveIcons(false);
+					v.setOnDragListener(deleteListener);
 					ClipData data = ClipData.newPlainText("", "");
 					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
 					v.startDrag(data, shadowBuilder, v, 0);
