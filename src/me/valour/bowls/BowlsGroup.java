@@ -219,20 +219,17 @@ public class BowlsGroup extends FrameLayout {
 			bowlsIdCounter++;
 		} else {
 			bowl.setId(currentDisusedId);
-			if(disusedIds.isEmpty()){
-				currentDisusedId = -1;		
-			} else {
-				currentDisusedId = disusedIds.pop();
-			}
 		}
 		
 		bowls.add(bowl);
 		agent.addUser(bowl.user);
 		bowl.formatText();
 		
-		if(currentDisusedId==-1){
+		if(disusedIds.isEmpty()){
+			currentDisusedId = -1;
 			newBowl.setColors(Kitchen.assignColor(bowlsIdCounter));
 		} else {
+			currentDisusedId = disusedIds.pop();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
 		}
 		newBowl.invalidate();
