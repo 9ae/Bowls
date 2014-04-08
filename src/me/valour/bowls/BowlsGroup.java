@@ -249,7 +249,7 @@ public class BowlsGroup extends FrameLayout {
 		refreshBowls();
 		addRemoveIcons(true);
 		
-		if(disusedIds.size()==1){
+		if(currentDisusedId==-1){
 			currentDisusedId = disusedIds.pop();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
 		}
