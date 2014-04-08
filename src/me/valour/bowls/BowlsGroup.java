@@ -232,7 +232,7 @@ public class BowlsGroup extends FrameLayout {
 			newBowl.setColors(Kitchen.assignColor(bowlsIdCounter));
 			Log.d("vars","x=-1");
 		} else {
-			currentDisusedId = disusedIds.pop();
+			currentDisusedId = disusedIds.removeFirst();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
 			Log.d("vars","x="+currentDisusedId);
 		}
@@ -251,10 +251,10 @@ public class BowlsGroup extends FrameLayout {
 		addRemoveIcons(true);
 		
 		if(currentDisusedId==-1 && !disusedIds.isEmpty()){
-			currentDisusedId = disusedIds.pop();
+			currentDisusedId = disusedIds.removeFirst();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
 			newBowl.invalidate();
-			Log.d("vars","x="+currentDisusedId);
+			Log.d("vars","r x="+currentDisusedId);
 		}
 		
 		if((bowls.size()+1)==Kitchen.maxBowls){
