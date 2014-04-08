@@ -342,6 +342,7 @@ public class TableActivity extends Activity implements
 	public void removeUserDo(User user) {
 		bill.clearUserItems(user);
 		bill.rmRow(user);
+		bill.rmUser(user);
 		if(deleteBowlQueue!=null){
 			tableFragment.bowlsGroup.removeBowl(deleteBowlQueue);
 			deleteBowlQueue = null;

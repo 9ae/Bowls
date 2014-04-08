@@ -181,7 +181,7 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		if(lineItems.size()!=1){
 			return;
 		} 
-		divideEqually(lineItems.get(0));
+		divideAmongst(lineItems.get(0), users);
 	}
 	
 	public void reapplyTax(){
@@ -210,6 +210,10 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		} else {
 			return false;
 		}
+	}
+	
+	public void rmUser(User u){
+		users.remove(u);
 	}
 	
 	public void addUniqueUsers(List<User> users){
