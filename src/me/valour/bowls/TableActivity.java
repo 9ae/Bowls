@@ -48,7 +48,7 @@ public class TableActivity extends Activity implements
 
 		bowlsCount = Kitchen.minBowls;
 		action = Action.ITEM_PRICE;
-		bill = new Bill(getTax(), getTip());
+		bill = new Bill(getTax(), getTip(), splitEqually);
 
 		setContentView(R.layout.activity_table);
 
@@ -56,7 +56,7 @@ public class TableActivity extends Activity implements
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
 		numFragment = new NumberPadFragment();
 		
-		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
+		bill.usersAddBatch(tableFragment.bowlsGroup.getBowlUsers());
 		
 		billFragment = (BillFragment) fm.findFragmentById(R.id.billFragment);
 		billFragment.clearSummary();
@@ -157,9 +157,9 @@ public class TableActivity extends Activity implements
 
 	private void registerItemPrice() {
 		double price = numFragment.getNumberValue();
-		LineItem li = bill.addLineItem(price);
+		LineItem li = bill.itemAdd(price);
 		if (splitEqually) {
-			bill.divideEqually(li);
+			bill.divideEqually();
 			clearCenter();
 		} else {
 			prepareForSelectingBowls(li);
@@ -170,12 +170,10 @@ public class TableActivity extends Activity implements
 	
 	private void updateItemPrice(){
 		double price = numFragment.getNumberValue();
-		bill.updateLineItemPrice(selectedLineItem, price);
+		bill.itemUpdate(selectedLineItem, price);
 		if(splitEqually){
-			bill.redivideEqually();
 			clearCenter();
 		} else {
-			bill.redivideAmongst(selectedLineItem);
 			billFragment.updatedList();
 		}
 		updateBowlsPrice();
@@ -312,9 +310,9 @@ public class TableActivity extends Activity implements
 	public void addUser(User user) {
 		if (bowlsCount != Kitchen.maxBowls) {
 			bowlsCount++;
-			bill.addUser(user);
+			bill.userAdd(user);
 			if (splitEqually) {
-				bill.redivideEqually();
+				bill.divideEqually();
 				bill.reapplyTax();
 				bill.reapplyTip();
 				updateBowlsPrice();
@@ -325,7 +323,7 @@ public class TableActivity extends Activity implements
 	@Override
 	public boolean removeUserConfirm(BowlView bv) {
 		User user = bv.user;
-		if(bill.allowRmUser(user)){
+		if(bill.userSubtotal(user)>0.0){
 			removeUserDo(user);
 			return true;
 		} else {
@@ -340,9 +338,7 @@ public class TableActivity extends Activity implements
 
 	@Override
 	public void removeUserDo(User user) {
-		bill.clearUserItems(user);
-		bill.rmRow(user);
-		bill.rmUser(user);
+		bill.userRemove(user);
 		if(deleteBowlQueue!=null){
 			tableFragment.bowlsGroup.removeBowl(deleteBowlQueue);
 			deleteBowlQueue = null;
@@ -384,7 +380,7 @@ public class TableActivity extends Activity implements
 	public void selectLineItem(int position) {
 		selectedLineItem = bill.lineItems.get(position);
 		prepareForSelectingBowls(selectedLineItem);
-		tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
+		tableFragment.bowlsGroup.manualSelect(bill.usersOfItem(selectedLineItem));
 	}
 	
 	@Override
@@ -471,7 +467,7 @@ public class TableActivity extends Activity implements
 			default:
 				updateItemPrice();
 				prepareForSelectingBowls(selectedLineItem);
-				tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
+				tableFragment.bowlsGroup.manualSelect(bill.usersOfItem(selectedLineItem));
 				break;
 			}
 		} else {

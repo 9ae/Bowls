@@ -256,7 +256,7 @@ public class BillFragment extends Fragment implements
 	
 	@Override
 	public void deleteLI(int position) {
-		bill.rmLineItem(position);
+		bill.itemRemove(position);
 		agent.updateBowlsPrice();
 		adapter.notifyDataSetChanged();
 	}

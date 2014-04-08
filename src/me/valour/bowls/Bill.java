@@ -1,18 +1,22 @@
 package me.valour.bowls;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
 
 import me.valour.milktea.*;
 
-public class Bill  extends CrossTable<User, LineItem, Double>{
+public class Bill{
 
 	private ArrayList<User> users; 
 	protected ArrayList<LineItem> lineItems;
 	
 	private double subtotal;
 
+	double[][] priceMatrix;
+	
 	private double percentTip;
 	private double percentTax;
 	
@@ -21,7 +25,7 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	
 	private BillChangesAgent changeAgent;
 	
-	public Bill(double tax, double tip){
+	public Bill(double tax, double tip, boolean splitEqually){
 		super();
 		
 		users = new ArrayList<User>();
@@ -30,8 +34,14 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		subtotal = 0.0;
 		percentTax = tax;
 		percentTip = tip;
+		if(splitEqually){
+			priceMatrix = new double[Kitchen.maxBowls][1];
+		} else {
+			priceMatrix = new double[Kitchen.maxBowls][10];
+		}
+		createMatrix();
 	}
-	
+
 	public double getTip(){
 		return percentTip;
 	}
@@ -84,6 +94,24 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 	//	return subtotal * percentTax;
 	}
 	
+	public void reapplyTax(){
+		if(!appliedTax){
+			return;
+		}
+		for(User u: users){
+			u.setTax(u.getSubtotal()*percentTax);
+		}
+	}
+	
+	public void reapplyTip(){
+		if(!appliedTip){
+			return;
+		}
+		for(User u: users){
+			u.setTip(u.getSubtotal()*percentTip);
+		}
+	}
+	
 	public void clearTip(){
 		for(User u: users){
 			u.setTip(0.0);
@@ -105,186 +133,204 @@ public class Bill  extends CrossTable<User, LineItem, Double>{
 		return subtotal;
 	}
 	
-	public LineItem addLineItem(double price){
+	public void createMatrix(){
+		for(int i = 0; i<priceMatrix.length; i++){
+			Arrays.fill(priceMatrix[i], 0.0);
+		}
+	}
+	
+	public void userAdd(User u){
+		if(users.contains(u)){
+			return;
+		}
+		users.add(u);
+	}
+	
+	public void userRemove(User u){
+		int userIndex = users.indexOf(u);
+		if(userIndex<0 || userIndex>priceMatrix.length){
+			return;
+		}
+		//go through list to redivide
+		for(int j=0; j<priceMatrix[userIndex].length; j++){
+			//redivide
+			if(priceMatrix[userIndex][j]>0.0){
+				LineItem li = lineItems.get(j);
+				int usersCount = usersOfItemCount(j);
+				double newPrice = li.getPrice()/(usersCount-1);
+				for(int i=0; i<priceMatrix.length; i++){
+					if(i!=userIndex && priceMatrix[i][j]>0.0){
+						priceMatrix[i][j] = newPrice;
+					}
+				}
+				priceMatrix[userIndex][j] = 0.0;
+			}
+		}
+		//move users beyond it up
+		if(userIndex<(users.size()-1)){
+			for(int i=(userIndex+1); i<users.size(); i++){
+				for(int j=0; j<priceMatrix[i].length; i++){
+					priceMatrix[i-1][j] = priceMatrix[i][j];
+					priceMatrix[i][j] = 0.0;
+				}
+			}
+		}
+		users.remove(u);
+		usersUpdateSubtotal();
+	}
+	
+	public void usersAddBatch(List<User> users){
+		for(User id: users){
+			userAdd(id);
+		}
+	}
+	
+	public int usersOfItemCount(LineItem li){
+		return usersOfItemCount(lineItems.indexOf(li));
+	}
+	
+	public List<User> usersOfItem(LineItem li){
+		int ind = lineItems.indexOf(li);
+		ArrayList<User> itemUsers = new ArrayList<User>();
+		for(int i=0; i<priceMatrix.length; i++){
+			if(priceMatrix[i][ind]>0.0){
+				itemUsers.add(users.get(i));
+			}
+		}
+		return itemUsers;
+	}
+	
+	public int usersOfItemCount(int ind){
+		int count = 0;
+		for(int i=0; i<priceMatrix.length; i++){
+			count += (priceMatrix[i][ind]>0.0) ? 1 : 0 ;
+		}
+		return count;
+	}
+	
+	public double userSubtotal(User u){
+		int i = users.indexOf(u);
+		double amount = 0.0;
+		for(int j=0; j<priceMatrix[i].length; j++){
+			amount += priceMatrix[i][j];
+		}
+		if(u.getSubtotal()!=amount){
+			u.setSubtotal(amount);
+		}
+		return amount;
+	}
+	
+	public void usersUpdateSubtotal(){
+		for(int i=0; i<users.size(); i++){
+			User u = users.get(i);
+			double amount = 0.0;
+			for(int j=0; j<priceMatrix[i].length; j++){
+				amount += priceMatrix[i][j];
+			}
+			u.setSubtotal(amount);
+		}
+	}
+	
+	public LineItem itemAdd(double price){
 		LineItem li = new LineItem(price);
+
+		int len = priceMatrix[0].length;
+		if(lineItems.size()==len){
+			double[][] newMatrix = new double[priceMatrix.length][len*2];
+			for(int i=0; i<priceMatrix.length; i++){
+				for(int j=0; j<len; j++){
+					newMatrix[i][j] = priceMatrix[i][j];
+				}
+				for(int j=len; i<(len*2); j++){
+					newMatrix[i][j] = 0.0;
+				}
+			}
+			priceMatrix = newMatrix;
+		}
+		
 		lineItems.add(li);
-		addCol(li, users, 0.0);
 		subtotal += price;
 		changeAgent.subtotalChanged();
 		return li;
 	}
 	
-	public void updateLineItemPrice(LineItem li, double newPrice){
+	public void itemUpdate(LineItem li, double price){
 		subtotal -= li.getPrice();
-		subtotal += newPrice;
-		li.setPrice(newPrice);
+		subtotal += price;
+		li.setPrice(price);
+		
+		int lineIndex = lineItems.indexOf(li);
+		double pricePerUser = price / usersOfItemCount(lineIndex);
+		for(int i=0; i<priceMatrix.length; i++){
+			if(priceMatrix[i][lineIndex]>0.0){
+				priceMatrix[i][lineIndex] = pricePerUser;
+			}
+		}
+		usersUpdateSubtotal();
 		changeAgent.subtotalChanged();
 	}
 	
-	public void rmLineItem(int index){
-		LineItem delItem = lineItems.remove(index);
-		double itemPrice = delItem.getPrice();
-		subtotal -= itemPrice;
-		for(User u: users){
-			if(get(u, delItem, 0.0)>0.0){
-				u.subtractSubtotal(itemPrice);
+	public void itemUpdate(LineItem li, List<User> newUsers){
+		//clear existing users
+		int lineIndex = lineItems.indexOf(li);
+		for(int i=0; i<priceMatrix.length; i++){
+				priceMatrix[i][lineIndex] = 0.0;
+		}
+		
+		//set price for new users
+		double pricePerUser = li.getPrice() / newUsers.size();
+		for(User nu: newUsers){
+			int userIndex = users.indexOf(nu);
+			priceMatrix[userIndex][lineIndex] = pricePerUser;
+		}
+		
+		usersUpdateSubtotal();
+	}
+	
+	public void itemRemove(int lineIndex){
+		LineItem li = lineItems.get(lineIndex);
+		subtotal -= li.getPrice();
+		
+		//move all columns left
+		for(int j=(lineIndex+1); j<lineItems.size(); j++){
+			for(int i=0; i<priceMatrix.length; i++){
+				priceMatrix[i][j-1] = priceMatrix[i][j];
+				priceMatrix[i][j] = 0.0;
 			}
 		}
-		rmCol(delItem);
+		
+		lineItems.remove(lineIndex);
+		usersUpdateSubtotal();
 		changeAgent.subtotalChanged();
+	}
+
+	
+	public void divideEqually(){
+		if(lineItems.size()!=1 || users.isEmpty()){
+			return;
+		}
+		LineItem li = lineItems.get(0);
+		double pricePerUser = li.getPrice() / users.size();
+		for(int i=0; i<users.size(); i++){
+			priceMatrix[i][0] = pricePerUser;
+		}
+		usersUpdateSubtotal();
 	}
 	
 	public void divideAmongst(LineItem li, List<User> us){
-		List<User> prevUsers = listUsers(li); 
 		if(us.isEmpty()){
 			return;
 		}
-		double div = li.getPrice() / us.size();
+		int itemIndex = lineItems.indexOf(li);
+		if(itemIndex<0){
+			return;
+		}
+		double pricePerUser = li.getPrice() / us.size();
 		for(User u: us){
-			if(prevUsers.contains(u)){
-				u.subtractSubtotal(get(u, li, 0.0));
-				prevUsers.remove(u);
-			}
-			set(u, li, div);
-			u.plusSubtotal(div);
+			int userIndex = users.indexOf(u);
+			priceMatrix[userIndex][itemIndex] = pricePerUser;
 		}
-		for(User v: prevUsers){
-			v.subtractSubtotal(get(v, li, 0.0));
-			set(v, li, 0.0);
-		}
-	}
-	
-	public void redivideAmongst(LineItem li){
-		List<User> us =  listUsers(li); 
-		if(us.isEmpty()){
-			return;
-		}
-		double div = li.getPrice() / us.size();
-		double pdiv = 0.0;
-		if(li.priceChanged()){
-			pdiv = li.getPreviousPrice() / us.size();
-		}
-		for(User u: us){
-			if(pdiv!=0.0){
-				u.subtractSubtotal(pdiv);
-			}
-			set(u, li, div);
-			u.plusSubtotal(div);
-		}
-	}
-	
-	public void divideEqually(LineItem li){
-		divideAmongst(li, users);
-	}
-	
-	public void redivideEqually(){
-		if(lineItems.size()!=1){
-			return;
-		} 
-		divideAmongst(lineItems.get(0), users);
-	}
-	
-	public void reapplyTax(){
-		if(!appliedTax){
-			return;
-		}
-		for(User u: users){
-			u.setTax(u.getSubtotal()*percentTax);
-		}
-	}
-	
-	public void reapplyTip(){
-		if(!appliedTip){
-			return;
-		}
-		for(User u: users){
-			u.setTip(u.getSubtotal()*percentTip);
-		}
-	}
-
-	public boolean addUser(User u){
-		if(!users.contains(u)){
-			users.add(u);
-			addRow(u, lineItems, 0.0);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public void rmUser(User u){
-		users.remove(u);
-	}
-	
-	public void addUniqueUsers(List<User> users){
-		for(User id: users){
-			if(!this.users.contains(id)){
-				this.users.add(id);
-				addRow(id, lineItems, 0.0);
-			}
-		}
-	}
-	
-	public boolean allowRmUser(User u){
-		return u.getSubtotal()<=0.0;
-	}
-	
-	public void clearUserItems(User u){
-		ArrayList<Integer> toRemoveIndices = new ArrayList<Integer>();
-		for(Duo<User,LineItem> pair: table.keySet()){
-			if(pair.hasRow(u)){
-				LineItem li = pair.getCol();
-				if(get(u, li, 0.0)>0.0){
-					List<User> otherUsers = listOtherUsers(li,u);
-					if(otherUsers.size()>0){
-						double pricePerUser = li.getPrice()/otherUsers.size();
-						for(User ou: otherUsers){
-							double oriSplit = get(ou, li, 0.0);
-							ou.subtractSubtotal(oriSplit);
-							ou.plusSubtotal(pricePerUser);
-						}
-					} else {
-						// remove single
-						toRemoveIndices.add(lineItems.indexOf(li));
-					}
-				}
-			}
-		}
-		for(Integer ind: toRemoveIndices){
-			rmLineItem(ind);
-		}
-	}
-	
-	private int marginCount(LineItem li){
-		int count = 0;
-		for(Duo<User,LineItem> pair: table.keySet()){
-			if(pair.hasCol(li)){
-				
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	public List<User> listUsers(LineItem li){
-		ArrayList<User> liUsers = new ArrayList<User>();
-		for(User user: users){
-			if(get(user, li, 0.0)>0.0){
-				liUsers.add(user);
-			}
-		}
-		return liUsers;
-	}
-	
-	public List<User> listOtherUsers(LineItem li, User u){
-		ArrayList<User> others = new ArrayList<User>();
-		for(User user: users){
-			if(user==u){ continue; }
-			if(get(user, li, 0.0)>0.0){
-				others.add(user);
-			}
-		}
-		return others;
+		usersUpdateSubtotal();
 	}
 	
 	public double calculateUserTax(User u){
