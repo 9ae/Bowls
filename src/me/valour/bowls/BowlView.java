@@ -86,6 +86,10 @@ public class BowlView extends TextView{
 		 setTextColor(Color.BLACK);
 	 }
 	 
+	 public int getColor(){
+		 return primaryPaint.getColor();
+	 }
+	 
 	 public void setRadius(int radius){
 		 this.radius = radius;
 		 
@@ -111,10 +115,15 @@ public class BowlView extends TextView{
 	 
 	 public void formatText(){
 		 if(user!=null){
-		  String p = String.format("$ %.2f", user.getTotal());
-		  setText(p);
+		  double total = user.getTotal();
+		  if(total>0.0){
+			  String p = String.format("$ %.2f", total);
+			  setText(p);
+		  } else {
+			  setText("");
+		  }
 		 } else {
-			 setText(R.string.zero_dollars);
+			 setText("");
 		 }
 	 }
 	 

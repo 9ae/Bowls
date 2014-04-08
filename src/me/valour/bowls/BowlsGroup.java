@@ -45,9 +45,8 @@ public class BowlsGroup extends FrameLayout {
 	BowlView newBowl;
 	FrameLayout trashBowl;
 	int bowlsIdCounter = 1;
-	int currentDisusedId = -1;
 	LinkedList<Integer> disusedIds;
-	
+	int currentDisusedId = -1;
 	BowlView selectedForDelete;
 
 	public BowlsGroup(Context context) {
@@ -109,7 +108,12 @@ public class BowlsGroup extends FrameLayout {
 		}
 		
 		disusedIds = new LinkedList<Integer>();
-		newBowl = getNewBowl();
+		
+		newBowl = new BowlView(this.getContext());
+		newBowl.setColors(Kitchen.assignColor(bowlsIdCounter));
+		this.addView(newBowl, defaultParams);
+		newBowl.setOnTouchListener(newListener);
+		newBowl.bringToFront();
 		
 		trashBowl = new FrameLayout(this.getContext());
 		trashBowl.setBackgroundResource(android.R.drawable.ic_delete);
@@ -117,27 +121,6 @@ public class BowlsGroup extends FrameLayout {
 		trashBowl.setVisibility(View.GONE);
 		trashBowl.setOnDragListener(deleteListener);
 	}
-	
-	private BowlView getNewBowl(){
-			BowlView bowl = new BowlView(this.getContext());
-			if(disusedIds.isEmpty()){
-				bowl.setColors(Kitchen.assignColor(bowlsIdCounter));
-				currentDisusedId = -1;
-			} else {
-				currentDisusedId = disusedIds.pop();
-				bowl.setColors(Kitchen.assignColor(currentDisusedId));
-			}
-			if(measuredScreen){
-				bowl.setRadius(bowlRadius);
-			}
-			bowl.setX(centerX);
-			bowl.setY(centerY-(bowlRadius/2));
-			this.addView(bowl, defaultParams);
-			bowl.setOnTouchListener(newListener);
-			bowl.bringToFront();
-			return bowl;
-	}
-	
 	
 	public void measureView(){
 		if(measuredScreen){
@@ -214,41 +197,66 @@ public class BowlsGroup extends FrameLayout {
 		trashBowl.setVisibility(View.GONE);
 	}
 	
+	private BowlView getNewBowl(){
+		BowlView bowl = new BowlView(this.getContext());
+		bowl.setColors(newBowl.getColor());
+		if(measuredScreen){
+			bowl.setRadius(bowlRadius);
+		}
+		bowl.move(centerX, centerY-(bowlRadius/2));
+		this.addView(bowl, defaultParams);
+		bowl.setOnTouchListener(selectListener);
+		bowl.setOnDragListener(deleteListener);
+		bowl.bringToFront();
+		return bowl;
+}
+	
 	public void addBowl(){
+		BowlView bowl = getNewBowl();
+		
 		if(currentDisusedId==-1){
-			newBowl.setId(bowlsIdCounter);
+			bowl.setId(bowlsIdCounter);
 			bowlsIdCounter++;
 		} else {
-			newBowl.setId(currentDisusedId);
-			currentDisusedId = -1;
+			bowl.setId(currentDisusedId);
+			if(disusedIds.isEmpty()){
+				currentDisusedId = -1;		
+			} else {
+				currentDisusedId = disusedIds.pop();
+			}
 		}
-		bowls.add(newBowl);
-		newBowl.setOnTouchListener(selectListener);
-		newBowl.setOnDragListener(deleteListener);
-		agent.addUser(newBowl.user);
 		
-		newBowl = getNewBowl();
+		bowls.add(bowl);
+		agent.addUser(bowl.user);
+		bowl.formatText();
+		
+		if(currentDisusedId==-1){
+			newBowl.setColors(Kitchen.assignColor(bowlsIdCounter));
+		} else {
+			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
+		}
+		newBowl.invalidate();
 		
 		if(bowls.size()>=Kitchen.maxBowls){
 			newBowl.setVisibility(View.GONE);
-			newBowl.setOnDragListener(null);
 			newBowl.setOnTouchListener(null);
 		}
 	}
 	
 	public void removeBowl(final BowlView bowl){
-	/*	ViewPropertyAnimator ani = bowl.animate();
-		ani.alpha(0).setDuration(1000);
-		ani.withEndAction(new Runnable(){
-			@Override
-			public void run() { */
-				disusedIds.add(bowl.getId());
-				bowls.remove(bowl);
-				refreshBowls();
-		/*	}	
-		});
-		ani.start(); */
+		disusedIds.add(bowl.getId());
+		bowls.remove(bowl);
+		refreshBowls();
 		addRemoveIcons(true);
+		
+		if(disusedIds.size()==1){
+			currentDisusedId = disusedIds.pop();
+			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
+		}
+		
+		if((bowls.size()+1)==Kitchen.maxBowls){
+			newBowl.setOnTouchListener(newListener);
+		} 
 	}
 
 	public void refreshBowls() {
@@ -303,6 +311,7 @@ public class BowlsGroup extends FrameLayout {
 		selectReady = false;
 		clearSelection();
 		bowlsFocus(true);
+		addRemoveIcons(true);
 	}
 	
 	public List<User> getSelectedUsers(){
