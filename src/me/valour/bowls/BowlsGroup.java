@@ -233,7 +233,6 @@ public class BowlsGroup extends FrameLayout {
 			currentDisusedId = disusedIds.removeFirst();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
 			Log.d("vars","x="+currentDisusedId);
-			Log.d("vars","recycle size="+disusedIds.size());
 		}
 		newBowl.invalidate();
 		

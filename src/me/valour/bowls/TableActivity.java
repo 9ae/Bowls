@@ -310,9 +310,7 @@ public class TableActivity extends Activity implements
 
 	@Override
 	public void addUser(User user) {
-		if (bowlsCount == Kitchen.maxBowls) {
-
-		} else {
+		if (bowlsCount != Kitchen.maxBowls) {
 			bowlsCount++;
 			bill.addUser(user);
 			if (splitEqually) {
@@ -354,6 +352,7 @@ public class TableActivity extends Activity implements
 		bill.reapplyTax();
 		bill.reapplyTip();
 		updateBowlsPrice();
+		bowlsCount--;
 	}
 	
 	public Bill getBill(){
