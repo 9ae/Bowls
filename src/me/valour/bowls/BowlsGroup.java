@@ -217,8 +217,10 @@ public class BowlsGroup extends FrameLayout {
 		if(currentDisusedId==-1){
 			bowl.setId(bowlsIdCounter);
 			bowlsIdCounter++;
+			Log.d("vars","id counter");
 		} else {
 			bowl.setId(currentDisusedId);
+			Log.d("vars","id x");
 		}
 		
 		bowls.add(bowl);
@@ -228,9 +230,11 @@ public class BowlsGroup extends FrameLayout {
 		if(disusedIds.isEmpty()){
 			currentDisusedId = -1;
 			newBowl.setColors(Kitchen.assignColor(bowlsIdCounter));
+			Log.d("vars","x=-1");
 		} else {
 			currentDisusedId = disusedIds.pop();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
+			Log.d("vars","x="+currentDisusedId);
 		}
 		newBowl.invalidate();
 		
@@ -246,9 +250,11 @@ public class BowlsGroup extends FrameLayout {
 		refreshBowls();
 		addRemoveIcons(true);
 		
-		if(currentDisusedId==-1){
+		if(currentDisusedId==-1 && !disusedIds.isEmpty()){
 			currentDisusedId = disusedIds.pop();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
+			newBowl.invalidate();
+			Log.d("vars","x="+currentDisusedId);
 		}
 		
 		if((bowls.size()+1)==Kitchen.maxBowls){
@@ -338,7 +344,6 @@ public class BowlsGroup extends FrameLayout {
 		public boolean deleteBowl(BowlView bowl){
 			if(agent.removeUserConfirm(bowl)){
 				removeBowl(bowl);
-				Log.d("vars","delete this bowl");
 			}
 			return true;
 		}
@@ -351,19 +356,12 @@ public class BowlsGroup extends FrameLayout {
 		    	((BowlView)event.getLocalState()).setVisibility(View.INVISIBLE);
 		        break;
 		    case DragEvent.ACTION_DRAG_ENTERED:
-		        //no action necessary
-		    	Log.d("vars", "entered ");
 		        break;
 		    case DragEvent.ACTION_DRAG_LOCATION:
-				float x = event.getX();
-				float y = event.getY();
-		    	Log.d("vars", "location ("+x+","+y+")");
 		    	break;
 		    case DragEvent.ACTION_DRAG_EXITED:        
-		    	Log.d("vars", "exit");
 		        break;
 		    case DragEvent.ACTION_DROP:
-		    	Log.d("vars", "drop "+v.getId());
 		    	if(v.getId()!=-1){
 		    		return(false);
 		    	}
@@ -378,7 +376,7 @@ public class BowlsGroup extends FrameLayout {
 								clearCenter();
 								deleteBowl(view);
 							}});
-		    			Log.d("vars","ended delete");
+		    		
 		    		} else {
 		    			view.post(new Runnable(){
 							@Override
@@ -386,7 +384,7 @@ public class BowlsGroup extends FrameLayout {
 								view.setVisibility(View.VISIBLE);
 								addRemoveIcons(true);
 							}});
-		    			Log.d("vars","ended keep");
+		    		
 		    		}
 		    	}
 		        break;
