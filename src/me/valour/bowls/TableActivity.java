@@ -30,6 +30,7 @@ public class TableActivity extends Activity implements
 	private BillFragment billFragment;
 	
 	public boolean splitEqually;
+	private boolean isEdit;
 	private Action action;
 	
 	private SharedPreferences sp;
@@ -66,7 +67,7 @@ public class TableActivity extends Activity implements
 		} else {
 			initSplitLineItems();
 		} 
-		
+		isEdit = false;
 	}
 
 	public void applyTax() {
@@ -196,15 +197,18 @@ public class TableActivity extends Activity implements
 				tableFragment.setQuestionText(R.string.q_min_select);
 				return;
 			}
-			bill.divideAmongst(selectedLineItem, consumers);
+			if(isEdit){
+				bill.itemUpdate(selectedLineItem, consumers);
+			} else {
+				bill.divideAmongst(selectedLineItem, consumers);
+				tableFragment.bowlsGroup.stopBowlSelect();
 
-			tableFragment.bowlsGroup.stopBowlSelect();
-
-			// move to being ready for next Item
-			tableFragment.setQuestionText(null);
-			tableFragment.showOkButton(false);
-			action = Action.ITEM_PRICE;
-			selectedLineItem = null;
+				// move to being ready for next Item
+				tableFragment.setQuestionText(null);
+				tableFragment.showOkButton(false);
+				action = Action.ITEM_PRICE;
+				selectedLineItem = null;
+			}
 		}
 		updateBowlsPrice();
 	}
@@ -373,11 +377,13 @@ public class TableActivity extends Activity implements
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack("bill");
 		ft.commit();
+		isEdit = false;
 	}
 	
 
 	@Override
 	public void selectLineItem(int position) {
+		isEdit = true;
 		selectedLineItem = bill.lineItems.get(position);
 		prepareForSelectingBowls(selectedLineItem);
 		tableFragment.bowlsGroup.manualSelect(bill.usersOfItem(selectedLineItem));
@@ -402,6 +408,7 @@ public class TableActivity extends Activity implements
 		ft.commit();
 		
 		tableFragment.bowlsGroup.stopBowlSelect();
+		tableFragment.bowlsGroup.clearCenter();
 	}
 	
 	@Override
