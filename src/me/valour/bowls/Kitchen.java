@@ -1,6 +1,7 @@
 package me.valour.bowls;
 
 import android.graphics.Color;
+import android.util.Log;
 
 public class Kitchen {
 	
@@ -45,14 +46,13 @@ public class Kitchen {
 		}
 		 
 	public static int calculateTextColor(int color){
-		  int r = Color.red(color);
+		int r = Color.red(color);
 		  int g = Color.green(color);
 		  int b = Color.blue(color);
 		  
-		  int whiteDiff = colorDifference(255,255,255,r,g,b);
-		  int blackDiff = colorDifference(0,0,0,r,g,b);
-		  
-		  if(whiteDiff>blackDiff){
+		 double brightness  =  Math.sqrt( .299*Math.pow(r, 2)+ .587*Math.pow(g, 2) + .114*Math.pow(b, 2));
+				  
+		  if(brightness<180){
 		    return Color.WHITE;
 		  } else {
 		    return Color.BLACK;

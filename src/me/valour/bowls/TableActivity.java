@@ -323,7 +323,7 @@ public class TableActivity extends Activity implements
 	@Override
 	public boolean removeUserConfirm(BowlView bv) {
 		User user = bv.user;
-		if(bill.userSubtotal(user)>0.0){
+		if(bill.userSubtotal(user)==0.0){
 			removeUserDo(user);
 			return true;
 		} else {

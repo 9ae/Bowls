@@ -83,7 +83,7 @@ public class BowlView extends TextView{
 	 public void setColors(int color){
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		 primaryPaint.setColor(color);
-		 setTextColor(Color.BLACK);
+		 setTextColor(Kitchen.calculateTextColor(color));
 	 }
 	 
 	 public int getColor(){

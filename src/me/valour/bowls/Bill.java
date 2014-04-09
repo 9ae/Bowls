@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.util.Log;
 import me.valour.milktea.*;
 
 public class Bill{
@@ -169,7 +170,7 @@ public class Bill{
 		//move users beyond it up
 		if(userIndex<(users.size()-1)){
 			for(int i=(userIndex+1); i<users.size(); i++){
-				for(int j=0; j<priceMatrix[i].length; i++){
+				for(int j=0; j<priceMatrix[i].length; j++){
 					priceMatrix[i-1][j] = priceMatrix[i][j];
 					priceMatrix[i][j] = 0.0;
 				}
@@ -290,6 +291,10 @@ public class Bill{
 	public void itemRemove(int lineIndex){
 		LineItem li = lineItems.get(lineIndex);
 		subtotal -= li.getPrice();
+		
+		for(int i=0; i<priceMatrix.length; i++){
+			priceMatrix[i][lineIndex] = 0.0;
+		}
 		
 		//move all columns left
 		for(int j=(lineIndex+1); j<lineItems.size(); j++){
