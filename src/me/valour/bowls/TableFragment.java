@@ -134,10 +134,11 @@ public class TableFragment extends Fragment {
 	}
 	
 	public void askToAppy(String type, double value){
-		Log.d("vars",value+"");
-		double wholeNumber = value*100.0;
-		Log.d("vars",wholeNumber+"");
-		tvQuestion.setText(getString(R.string.q_ask_percent, wholeNumber, type));
+		if(type.equals("tax")){
+			tvQuestion.setText(getString(R.string.q_ask_amount, value, type));
+		} else if (type.equals("tip")){
+			tvQuestion.setText(getString(R.string.q_ask_percent, value, type));
+		}
 		tvQuestion.setVisibility(View.VISIBLE);
 		btnOk.setVisibility(View.VISIBLE);
 		btnNo.setVisibility(View.VISIBLE);

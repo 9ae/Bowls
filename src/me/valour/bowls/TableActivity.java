@@ -37,6 +37,8 @@ public class TableActivity extends Activity implements
 	
 	private LineItem selectedLineItem = null;
 	private BowlView deleteBowlQueue = null;
+	
+	private double taxEstimate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -255,7 +257,7 @@ public class TableActivity extends Activity implements
 	public void OnNoButtonPress() {
 		switch (action) {
 		case CONFIRM_TAX:
-			openNumberPadForPercentChange(bill.getTax());
+			openNumberPadForAmountChange(taxEstimate);
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
 			action = Action.SET_TAX;
@@ -283,7 +285,7 @@ public class TableActivity extends Activity implements
 		Button btn = (Button) v;
 		String txt = btn.getText().toString();
 		if (txt.contains("+")) {
-			tableFragment.askToAppy("tip", bill.getTip());
+			tableFragment.askToAppy("tip", bill.getTip()*100);
 			action = Action.CONFIRM_TIP;
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
@@ -299,7 +301,8 @@ public class TableActivity extends Activity implements
 		Button btn = (Button) v;
 		String txt = btn.getText().toString();
 		if (txt.contains("+")) {
-			tableFragment.askToAppy("tax", bill.getTax());
+			taxEstimate = bill.getTax()*bill.getSubtotal();
+			tableFragment.askToAppy("tax", taxEstimate);
 			action = Action.CONFIRM_TAX;
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
@@ -433,12 +436,26 @@ public class TableActivity extends Activity implements
 		bundle.putDouble("numberValue", percent*100);
 		bundle.putBoolean("percentMode",true);
 		
-		if(action==Action.SET_TAX){
-			bundle.putString("hint", getString(R.string.q_enter_tax_percent));
-		}
-		
 		if(action==Action.SET_TIP){
 			bundle.putString("hint", getString(R.string.q_enter_tip_percent));
+		}
+		
+		numFragment.setArguments(bundle);
+		
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
+		ft.replace(R.id.rightContainer, numFragment);
+		ft.addToBackStack(null);
+		ft.commit();
+	}
+	
+	public void openNumberPadForAmountChange(double amount){
+		Bundle bundle = new Bundle();
+		bundle.putDouble("numberValue", amount);
+		bundle.putBoolean("percentMode",false);
+		
+		if(action==Action.SET_TAX){
+			bundle.putString("hint", getString(R.string.q_enter_tax_dollars));
 		}
 		
 		numFragment.setArguments(bundle);
