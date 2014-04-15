@@ -141,6 +141,7 @@ public class TableFragment extends Fragment {
 		tvQuestion.setVisibility(View.VISIBLE);
 		btnOk.setVisibility(View.VISIBLE);
 		btnNo.setVisibility(View.VISIBLE);
+		bowlsGroup.clearCenter();
 	}
 	
 	public interface ButtonAgent{
