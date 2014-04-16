@@ -20,6 +20,8 @@ public class Bill{
 	
 	private double percentTip;
 	private double percentTax;
+	private double amountTax;
+	private double amountTip;
 	
 	private boolean appliedTip = false;
 	private boolean appliedTax = false;
@@ -35,6 +37,8 @@ public class Bill{
 		subtotal = 0.0;
 		percentTax = tax;
 		percentTip = tip;
+		amountTax = 0.0;
+		amountTip = 0.0;
 		if(splitEqually){
 			priceMatrix = new double[Kitchen.maxBowls][1];
 		} else {
@@ -51,20 +55,26 @@ public class Bill{
 		return percentTax;
 	}
 	
+	public double getTaxAmount(){
+		if(appliedTax){
+			return amountTax;
+		} else {
+			return 0.0;
+		}
+	}
+	
 	public double calculateTip(){
 		if(appliedTip){
-			return subtotal * percentTip;
+			amountTip = subtotal * percentTip;
+			return amountTip;
 		} else {
 			return 0.0;
 		}
 	}
 	
 	public double calculateTax(){
-		if(appliedTax){
-			return subtotal * percentTax;
-		} else {
-			return 0.0;
-		}
+		amountTax = subtotal * percentTax;
+		return amountTax;
 	}
 	
 	public void setTax(double tax){
@@ -75,6 +85,13 @@ public class Bill{
 	public void setTip(double tip){
 		percentTip = tip;
 		changeAgent.tipChanged(true);
+	}
+	
+	public void setTaxAmount(double amount){
+		boolean rateChange = (amount/subtotal!=amountTax/subtotal);
+		amountTax = amount;
+		percentTax = amount/subtotal;
+		changeAgent.taxChanged(rateChange);
 	}
 	
 	public void applyTip(){

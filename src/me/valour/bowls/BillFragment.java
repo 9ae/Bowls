@@ -227,7 +227,7 @@ public class BillFragment extends Fragment implements
 		if(rateChanged){
 			setTaxPercent(bill.getTax());
 		}
-		setTaxAmount(bill.calculateTax());
+		setTaxAmount(bill.getTaxAmount());
 		updateTotal();
 	}
 
@@ -242,7 +242,7 @@ public class BillFragment extends Fragment implements
 
 	@Override
 	public void updateTotal() {
-		double total = bill.getSubtotal() + bill.calculateTax() + bill.calculateTip();
+		double total = bill.getSubtotal() + bill.getTaxAmount() + bill.calculateTip();
 		setTotal(total);
 	}
 	

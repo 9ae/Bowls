@@ -73,6 +73,7 @@ public class TableActivity extends Activity implements
 	}
 
 	public void applyTax() {
+		bill.calculateTax();
 		bill.applyTax();
 		updateBowlsPrice();
 	}
@@ -88,10 +89,10 @@ public class TableActivity extends Activity implements
 	}
 
 	public void setTax(String tax, boolean save) {
-		double percent = Double.parseDouble(tax) / 100;
-		bill.setTax(percent);
+		double amount = Double.parseDouble(tax);
+		bill.setTaxAmount(amount);
 		if (sp != null && save) {
-			sp.edit().putString("default_tax", tax).commit();
+			sp.edit().putString("default_tax", Double.toString(bill.getTax()*100)).commit();
 		}
 	}
 
