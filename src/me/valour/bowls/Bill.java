@@ -3,6 +3,7 @@ package me.valour.bowls;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -153,16 +154,21 @@ public class Bill{
 			return;
 		}
 		//go through list to redivide
+		ArrayList<LineItem> toRemoveItems = new ArrayList<LineItem>();
 		for(int j=0; j<priceMatrix[userIndex].length; j++){
 			//redivide
 			if(priceMatrix[userIndex][j]>0.0){
 				LineItem li = lineItems.get(j);
 				int usersCount = usersOfItemCount(j);
-				double newPrice = li.getPrice()/(usersCount-1);
-				for(int i=0; i<priceMatrix.length; i++){
-					if(i!=userIndex && priceMatrix[i][j]>0.0){
-						priceMatrix[i][j] = newPrice;
+				if(usersCount>1){
+					double newPrice = li.getPrice()/(usersCount-1);
+					for(int i=0; i<priceMatrix.length; i++){
+						if(i!=userIndex && priceMatrix[i][j]>0.0){
+							priceMatrix[i][j] = newPrice;
+						}
 					}
+				} else {
+					toRemoveItems.add(li);
 				}
 				priceMatrix[userIndex][j] = 0.0;
 			}
@@ -178,6 +184,12 @@ public class Bill{
 		}
 		users.remove(u);
 		usersUpdateSubtotal();
+		
+		Iterator<LineItem> it = toRemoveItems.iterator();
+		while(it.hasNext()){
+			LineItem li = it.next();
+			itemRemove(lineItems.indexOf(li));
+		}
 	}
 	
 	public void usersAddBatch(List<User> users){
@@ -307,6 +319,7 @@ public class Bill{
 		lineItems.remove(lineIndex);
 		usersUpdateSubtotal();
 		changeAgent.subtotalChanged();
+		changeAgent.removeLineItemFromBill();
 	}
 
 	
@@ -359,6 +372,7 @@ public class Bill{
 		public void taxChanged(boolean rateChanged);
 		public void tipChanged(boolean rateChanged);
 		public void updateTotal();
+		public void removeLineItemFromBill();
 	}
 
 }

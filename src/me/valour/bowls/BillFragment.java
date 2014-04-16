@@ -260,4 +260,9 @@ public class BillFragment extends Fragment implements
 		agent.updateBowlsPrice();
 		adapter.notifyDataSetChanged();
 	}
+
+	@Override
+	public void removeLineItemFromBill() {
+		adapter.notifyDataSetChanged();
+	}
 }
