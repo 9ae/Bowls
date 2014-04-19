@@ -184,7 +184,7 @@ public class TableActivity extends Activity implements
 		bill.reapplyTax();
 		bill.reapplyTip();
 		updateBowlsPrice();
-	}
+	} 
 
 	private void prepareForSelectingBowls(LineItem li) {
 		tableFragment.setQuestionText(R.string.q_select_bowls);

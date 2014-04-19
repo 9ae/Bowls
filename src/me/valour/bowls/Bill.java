@@ -120,7 +120,6 @@ public class Bill{
 		for(User u: users){
 			u.setTax(u.getSubtotal()*percentTax);
 		}
-		changeAgent.taxChanged(false);
 	}
 	
 	public void reapplyTip(){
@@ -130,7 +129,6 @@ public class Bill{
 		for(User u: users){
 			u.setTip(u.getSubtotal()*percentTip);
 		}
-		changeAgent.tipChanged(false);
 	}
 	
 	public void clearTip(){
@@ -300,6 +298,16 @@ public class Bill{
 		}
 		usersUpdateSubtotal();
 		changeAgent.subtotalChanged();
+		
+		if(appliedTax){
+			Log.d("vars","new tax="+calculateTax());
+			setTaxAmount(calculateTax());
+			changeAgent.taxChanged(false);
+		}
+		
+		if(appliedTip){
+			changeAgent.tipChanged(false);
+		}
 	}
 	
 	public void itemUpdate(LineItem li, List<User> newUsers){
