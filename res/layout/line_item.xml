@@ -11,26 +11,25 @@
             android:contentDescription="@string/minus_sign"
             android:src="@android:drawable/ic_delete"
 			android:background="@android:color/transparent"
-            android:layout_alignParentLeft="true" />
-        
-         <TextView
-             android:id="@+id/tap2edit"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:layout_alignParentTop="true"
-             android:text="@string/fade_edit"
-             android:textAppearance="?android:attr/textAppearanceMedium"
-             android:textColor="@color/light_fade"
-             android:visibility="invisible" />
+            android:layout_alignParentLeft="true"
+            android:visibility="invisible" />
 
          <TextView
              android:id="@+id/lineItemPrice"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:layout_below="@+id/tap2edit"
              android:layout_centerHorizontal="true"
              android:text="@string/hello_world"
              android:textColor="@color/primary_color" />
+         
+         <ImageButton
+            android:id="@+id/lineEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/fade_edit"
+            android:src="@android:drawable/ic_menu_edit"
+			android:background="@android:color/transparent"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"  />
 
     </RelativeLayout>

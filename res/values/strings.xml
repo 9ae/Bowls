@@ -42,7 +42,7 @@
     <string name="bill_total">Total:</string>
     
     <string name="done">OK</string>
-    <string name="fade_edit">Edit by tapping again</string>
+    <string name="fade_edit">Edit</string>
     
     <string name="q_enter_first_li">First item price</string>
     <string name="q_enter_next_li">Next item price</string>

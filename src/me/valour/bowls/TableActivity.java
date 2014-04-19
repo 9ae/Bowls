@@ -394,6 +394,16 @@ public class TableActivity extends Activity implements
 	}
 	
 	@Override
+	public void deselectLineItem(){
+		tableFragment.bowlsGroup.stopBowlSelect();
+
+		tableFragment.setQuestionText(null);
+		tableFragment.showOkButton(false);
+		action = Action.ITEM_PRICE;
+		selectedLineItem = null;
+	}
+	
+	@Override
 	public void editLineItem() {
 		if(selectedLineItem==null){
 			return;
