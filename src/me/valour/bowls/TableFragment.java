@@ -20,10 +20,55 @@ public class TableFragment extends Fragment {
 	private TextView tvQuestion;
 	private Button btnOk;
 	private Button btnNo;
+	private Button tax;
+	private Button tip;
 	
+	private boolean tvQuestionWasVisible = false;
+	private boolean btnOkWasVisible = false;
+	private boolean btnNoWasVisible = false;
 	
 	public TableFragment() {
 
+	}
+	
+	public void enableActions(){
+		tax.setEnabled(true);
+		tax.setVisibility(View.VISIBLE);
+		tip.setEnabled(true);
+		tip.setVisibility(View.VISIBLE);
+		tvQuestion.setVisibility(View.VISIBLE);
+		if(tvQuestionWasVisible){
+			tvQuestion.setVisibility(View.VISIBLE);
+		}
+		if(btnOkWasVisible){
+			btnOk.setVisibility(View.VISIBLE);
+		}
+		if(btnNoWasVisible){
+			btnNo.setVisibility(View.VISIBLE);
+		}
+		bowlsGroup.enableActions();
+		bowlsGroup.animate().alpha(1).start();
+	}
+	
+	public void disableActions(){
+		tax.setEnabled(false);
+		tax.setVisibility(View.INVISIBLE);
+		tip.setEnabled(false);
+		tip.setVisibility(View.INVISIBLE);
+		if(tvQuestion.getVisibility()==View.VISIBLE){
+			tvQuestion.setVisibility(View.INVISIBLE);
+			tvQuestionWasVisible = true;
+		}
+		if(btnOk.getVisibility()==View.VISIBLE){
+			btnOk.setVisibility(View.INVISIBLE);
+			btnOkWasVisible = true;
+		}
+		if(btnNo.getVisibility()==View.VISIBLE){
+			btnNo.setVisibility(View.INVISIBLE);
+			btnNoWasVisible = true;
+		}
+		bowlsGroup.disableActions();
+		bowlsGroup.animate().alpha(0).start();
 	}
 
 	@Override
@@ -37,14 +82,14 @@ public class TableFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view =  inflater.inflate(R.layout.fragment_table, container, false);
 
-		final Button tip = (Button)view.findViewById(R.id.btn_tip);
+		tip = (Button)view.findViewById(R.id.btn_tip);
 		tip.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				buttonAgent.onTipButtonPress(v);
 			}});
 		
-		final Button tax = (Button)view.findViewById(R.id.btn_tax);
+		tax = (Button)view.findViewById(R.id.btn_tax);
 		tax.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -95,6 +140,7 @@ public class TableFragment extends Fragment {
 	
 	public void setQuestionText(String s){
 		if(s==null){
+			tvQuestion.setText("");
 			tvQuestion.setVisibility(View.INVISIBLE);
 		} else {
 			tvQuestion.setText(s);
@@ -134,13 +180,15 @@ public class TableFragment extends Fragment {
 	}
 	
 	public void askToAppy(String type, double value){
-		Log.d("vars",value+"");
-		double wholeNumber = value*100.0;
-		Log.d("vars",wholeNumber+"");
-		tvQuestion.setText(getString(R.string.q_ask_percent, wholeNumber, type));
+		if(type.equals("tax")){
+			tvQuestion.setText(getString(R.string.q_ask_amount, value, type));
+		} else if (type.equals("tip")){
+			tvQuestion.setText(getString(R.string.q_ask_percent, value, type));
+		}
 		tvQuestion.setVisibility(View.VISIBLE);
 		btnOk.setVisibility(View.VISIBLE);
 		btnNo.setVisibility(View.VISIBLE);
+		bowlsGroup.clearCenter();
 	}
 	
 	public interface ButtonAgent{

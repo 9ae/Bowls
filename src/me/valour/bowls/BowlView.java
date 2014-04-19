@@ -8,6 +8,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -48,6 +49,8 @@ public class BowlView extends TextView{
 		 
 		 originalX = 0;
 		 originalY = 0;
+		 
+		 this.setGravity(Gravity.CENTER);
 	 }
 	 
 	 public void move(float x, float y){
@@ -80,6 +83,11 @@ public class BowlView extends TextView{
 	 public void setColors(int color){
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		 primaryPaint.setColor(color);
+		 setTextColor(Kitchen.calculateTextColor(color));
+	 }
+	 
+	 public int getColor(){
+		 return primaryPaint.getColor();
 	 }
 	 
 	 public void setRadius(int radius){
@@ -107,10 +115,15 @@ public class BowlView extends TextView{
 	 
 	 public void formatText(){
 		 if(user!=null){
-		  String p = String.format("$ %.2f", user.getTotal());
-		  setText(p);
+		  double total = user.getTotal();
+		  if(total>0.0){
+			  String p = String.format("$ %.2f", total);
+			  setText(p);
+		  } else {
+			  setText("");
+		  }
 		 } else {
-			 setText(R.string.zero_dollars);
+			 setText("");
 		 }
 	 }
 	 

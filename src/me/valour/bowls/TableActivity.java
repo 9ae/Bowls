@@ -30,12 +30,15 @@ public class TableActivity extends Activity implements
 	private BillFragment billFragment;
 	
 	public boolean splitEqually;
+	private boolean isEdit;
 	private Action action;
 	
 	private SharedPreferences sp;
 	
 	private LineItem selectedLineItem = null;
 	private BowlView deleteBowlQueue = null;
+	
+	private double taxEstimate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class TableActivity extends Activity implements
 
 		bowlsCount = Kitchen.minBowls;
 		action = Action.ITEM_PRICE;
-		bill = new Bill(getTax(), getTip());
+		bill = new Bill(getTax(), getTip(), splitEqually);
 
 		setContentView(R.layout.activity_table);
 
@@ -56,7 +59,7 @@ public class TableActivity extends Activity implements
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
 		numFragment = new NumberPadFragment();
 		
-		bill.addUniqueUsers(tableFragment.bowlsGroup.getBowlUsers());
+		bill.usersAddBatch(tableFragment.bowlsGroup.getBowlUsers());
 		
 		billFragment = (BillFragment) fm.findFragmentById(R.id.billFragment);
 		billFragment.clearSummary();
@@ -66,10 +69,11 @@ public class TableActivity extends Activity implements
 		} else {
 			initSplitLineItems();
 		} 
-		
+		isEdit = false;
 	}
 
 	public void applyTax() {
+		bill.calculateTax();
 		bill.applyTax();
 		updateBowlsPrice();
 	}
@@ -85,10 +89,11 @@ public class TableActivity extends Activity implements
 	}
 
 	public void setTax(String tax, boolean save) {
-		double percent = Double.parseDouble(tax) / 100;
-		bill.setTax(percent);
+		Log.d("vars","tax="+tax);
+		double amount = Double.parseDouble(tax);
+		bill.setTaxAmount(amount);
 		if (sp != null && save) {
-			sp.edit().putString("default_tax", tax).commit();
+			sp.edit().putString("default_tax", Double.toString(bill.getTax()*100)).commit();
 		}
 	}
 
@@ -157,9 +162,9 @@ public class TableActivity extends Activity implements
 
 	private void registerItemPrice() {
 		double price = numFragment.getNumberValue();
-		LineItem li = bill.addLineItem(price);
+		LineItem li = bill.itemAdd(price);
 		if (splitEqually) {
-			bill.divideEqually(li);
+			bill.divideEqually();
 			clearCenter();
 		} else {
 			prepareForSelectingBowls(li);
@@ -170,16 +175,14 @@ public class TableActivity extends Activity implements
 	
 	private void updateItemPrice(){
 		double price = numFragment.getNumberValue();
-		bill.updateLineItemPrice(selectedLineItem, price);
+		bill.itemUpdate(selectedLineItem, price);
 		if(splitEqually){
-			bill.redivideEqually();
 			clearCenter();
 		} else {
-			bill.redivideAmongst(selectedLineItem);
 			billFragment.updatedList();
 		}
 		updateBowlsPrice();
-	}
+	} 
 
 	private void prepareForSelectingBowls(LineItem li) {
 		tableFragment.setQuestionText(R.string.q_select_bowls);
@@ -198,15 +201,21 @@ public class TableActivity extends Activity implements
 				tableFragment.setQuestionText(R.string.q_min_select);
 				return;
 			}
-			bill.divideAmongst(selectedLineItem, consumers);
+			if(isEdit){
+				bill.itemUpdate(selectedLineItem, consumers);
+			} else {
+				bill.divideAmongst(selectedLineItem, consumers);
+			}
+				tableFragment.bowlsGroup.stopBowlSelect();
 
-			tableFragment.bowlsGroup.stopBowlSelect();
-
-			// move to being ready for next Item
-			tableFragment.setQuestionText(null);
-			tableFragment.showOkButton(false);
-			action = Action.ITEM_PRICE;
-			selectedLineItem = null;
+				// move to being ready for next Item
+				tableFragment.setQuestionText(null);
+				tableFragment.showOkButton(false);
+				action = Action.ITEM_PRICE;
+				selectedLineItem = null;
+				if(isEdit){
+					billFragment.deselectLineItem();
+				}
 		}
 		updateBowlsPrice();
 	}
@@ -239,11 +248,6 @@ public class TableActivity extends Activity implements
 			setTax(numFragment.getStringValue(), false);
 			applyTax();
 			completePercentChange();
-		case CONFIRM_DELETE:
-			if(deleteBowlQueue!=null){
-				removeUserDo(deleteBowlQueue.user);
-			}
-			break;
 		default:
 			break;
 		}
@@ -253,22 +257,19 @@ public class TableActivity extends Activity implements
 	public void OnNoButtonPress() {
 		switch (action) {
 		case CONFIRM_TAX:
-			openNumberPadForPercentChange(bill.getTax());
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
+			tableFragment.setQuestionText(null);
+			openNumberPadForAmountChange(taxEstimate);
 			action = Action.SET_TAX;
 			break;
 
 		case CONFIRM_TIP:
-			openNumberPadForPercentChange(bill.getTip());
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
+			tableFragment.setQuestionText(null);
+			openNumberPadForPercentChange(bill.getTip());
 			action = Action.SET_TIP;
-			break;
-		case CONFIRM_DELETE:
-			tableFragment.bowlsGroup.nullifyDelete(deleteBowlQueue);
-			deleteBowlQueue = null;
-			completeConfirmDelete();
 			break;
 		default:
 			break;
@@ -281,7 +282,7 @@ public class TableActivity extends Activity implements
 		Button btn = (Button) v;
 		String txt = btn.getText().toString();
 		if (txt.contains("+")) {
-			tableFragment.askToAppy("tip", bill.getTip());
+			tableFragment.askToAppy("tip", bill.getTip()*100);
 			action = Action.CONFIRM_TIP;
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
@@ -297,7 +298,8 @@ public class TableActivity extends Activity implements
 		Button btn = (Button) v;
 		String txt = btn.getText().toString();
 		if (txt.contains("+")) {
-			tableFragment.askToAppy("tax", bill.getTax());
+			taxEstimate = bill.calculateTax();
+			tableFragment.askToAppy("tax", taxEstimate);
 			action = Action.CONFIRM_TAX;
 			txt = txt.replaceFirst("\\+", "\\-");
 		} else {
@@ -310,13 +312,11 @@ public class TableActivity extends Activity implements
 
 	@Override
 	public void addUser(User user) {
-		if (bowlsCount == Kitchen.maxBowls) {
-
-		} else {
+		if (bowlsCount != Kitchen.maxBowls) {
 			bowlsCount++;
-			bill.addUser(user);
+			bill.userAdd(user);
 			if (splitEqually) {
-				bill.redivideEqually();
+				bill.divideEqually();
 				bill.reapplyTax();
 				bill.reapplyTip();
 				updateBowlsPrice();
@@ -327,33 +327,17 @@ public class TableActivity extends Activity implements
 	@Override
 	public boolean removeUserConfirm(BowlView bv) {
 		User user = bv.user;
-		if(bill.allowRmUser(user)){
-			removeUserDo(user);
-			return true;
-		} else {
-			tableFragment.setQuestionText(R.string.q_user_has_balance);
-			tableFragment.setNoButtonText(R.string.cancel);
-			tableFragment.showOkButton(true);
-			action = Action.CONFIRM_DELETE;
-			deleteBowlQueue = bv;
-			return false;
-		}
+		removeUserDo(user);
+		return true;
 	}
 
 	@Override
 	public void removeUserDo(User user) {
-		bill.clearUserItems(user);
-		bill.rmRow(user);
-		if(deleteBowlQueue!=null){
-			tableFragment.bowlsGroup.removeBowl(deleteBowlQueue);
-			deleteBowlQueue = null;
-		}
-		if(action==Action.CONFIRM_DELETE){
-			completeConfirmDelete();
-		}
+		bill.userRemove(user);
 		bill.reapplyTax();
 		bill.reapplyTip();
 		updateBowlsPrice();
+		bowlsCount--;
 	}
 	
 	public Bill getBill(){
@@ -377,14 +361,27 @@ public class TableActivity extends Activity implements
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack("bill");
 		ft.commit();
+		tableFragment.disableActions();
+		isEdit = false;
 	}
 	
 
 	@Override
 	public void selectLineItem(int position) {
+		isEdit = true;
 		selectedLineItem = bill.lineItems.get(position);
 		prepareForSelectingBowls(selectedLineItem);
-		tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
+		tableFragment.bowlsGroup.manualSelect(bill.usersOfItem(selectedLineItem));
+	}
+	
+	@Override
+	public void deselectLineItem(){
+		tableFragment.bowlsGroup.stopBowlSelect();
+
+		tableFragment.setQuestionText(null);
+		tableFragment.showOkButton(false);
+		action = Action.ITEM_PRICE;
+		selectedLineItem = null;
 	}
 	
 	@Override
@@ -396,7 +393,7 @@ public class TableActivity extends Activity implements
 		
 		Bundle bundle = new Bundle();
 		bundle.putDouble("numberValue", price);
-		bundle.putBoolean("percentMode",false);
+		bundle.putBoolean("percentMode", false);
 		numFragment.setArguments(bundle);
 		
 		FragmentTransaction ft = fm.beginTransaction();
@@ -404,8 +401,9 @@ public class TableActivity extends Activity implements
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
-		
+		tableFragment.disableActions();
 		tableFragment.bowlsGroup.stopBowlSelect();
+		tableFragment.bowlsGroup.clearCenter();
 	}
 	
 	@Override
@@ -430,10 +428,6 @@ public class TableActivity extends Activity implements
 		bundle.putDouble("numberValue", percent*100);
 		bundle.putBoolean("percentMode",true);
 		
-		if(action==Action.SET_TAX){
-			bundle.putString("hint", getString(R.string.q_enter_tax_percent));
-		}
-		
 		if(action==Action.SET_TIP){
 			bundle.putString("hint", getString(R.string.q_enter_tip_percent));
 		}
@@ -445,10 +439,26 @@ public class TableActivity extends Activity implements
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
+		tableFragment.disableActions();
 	}
 	
-	public void closeNumberPad(){
-		fm.popBackStack();
+	public void openNumberPadForAmountChange(double amount){
+		Bundle bundle = new Bundle();
+		bundle.putDouble("numberValue", amount);
+		bundle.putBoolean("percentMode",false);
+		
+		if(action==Action.SET_TAX){
+			bundle.putString("hint", getString(R.string.q_enter_tax_dollars));
+		}
+		
+		numFragment.setArguments(bundle);
+		
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
+		ft.replace(R.id.rightContainer, numFragment);
+		ft.addToBackStack(null);
+		ft.commit();
+		tableFragment.disableActions();
 	}
 
 	@Override
@@ -467,17 +477,19 @@ public class TableActivity extends Activity implements
 				break;
 			case EDIT_SUBTOTAL:
 				updateItemPrice();
+				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;
 			default:
 				updateItemPrice();
 				prepareForSelectingBowls(selectedLineItem);
-				tableFragment.bowlsGroup.manualSelect(bill.listUsers(selectedLineItem));
+				tableFragment.bowlsGroup.manualSelect(bill.usersOfItem(selectedLineItem));
 				break;
 			}
 		} else {
 			registerItemPrice();
 		}
-		closeNumberPad();
+		fm.popBackStack();
+		tableFragment.enableActions();
 	}
 
 }

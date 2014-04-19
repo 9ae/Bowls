@@ -34,6 +34,7 @@ public class BowlsGroup extends FrameLayout {
 	int bowlRadius;
 	boolean measuredScreen;
 	boolean selectReady = false;
+	boolean addRemovable = true;
 	
 	FrameLayout.LayoutParams defaultParams;
 	BowlSelectListener selectListener;
@@ -45,9 +46,8 @@ public class BowlsGroup extends FrameLayout {
 	BowlView newBowl;
 	FrameLayout trashBowl;
 	int bowlsIdCounter = 1;
-	int currentDisusedId = -1;
 	LinkedList<Integer> disusedIds;
-	
+	int currentDisusedId = -1;
 	BowlView selectedForDelete;
 
 	public BowlsGroup(Context context) {
@@ -108,7 +108,12 @@ public class BowlsGroup extends FrameLayout {
 		}
 		
 		disusedIds = new LinkedList<Integer>();
-		newBowl = getNewBowl();
+		
+		newBowl = new BowlView(this.getContext());
+		newBowl.setColors(Kitchen.assignColor(bowlsIdCounter));
+		this.addView(newBowl, defaultParams);
+		newBowl.setOnTouchListener(newListener);
+		newBowl.bringToFront();
 		
 		trashBowl = new FrameLayout(this.getContext());
 		trashBowl.setBackgroundResource(android.R.drawable.ic_delete);
@@ -116,27 +121,6 @@ public class BowlsGroup extends FrameLayout {
 		trashBowl.setVisibility(View.GONE);
 		trashBowl.setOnDragListener(deleteListener);
 	}
-	
-	private BowlView getNewBowl(){
-			BowlView bowl = new BowlView(this.getContext());
-			if(disusedIds.isEmpty()){
-				bowl.setColors(Kitchen.assignColor(bowlsIdCounter));
-				currentDisusedId = -1;
-			} else {
-				currentDisusedId = disusedIds.pop();
-				bowl.setColors(Kitchen.assignColor(currentDisusedId));
-			}
-			if(measuredScreen){
-				bowl.setRadius(bowlRadius);
-			}
-			bowl.setX(centerX);
-			bowl.setY(centerY-(bowlRadius/2));
-			this.addView(bowl, defaultParams);
-			bowl.setOnTouchListener(newListener);
-			bowl.bringToFront();
-			return bowl;
-	}
-	
 	
 	public void measureView(){
 		if(measuredScreen){
@@ -213,43 +197,68 @@ public class BowlsGroup extends FrameLayout {
 		trashBowl.setVisibility(View.GONE);
 	}
 	
-	public void addBowl(){
-		if(currentDisusedId==-1){
-			newBowl.setId(bowlsIdCounter);
-			bowlsIdCounter++;
-		} else {
-			newBowl.setId(currentDisusedId);
-			currentDisusedId = -1;
+	private BowlView getNewBowl(){
+		BowlView bowl = new BowlView(this.getContext());
+		bowl.setColors(newBowl.getColor());
+		if(measuredScreen){
+			bowl.setRadius(bowlRadius);
 		}
-		bowls.add(newBowl);
-		newBowl.setOnDragListener(null);
-		newBowl.setOnTouchListener(null);
-		newBowl.setOnTouchListener(selectListener);
-		newBowl.setOnDragListener(deleteListener);
-		agent.addUser(newBowl.user);
+		bowl.move(centerX, centerY-(bowlRadius/2));
+		this.addView(bowl, defaultParams);
+		bowl.setOnTouchListener(selectListener);
+		bowl.bringToFront();
+		return bowl;
+}
+	
+	public void addBowl(){
+		BowlView bowl = getNewBowl();
 		
-		newBowl = getNewBowl();
+		if(currentDisusedId==-1){
+			bowl.setId(bowlsIdCounter);
+			bowlsIdCounter++;
+			Log.d("vars","id counter");
+		} else {
+			bowl.setId(currentDisusedId);
+			Log.d("vars","id x");
+		}
+		
+		bowls.add(bowl);
+		agent.addUser(bowl.user);
+		bowl.formatText();
+		
+		if(disusedIds.isEmpty()){
+			currentDisusedId = -1;
+			newBowl.setColors(Kitchen.assignColor(bowlsIdCounter));
+			Log.d("vars","x=-1");
+		} else {
+			currentDisusedId = disusedIds.removeFirst();
+			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
+			Log.d("vars","x="+currentDisusedId);
+		}
+		newBowl.invalidate();
 		
 		if(bowls.size()>=Kitchen.maxBowls){
 			newBowl.setVisibility(View.GONE);
-			newBowl.setOnDragListener(null);
 			newBowl.setOnTouchListener(null);
 		}
 	}
 	
 	public void removeBowl(final BowlView bowl){
-		ViewPropertyAnimator ani = bowl.animate();
-		ani.alpha(0).setDuration(1000);
-		ani.withEndAction(new Runnable(){
-			@Override
-			public void run() {
-				disusedIds.add(bowl.getId());
-				bowls.remove(bowl);
-				refreshBowls();
-			}	
-		});
-		ani.start();
+		disusedIds.add(bowl.getId());
+		bowls.remove(bowl);
+		refreshBowls();
 		addRemoveIcons(true);
+		
+		if(currentDisusedId==-1 && !disusedIds.isEmpty()){
+			currentDisusedId = disusedIds.removeFirst();
+			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
+			newBowl.invalidate();
+			Log.d("vars","r x="+currentDisusedId);
+		}
+		
+		if((bowls.size()+1)==Kitchen.maxBowls){
+			newBowl.setOnTouchListener(newListener);
+		} 
 	}
 
 	public void refreshBowls() {
@@ -304,6 +313,7 @@ public class BowlsGroup extends FrameLayout {
 		selectReady = false;
 		clearSelection();
 		bowlsFocus(true);
+		addRemoveIcons(true);
 	}
 	
 	public List<User> getSelectedUsers(){
@@ -317,15 +327,19 @@ public class BowlsGroup extends FrameLayout {
 			u.view.unfade();
 		}
 	}
+	
+	public void enableActions(){
+		addRemovable = true;
+	}
+	
+	public void disableActions(){
+		selectReady = false;
+		addRemovable = false;
+	}
 
 	
 	public void attachBowlAgents(Activity activity){
 		agent = (BowlsGroupAgent) activity;
-	}
-	
-	public void nullifyDelete(BowlView bv){
-		bv.setVisibility(View.VISIBLE);
-		addRemoveIcons(true);
 	}
 	
 	private class DeleteDropListener implements OnDragListener{
@@ -333,7 +347,6 @@ public class BowlsGroup extends FrameLayout {
 		public boolean deleteBowl(BowlView bowl){
 			if(agent.removeUserConfirm(bowl)){
 				removeBowl(bowl);
-				Log.d("vars","delete this bowl");
 			}
 			return true;
 		}
@@ -346,25 +359,18 @@ public class BowlsGroup extends FrameLayout {
 		    	((BowlView)event.getLocalState()).setVisibility(View.INVISIBLE);
 		        break;
 		    case DragEvent.ACTION_DRAG_ENTERED:
-		        //no action necessary
-		    	Log.d("vars", "entered ");
 		        break;
 		    case DragEvent.ACTION_DRAG_LOCATION:
-				float x = event.getX();
-				float y = event.getY();
-		    	Log.d("vars", "location ("+x+","+y+")");
 		    	break;
 		    case DragEvent.ACTION_DRAG_EXITED:        
-		    	Log.d("vars", "exit");
 		        break;
 		    case DragEvent.ACTION_DROP:
-		    	Log.d("vars", "drop "+v.getId());
 		    	if(v.getId()!=-1){
 		    		return(false);
 		    	}
 		        break;
 		    case DragEvent.ACTION_DRAG_ENDED:
-		    	if(v.getId()!=-1){
+		    	if(v.getId()==-1){
 		    		final BowlView view = ((BowlView)event.getLocalState());
 		    		if(event.getResult()){
 		    			view.post(new Runnable(){
@@ -373,7 +379,7 @@ public class BowlsGroup extends FrameLayout {
 								clearCenter();
 								deleteBowl(view);
 							}});
-		    			Log.d("vars","ended delete");
+		    		
 		    		} else {
 		    			view.post(new Runnable(){
 							@Override
@@ -381,7 +387,6 @@ public class BowlsGroup extends FrameLayout {
 								view.setVisibility(View.VISIBLE);
 								addRemoveIcons(true);
 							}});
-		    			Log.d("vars","ended keep");
 		    		}
 		    	}
 		        break;
@@ -396,27 +401,10 @@ public class BowlsGroup extends FrameLayout {
 	private class BowlSelectListener implements OnTouchListener{
 
 		public List<User> selected;
-		private float prevX;
-		private float prevY;
-		private float dx;
-		private float dy;
-		private boolean bowlMoved=false;
-		private boolean deleteBowl = false;
 		
 		public BowlSelectListener(){
 			selected = new ArrayList<User>();
-			dx = 0;
-			dy = 0;
-		}
-		
-		public boolean testDelete(float x, float y){
-			deleteBowl = trashBowl.getX()<x && x<(trashBowl.getX()+trashBowl.getWidth())
-					&& trashBowl.getY()<y && y<(trashBowl.getY()+trashBowl.getHeight());
-			String s = String.format("%f < %f < %f and %f < %f <%f", trashBowl.getX(), x, trashBowl.getX()+trashBowl.getWidth(),
-					trashBowl.getY(), y, trashBowl.getY()+trashBowl.getHeight() );
-			Log.d("vars",s);
-		//	Log.d("vars","verdict="+deleteBowl+" ("+x+","+y+")");
-			return deleteBowl;
+
 		}
 		
 		@Override
@@ -431,21 +419,16 @@ public class BowlsGroup extends FrameLayout {
 						selected.add(bv.user);
 					}
 				} return false;
-			} else if (bowls.size()>Kitchen.minBowls) {
+			} else if (bowls.size()>Kitchen.minBowls && addRemovable) {
 				switch(action){
 				case MotionEvent.ACTION_DOWN:
-					prevX = bv.getX() + (float)bv.getRadius();
-					prevY = bv.getY() +  (float)bv.getRadius(); 
-					bowlMoved = false;
 					break;
 				case MotionEvent.ACTION_MOVE:
-					bowlMoved = true;
-
 					addRemoveIcons(false);
+					v.setOnDragListener(deleteListener);
 					ClipData data = ClipData.newPlainText("", "");
 					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
 					v.startDrag(data, shadowBuilder, v, 0);
-					
 					break;
 				case MotionEvent.ACTION_UP:
 					
@@ -461,31 +444,14 @@ public class BowlsGroup extends FrameLayout {
 	}
 	
 	public class NewBowlListener implements OnTouchListener{
-		
-		public boolean testAdd(float x, float y){
-			float center_x = (float)centerX;
-			float center_y = (float)centerY;
-			float radius = (float)(tableRadius);
-			return Math.pow(x - center_x,2) + Math.pow(y - center_y,2) <= (radius*radius);
-		}
-		
-		public double findAngle(float x, float y){
-			double angle = 0;
-			float px = bowls.getFirst().getX();
-			float py = bowls.getFirst().getY();
-			float cx = (float)centerX;
-			float cy = (float)centerY;
-			angle = (Math.atan2(x - cx,y - cy)- Math.atan2(px- cx,py- cy));
-			if(angle<0){
-				angle = Math.PI*2 - Math.abs(angle);
-			}
-			Log.d("vars","angle="+angle);
-			return angle;
-		}
 
 		@Override
 		public boolean onTouch(View view, MotionEvent event) {
 			if(bowls.size()>=Kitchen.maxBowls){
+				return false;
+			}
+			
+			if(!addRemovable){
 				return false;
 			}
 			
@@ -495,12 +461,6 @@ public class BowlsGroup extends FrameLayout {
 					addBowl();
 				}
 			    return true;
-			} else if(event.getAction() == MotionEvent.ACTION_MOVE){
-				
-				return true;
-			} else if (event.getAction() == MotionEvent.ACTION_UP){
-
-				return true;
 			} 
 			else {
 			    return false;

@@ -58,14 +58,14 @@ public class BillFragment extends Fragment implements
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int position,
 					long id) {
-				if(selectedLI==position){ //go into edit mode
-					agent.editLineItem();
+				if(selectedLI==position){
+					Log.d("vars","click again");
+					deselectLineItem();
 				} else {
 					if(hasSelectedLineItem()){
 						deselectLineItem();
 					}
 					selectLineItem(view, position);
-					//TODO: re-select the chosen bowls
 				}
 			}
 			
@@ -120,23 +120,28 @@ public class BillFragment extends Fragment implements
 	}
 	
 	public void selectLineItem(View view, int position){
-		view.findViewById(R.id.tap2edit).setVisibility(View.VISIBLE);
 		prevView = view;
 		selectedLI = position;
 		agent.selectLineItem(position);
 		
 		 ImageButton delButton = (ImageButton) view.findViewById(R.id.lineDelete);
-		 delButton.setEnabled(false);
-		 delButton.setVisibility(View.INVISIBLE);
+		 delButton.setEnabled(true);
+		 delButton.setVisibility(View.VISIBLE);
+		 ImageButton editButton = (ImageButton) view.findViewById(R.id.lineEdit);
+		 editButton.setEnabled(true);
+		 editButton.setVisibility(View.VISIBLE);
 	}
 	
 	public void deselectLineItem(){
 		if(prevView!=null){
-			prevView.findViewById(R.id.tap2edit).setVisibility(View.INVISIBLE);
 			 ImageButton delButton = (ImageButton) prevView.findViewById(R.id.lineDelete);
-			 delButton.setEnabled(true);
-			 delButton.setVisibility(View.VISIBLE);
+			 delButton.setEnabled(false);
+			 delButton.setVisibility(View.INVISIBLE);
+			 ImageButton editButton = (ImageButton) prevView.findViewById(R.id.lineEdit);
+			 editButton.setEnabled(false);
+			 editButton.setVisibility(View.INVISIBLE);
 		}
+		agent.deselectLineItem();
 		prevView = null;
 		selectedLI = -1;
 	}
@@ -144,15 +149,6 @@ public class BillFragment extends Fragment implements
 	public boolean hasSelectedLineItem(){
 		return prevView!=null && selectedLI>-1;
 	}
-	/*
-	public void updateSubtotal(){
-		double sum = 0.0;
-		for(LineItem li: bill.lineItems){
-			sum += li.getPrice();
-		}
-		setSubtotal(sum);
-	}
-	*/
 	
 	private void setSubtotal(double t){
 		amountSubtotal.setText(getString(R.string.x_dollars, t));
@@ -207,6 +203,7 @@ public class BillFragment extends Fragment implements
 	public interface BillFragmentAgent{
 		public void onNewLineItem();
 		public void selectLineItem(int position);
+		public void deselectLineItem();
 		public void editLineItem();
 		public void updateBowlsPrice();
 		public void editSubtotal();
@@ -227,7 +224,7 @@ public class BillFragment extends Fragment implements
 		if(rateChanged){
 			setTaxPercent(bill.getTax());
 		}
-		setTaxAmount(bill.calculateTax());
+		setTaxAmount(bill.getTaxAmount());
 		updateTotal();
 	}
 
@@ -242,8 +239,13 @@ public class BillFragment extends Fragment implements
 
 	@Override
 	public void updateTotal() {
-		double total = bill.getSubtotal() + bill.calculateTax() + bill.calculateTip();
+		double total = bill.getSubtotal() + bill.getTaxAmount() + bill.calculateTip();
 		setTotal(total);
+	}
+	
+	@Override
+	public void removeLineItemFromBill() {
+		adapter.notifyDataSetChanged();
 	}
 	
 	/*
@@ -256,8 +258,15 @@ public class BillFragment extends Fragment implements
 	
 	@Override
 	public void deleteLI(int position) {
-		bill.rmLineItem(position);
+		deselectLineItem();
+		bill.itemRemove(position);
 		agent.updateBowlsPrice();
 		adapter.notifyDataSetChanged();
 	}
+	
+	@Override
+	public void editLI(LineItem li) {
+		agent.editLineItem();
+	}
+
 }

@@ -41,23 +41,34 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 
 		  TextView tvPrice = (TextView) returnView.findViewById(R.id.lineItemPrice);
 		  ImageButton delButton = (ImageButton) returnView.findViewById(R.id.lineDelete);
+		  ImageButton editButton = (ImageButton) returnView.findViewById(R.id.lineEdit);
 		 
 		  final int index = position;
 		  
 		  tvPrice.setText(li.toString());
-		  delButton.setFocusable(false);
-	  delButton.setOnClickListener( new View.OnClickListener() {		
+		 // delButton.setFocusable(false);
+		  delButton.setEnabled(false);
+		  delButton.setOnClickListener( new View.OnClickListener() {		
 			@Override
 			public void onClick(View arg0) {
 				agent.deleteLI(index);
 			}
 		}); 
+		  
+		  editButton.setEnabled(false);
+		  editButton.setOnClickListener( new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				agent.editLI(li);
+			}
+		});
 		 
 		  return returnView;
 	  }
 	  
 	  public interface LineItemAgent{
 		  public void deleteLI(int position);
+		  public void editLI(LineItem li);
 	  }
 	
 }
