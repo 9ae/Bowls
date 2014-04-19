@@ -207,6 +207,7 @@ public class TableActivity extends Activity implements
 				bill.itemUpdate(selectedLineItem, consumers);
 			} else {
 				bill.divideAmongst(selectedLineItem, consumers);
+			}
 				tableFragment.bowlsGroup.stopBowlSelect();
 
 				// move to being ready for next Item
@@ -214,7 +215,9 @@ public class TableActivity extends Activity implements
 				tableFragment.showOkButton(false);
 				action = Action.ITEM_PRICE;
 				selectedLineItem = null;
-			}
+				if(isEdit){
+					billFragment.deselectLineItem();
+				}
 		}
 		updateBowlsPrice();
 	}
@@ -480,6 +483,7 @@ public class TableActivity extends Activity implements
 				break;
 			case EDIT_SUBTOTAL:
 				updateItemPrice();
+				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;
 			default:
 				updateItemPrice();
