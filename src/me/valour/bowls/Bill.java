@@ -281,6 +281,7 @@ public class Bill{
 		lineItems.add(li);
 		subtotal += price;
 		changeAgent.subtotalChanged();
+		reapplyTaxAndTip();
 		return li;
 	}
 	
@@ -299,15 +300,7 @@ public class Bill{
 		usersUpdateSubtotal();
 		changeAgent.subtotalChanged();
 		
-		if(appliedTax){
-			Log.d("vars","new tax="+calculateTax());
-			setTaxAmount(calculateTax());
-			changeAgent.taxChanged(false);
-		}
-		
-		if(appliedTip){
-			changeAgent.tipChanged(false);
-		}
+		reapplyTaxAndTip();
 	}
 	
 	public void itemUpdate(LineItem li, List<User> newUsers){
@@ -347,6 +340,7 @@ public class Bill{
 		usersUpdateSubtotal();
 		changeAgent.subtotalChanged();
 		changeAgent.removeLineItemFromBill();
+		reapplyTaxAndTip();
 	}
 
 	
@@ -388,6 +382,17 @@ public class Bill{
 		double t = percentTip * u.getSubtotal();
 		u.setTip(t);
 		return t;
+	}
+	
+	private void reapplyTaxAndTip(){
+		if(appliedTax){
+			setTaxAmount(calculateTax());
+			changeAgent.taxChanged(false);
+		}
+		
+		if(appliedTip){
+			changeAgent.tipChanged(false);
+		}
 	}
 	
 	public void attachAgent(BillFragment fragment){
