@@ -393,7 +393,7 @@ public class TableActivity extends Activity implements
 		
 		Bundle bundle = new Bundle();
 		bundle.putDouble("numberValue", price);
-		bundle.putBoolean("percentMode",false);
+		bundle.putBoolean("percentMode", false);
 		numFragment.setArguments(bundle);
 		
 		FragmentTransaction ft = fm.beginTransaction();
@@ -460,10 +460,6 @@ public class TableActivity extends Activity implements
 		ft.commit();
 		tableFragment.disableActions();
 	}
-	
-	public void closeNumberPad(){
-		fm.popBackStack();
-	}
 
 	@Override
 	public void numPadClose(boolean isEditMode) {
@@ -492,7 +488,7 @@ public class TableActivity extends Activity implements
 		} else {
 			registerItemPrice();
 		}
-		closeNumberPad();
+		fm.popBackStack();
 		tableFragment.enableActions();
 	}
 

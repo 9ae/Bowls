@@ -99,6 +99,8 @@ public class NumberPadFragment extends Fragment {
 			
 			if(bundle.getBoolean("percentMode", false)){
 				numberMode = InputFormat.PERCENT;
+			} else {
+				numberMode = InputFormat.DOLLAR;
 			}
 			setValue(no);
 		} else {
@@ -107,8 +109,10 @@ public class NumberPadFragment extends Fragment {
 		
 		if(numberMode==InputFormat.DOLLAR){
 			percentSign.setVisibility(View.INVISIBLE);
+			dollarSign.setVisibility(View.VISIBLE);
 		} else {
 			dollarSign.setVisibility(View.INVISIBLE);
+			percentSign.setVisibility(View.VISIBLE);
 		}
 		
 		/*view.setOnTouchListener(new View.OnTouchListener() {

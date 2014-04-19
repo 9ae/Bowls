@@ -47,7 +47,7 @@ public class TableFragment extends Fragment {
 			btnNo.setVisibility(View.VISIBLE);
 		}
 		bowlsGroup.enableActions();
-	//	bowlsGroup.animate().alpha(1).start();
+		bowlsGroup.animate().alpha(1).start();
 	}
 	
 	public void disableActions(){
@@ -68,7 +68,7 @@ public class TableFragment extends Fragment {
 			btnNoWasVisible = true;
 		}
 		bowlsGroup.disableActions();
-	//	bowlsGroup.animate().alpha(0).start();
+		bowlsGroup.animate().alpha(0).start();
 	}
 
 	@Override
