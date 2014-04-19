@@ -259,6 +259,8 @@ public class Bill{
 			}
 			u.setSubtotal(amount);
 		}
+		reapplyTax();
+		reapplyTip();
 	}
 	
 	public LineItem itemAdd(double price){

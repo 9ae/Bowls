@@ -181,8 +181,6 @@ public class TableActivity extends Activity implements
 		} else {
 			billFragment.updatedList();
 		}
-		bill.reapplyTax();
-		bill.reapplyTip();
 		updateBowlsPrice();
 	} 
 
