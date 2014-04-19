@@ -120,6 +120,7 @@ public class Bill{
 		for(User u: users){
 			u.setTax(u.getSubtotal()*percentTax);
 		}
+		changeAgent.taxChanged(false);
 	}
 	
 	public void reapplyTip(){
@@ -129,6 +130,7 @@ public class Bill{
 		for(User u: users){
 			u.setTip(u.getSubtotal()*percentTip);
 		}
+		changeAgent.tipChanged(false);
 	}
 	
 	public void clearTip(){
