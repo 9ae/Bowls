@@ -138,6 +138,7 @@ public class TableFragment extends Fragment {
 	
 	public void setQuestionText(String s){
 		if(s==null){
+			tvQuestion.setText("");
 			tvQuestion.setVisibility(View.INVISIBLE);
 		} else {
 			tvQuestion.setText(s);

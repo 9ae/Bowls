@@ -89,6 +89,7 @@ public class TableActivity extends Activity implements
 	}
 
 	public void setTax(String tax, boolean save) {
+		Log.d("vars","tax="+tax);
 		double amount = Double.parseDouble(tax);
 		bill.setTaxAmount(amount);
 		if (sp != null && save) {
@@ -253,16 +254,18 @@ public class TableActivity extends Activity implements
 	public void OnNoButtonPress() {
 		switch (action) {
 		case CONFIRM_TAX:
-			openNumberPadForAmountChange(taxEstimate);
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
+			tableFragment.setQuestionText(null);
+			openNumberPadForAmountChange(taxEstimate);
 			action = Action.SET_TAX;
 			break;
 
 		case CONFIRM_TIP:
-			openNumberPadForPercentChange(bill.getTip());
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
+			tableFragment.setQuestionText(null);
+			openNumberPadForPercentChange(bill.getTip());
 			action = Action.SET_TIP;
 			break;
 		default:
@@ -292,7 +295,7 @@ public class TableActivity extends Activity implements
 		Button btn = (Button) v;
 		String txt = btn.getText().toString();
 		if (txt.contains("+")) {
-			taxEstimate = bill.getTax()*bill.getSubtotal();
+			taxEstimate = bill.calculateTax();
 			tableFragment.askToAppy("tax", taxEstimate);
 			action = Action.CONFIRM_TAX;
 			txt = txt.replaceFirst("\\+", "\\-");

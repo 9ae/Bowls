@@ -57,6 +57,11 @@ public class Kitchen {
 		  } else {
 		    return Color.BLACK;
 		  }
-		}
+	}
+	
+	public static double roundSigFig(double input, int f){
+		double a = input*Math.pow(10, f);
+		return Math.round(a)*Math.pow(10, -1*f);
+	}
 	
 }

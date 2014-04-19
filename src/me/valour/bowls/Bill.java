@@ -74,7 +74,7 @@ public class Bill{
 	}
 	
 	public double calculateTax(){
-		amountTax = subtotal * percentTax;
+		amountTax = Kitchen.roundSigFig(subtotal * percentTax, 2);
 		return amountTax;
 	}
 	
