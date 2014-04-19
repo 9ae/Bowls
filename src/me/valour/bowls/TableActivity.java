@@ -355,6 +355,7 @@ public class TableActivity extends Activity implements
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack("bill");
 		ft.commit();
+		tableFragment.disableActions();
 		isEdit = false;
 	}
 	
@@ -394,7 +395,7 @@ public class TableActivity extends Activity implements
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
-		
+		tableFragment.disableActions();
 		tableFragment.bowlsGroup.stopBowlSelect();
 		tableFragment.bowlsGroup.clearCenter();
 	}
@@ -432,6 +433,7 @@ public class TableActivity extends Activity implements
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
+		tableFragment.disableActions();
 	}
 	
 	public void openNumberPadForAmountChange(double amount){
@@ -450,6 +452,7 @@ public class TableActivity extends Activity implements
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
+		tableFragment.disableActions();
 	}
 	
 	public void closeNumberPad(){
@@ -483,6 +486,7 @@ public class TableActivity extends Activity implements
 			registerItemPrice();
 		}
 		closeNumberPad();
+		tableFragment.enableActions();
 	}
 
 }

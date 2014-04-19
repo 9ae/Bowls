@@ -20,10 +20,53 @@ public class TableFragment extends Fragment {
 	private TextView tvQuestion;
 	private Button btnOk;
 	private Button btnNo;
+	private Button tax;
+	private Button tip;
 	
+	private boolean tvQuestionWasVisible = false;
+	private boolean btnOkWasVisible = false;
+	private boolean btnNoWasVisible = false;
 	
 	public TableFragment() {
 
+	}
+	
+	public void enableActions(){
+		tax.setEnabled(true);
+		tax.setVisibility(View.VISIBLE);
+		tip.setEnabled(true);
+		tip.setVisibility(View.VISIBLE);
+		tvQuestion.setVisibility(View.VISIBLE);
+		if(tvQuestionWasVisible){
+			tvQuestion.setVisibility(View.VISIBLE);
+		}
+		if(btnOkWasVisible){
+			btnOk.setVisibility(View.VISIBLE);
+		}
+		if(btnNoWasVisible){
+			btnNo.setVisibility(View.VISIBLE);
+		}
+		bowlsGroup.enableActions();
+	}
+	
+	public void disableActions(){
+		tax.setEnabled(false);
+		tax.setVisibility(View.INVISIBLE);
+		tip.setEnabled(false);
+		tip.setVisibility(View.INVISIBLE);
+		if(tvQuestion.getVisibility()==View.VISIBLE){
+			tvQuestion.setVisibility(View.INVISIBLE);
+			tvQuestionWasVisible = true;
+		}
+		if(btnOk.getVisibility()==View.VISIBLE){
+			btnOk.setVisibility(View.INVISIBLE);
+			btnOkWasVisible = true;
+		}
+		if(btnNo.getVisibility()==View.VISIBLE){
+			btnNo.setVisibility(View.INVISIBLE);
+			btnNoWasVisible = true;
+		}
+		bowlsGroup.disableActions();	
 	}
 
 	@Override
@@ -37,14 +80,14 @@ public class TableFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view =  inflater.inflate(R.layout.fragment_table, container, false);
 
-		final Button tip = (Button)view.findViewById(R.id.btn_tip);
+		tip = (Button)view.findViewById(R.id.btn_tip);
 		tip.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				buttonAgent.onTipButtonPress(v);
 			}});
 		
-		final Button tax = (Button)view.findViewById(R.id.btn_tax);
+		tax = (Button)view.findViewById(R.id.btn_tax);
 		tax.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {

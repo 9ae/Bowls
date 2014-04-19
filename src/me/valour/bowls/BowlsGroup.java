@@ -34,6 +34,7 @@ public class BowlsGroup extends FrameLayout {
 	int bowlRadius;
 	boolean measuredScreen;
 	boolean selectReady = false;
+	boolean addRemovable = true;
 	
 	FrameLayout.LayoutParams defaultParams;
 	BowlSelectListener selectListener;
@@ -326,15 +327,19 @@ public class BowlsGroup extends FrameLayout {
 			u.view.unfade();
 		}
 	}
+	
+	public void enableActions(){
+		addRemovable = true;
+	}
+	
+	public void disableActions(){
+		selectReady = false;
+		addRemovable = false;
+	}
 
 	
 	public void attachBowlAgents(Activity activity){
 		agent = (BowlsGroupAgent) activity;
-	}
-	
-	public void nullifyDelete(BowlView bv){
-		bv.setVisibility(View.VISIBLE);
-		addRemoveIcons(true);
 	}
 	
 	private class DeleteDropListener implements OnDragListener{
@@ -414,7 +419,7 @@ public class BowlsGroup extends FrameLayout {
 						selected.add(bv.user);
 					}
 				} return false;
-			} else if (bowls.size()>Kitchen.minBowls) {
+			} else if (bowls.size()>Kitchen.minBowls && addRemovable) {
 				switch(action){
 				case MotionEvent.ACTION_DOWN:
 					break;
@@ -443,6 +448,10 @@ public class BowlsGroup extends FrameLayout {
 		@Override
 		public boolean onTouch(View view, MotionEvent event) {
 			if(bowls.size()>=Kitchen.maxBowls){
+				return false;
+			}
+			
+			if(!addRemovable){
 				return false;
 			}
 			
