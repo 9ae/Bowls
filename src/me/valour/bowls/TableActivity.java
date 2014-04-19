@@ -244,11 +244,6 @@ public class TableActivity extends Activity implements
 			setTax(numFragment.getStringValue(), false);
 			applyTax();
 			completePercentChange();
-		case CONFIRM_DELETE:
-			if(deleteBowlQueue!=null){
-				removeUserDo(deleteBowlQueue.user);
-			}
-			break;
 		default:
 			break;
 		}
@@ -269,11 +264,6 @@ public class TableActivity extends Activity implements
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
 			action = Action.SET_TIP;
-			break;
-		case CONFIRM_DELETE:
-			tableFragment.bowlsGroup.nullifyDelete(deleteBowlQueue);
-			deleteBowlQueue = null;
-			completeConfirmDelete();
 			break;
 		default:
 			break;
@@ -331,29 +321,13 @@ public class TableActivity extends Activity implements
 	@Override
 	public boolean removeUserConfirm(BowlView bv) {
 		User user = bv.user;
-		if(bill.userSubtotal(user)==0.0){
-			removeUserDo(user);
-			return true;
-		} else {
-			tableFragment.setQuestionText(R.string.q_user_has_balance);
-			tableFragment.setNoButtonText(R.string.cancel);
-			tableFragment.showOkButton(true);
-			action = Action.CONFIRM_DELETE;
-			deleteBowlQueue = bv;
-			return false;
-		}
+		removeUserDo(user);
+		return true;
 	}
 
 	@Override
 	public void removeUserDo(User user) {
 		bill.userRemove(user);
-		if(deleteBowlQueue!=null){
-			tableFragment.bowlsGroup.removeBowl(deleteBowlQueue);
-			deleteBowlQueue = null;
-		}
-		if(action==Action.CONFIRM_DELETE){
-			completeConfirmDelete();
-		}
 		bill.reapplyTax();
 		bill.reapplyTip();
 		updateBowlsPrice();
