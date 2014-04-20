@@ -36,7 +36,6 @@ public class TableActivity extends Activity implements
 	private SharedPreferences sp;
 	
 	private LineItem selectedLineItem = null;
-	private BowlView deleteBowlQueue = null;
 	
 	private double taxEstimate;
 
@@ -145,20 +144,6 @@ public class TableActivity extends Activity implements
 		numFragment.highlightTextField(false);
 		clearCenter();
 	}
-	
-	private void completeConfirmDelete(){
-		tableFragment.setNoButtonText(R.string.no);
-		if(splitEqually){
-			tableFragment.setQuestionText(null);
-			tableFragment.showNoButton(false);
-			tableFragment.showOkButton(false);
-		} else {
-			tableFragment.setQuestionText(null);
-			tableFragment.showNoButton(false);
-			tableFragment.showOkButton(false);
-			action = Action.ITEM_PRICE;
-		}
-	}
 
 	private void registerItemPrice() {
 		double price = numFragment.getNumberValue();
@@ -233,6 +218,7 @@ public class TableActivity extends Activity implements
 			/* apply default tip */
 			applyTip();
 			clearCenter();
+			tableFragment.bowlsGroup.addRemoveIcons(true);
 			break;
 		case SET_TIP:
 			/* apply tip at new rate */
@@ -243,6 +229,7 @@ public class TableActivity extends Activity implements
 		case CONFIRM_TAX:
 			applyTax();
 			clearCenter();
+			tableFragment.bowlsGroup.addRemoveIcons(true);
 			break;
 		case SET_TAX:
 			setTax(numFragment.getStringValue(), false);
@@ -469,11 +456,13 @@ public class TableActivity extends Activity implements
 				setTax(numFragment.getStringValue(), false);
 				applyTax();
 				clearCenter();
+				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;
 			case SET_TIP:
 				setTip(numFragment.getStringValue(), false);
 				applyTip();
 				clearCenter();
+				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;
 			case EDIT_SUBTOTAL:
 				updateItemPrice();
