@@ -5,7 +5,7 @@
     android:layout_gravity="right"
     android:columnCount="3"
     android:rowCount="6"
-    android:background="@color/background_color"
+    android:background="@color/background"
     tools:context=".NumberPadFragment" >
 
      <LinearLayout
@@ -25,7 +25,8 @@
          	android:singleLine="true"
         	android:textSize="20sp"
         	android:text="@string/dollar_sign"
-        	android:layout_weight="1" />
+        	android:layout_weight="1"
+        	android:textColor="@color/dollar" />
 
          <TextView
              android:id="@+id/numberValue"
@@ -35,7 +36,9 @@
              android:gravity="center"
              android:hint="@string/zero_dollars"
              android:singleLine="true"
-             android:textSize="20sp" />
+             android:textSize="20sp"
+             android:textColorHint="@color/widget_text"
+             android:textColor="@color/text" />
 
          <TextView
              android:id="@+id/percent_sign"
@@ -45,7 +48,8 @@
              android:clickable="true"
              android:singleLine="true"
              android:text="@string/percent_sign"
-             android:textSize="20sp" />
+             android:textSize="20sp"
+             android:textColor="@color/dollar" />
 
      </LinearLayout>
      

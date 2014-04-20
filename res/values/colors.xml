@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="background_color">#FFFFFFCC</color>
-  <color name="text_color">#FF880000</color>
-  <color name="primary_color">#FFCC0033</color>
-  <color name="accent_color">#FFFFFF66</color>
-  <color name="fade">#FF050505</color>
-  <color name="light_fade">#88000000</color>
+  <color name="background">#FFe8ffa1</color>
+  <color name="text">#FFff4848</color>
+  <color name="text_light">#ffFF6D6D</color>
+  <color name="text_green">#ff33CC33</color>
+  
+  <color name="widget_bg_active">#ffffea00</color>
+  <color name="widget_bg_disabled">#ffFFF9B2</color>
+  <color name="widget_bg">#ffa8ff00</color>
+  <color name="widget_text">#fffd566a</color>
+  
+  <color name="dollar">#ff007A00</color>
+  
+  <color name="lib_bg">#fffffca1</color>
+	<color name="lit_bg">#fffffed8</color>
+	<color name="lib_bg_active">#fff4fcce</color>
+	<color name="lit_bg_active">#ffedffa1</color>
+	<color name="li_border">#ffffc2c2</color>
+  	<color name="fade">#FF050505</color>
+  	<color name="light_fade">#88000000</color>
 </resources>

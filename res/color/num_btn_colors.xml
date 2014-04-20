@@ -2,12 +2,17 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:state_enabled="false">
       <shape>
-            <solid android:color="#FFFFFFCC" />
+            <solid android:color="@color/widget_bg_disabled" />
         </shape>
-  </item> 
+  </item>
+  <item android:state_pressed="true" >
+      <shape>
+          <solid android:color="@color/widget_bg_active" />
+      </shape>
+  </item>
   <item>
       <shape>
-            <solid android:color="#FFCC0033" />
+            <solid android:color="@color/widget_bg" />
         </shape>
   </item>
   <item android:drawable="@android:color/transparent" />

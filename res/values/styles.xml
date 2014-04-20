@@ -21,14 +21,14 @@
           <item name="android:minHeight">50dip</item>
           <item name="android:minWidth">50dip</item>
           <item name="android:background">@color/num_btn_colors</item>
-          <item name="android:textColor">@color/accent_color</item>
+          <item name="android:textColor">@color/widget_text</item>
           <item name="android:layout_margin">@dimen/number_buttons_margin</item>
           <item name="android:textSize">25sp</item>
     </style>
     
     <style name="NumberPadEnterButton">
          <item name="android:background">@color/num_btn_colors</item>
-          <item name="android:textColor">@color/accent_color</item>
+          <item name="android:textColor">@color/widget_text</item>
           <item name="android:layout_margin">@dimen/number_buttons_margin</item>
           <item name="android:textSize">30sp</item>
     </style>
@@ -37,16 +37,17 @@
         <item name="android:textSize">@dimen/large_font</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/text_green</item>
     </style>
     
     <style name="BillSubLabel">
         <item name="android:textSize">@dimen/xsmall_font</item>
-        <item name="android:textColor">@color/fade</item>
+        <item name="android:textColor">@color/text_light</item>
     </style>
     
     <style name="BillValue">
         <item name="android:textSize">@dimen/med_font</item>
-        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:textColor">@color/text</item>
     </style>
 
 </resources>
