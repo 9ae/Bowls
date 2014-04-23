@@ -401,10 +401,12 @@ public class BowlsGroup extends FrameLayout {
 	private class BowlSelectListener implements OnTouchListener{
 
 		public List<User> selected;
+		public boolean moved = false;
+		public float px=0;
+		public float py=0;
 		
 		public BowlSelectListener(){
 			selected = new ArrayList<User>();
-
 		}
 		
 		@Override
@@ -422,23 +424,40 @@ public class BowlsGroup extends FrameLayout {
 			} else if (bowls.size()>Kitchen.minBowls && addRemovable) {
 				switch(action){
 				case MotionEvent.ACTION_DOWN:
+					moved = false;
+					px = move.getX();
+					py = move.getY();
 					break;
 				case MotionEvent.ACTION_MOVE:
-					addRemoveIcons(false);
-					v.setOnDragListener(deleteListener);
-					ClipData data = ClipData.newPlainText("", "");
-					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
-					v.startDrag(data, shadowBuilder, v, 0);
+
+					float movedX = Math.abs(move.getX() - px);
+					float movedY = Math.abs(move.getY() - py);
+
+					if(movedX>10 || movedY>10){
+						addRemoveIcons(false);
+						v.setOnDragListener(deleteListener);
+						ClipData data = ClipData.newPlainText("", "");
+						DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+						v.startDrag(data, shadowBuilder, v, 0);
+						moved = true;
+					}
 					break;
 				case MotionEvent.ACTION_UP:
-					
+					if(!moved){ showInfo(bv); }
 					break;
 				}
 				return true;
 			}
 			else {
-				return false;
+				 if(action==MotionEvent.ACTION_UP){
+					 showInfo(bv); 
+				 }
+				return true;
 			}
+		}
+		
+		public void showInfo(BowlView bv){
+			Log.d("vars",String.format("user = %f", bv.user.getSubtotal()));
 		}
 		
 	}
