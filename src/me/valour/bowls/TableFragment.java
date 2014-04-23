@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class TableFragment extends Fragment {
@@ -189,6 +190,18 @@ public class TableFragment extends Fragment {
 		btnOk.setVisibility(View.VISIBLE);
 		btnNo.setVisibility(View.VISIBLE);
 		bowlsGroup.clearCenter();
+	}
+	
+	public void alignForLeftHanded(){
+		RelativeLayout.LayoutParams taxParams = (RelativeLayout.LayoutParams) tax.getLayoutParams();
+		taxParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+		taxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+		tax.setLayoutParams(taxParams);
+		
+		RelativeLayout.LayoutParams tipParams = (RelativeLayout.LayoutParams) tip.getLayoutParams();
+		tipParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+		tipParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+		tip.setLayoutParams(tipParams);
 	}
 	
 	public interface ButtonAgent{

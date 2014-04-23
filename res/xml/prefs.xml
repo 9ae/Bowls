@@ -14,4 +14,14 @@
         android:inputType="numberDecimal"
         />
     
+    <SwitchPreference
+         android:key="left_right"
+         android:defaultValue="true"
+         android:title="Number pad align"
+         android:switchTextOn="RIGHT"
+         android:switchTextOff="LEFT"
+         android:summaryOn="Number pad on right side"
+         android:summaryOff="Number pad on left side"
+        />
+    
 </PreferenceScreen>

@@ -30,6 +30,7 @@ public class TableActivity extends Activity implements
 	private BillFragment billFragment;
 	
 	public boolean splitEqually;
+	public boolean leftHanded;
 	private boolean isEdit;
 	private Action action;
 	
@@ -51,11 +52,21 @@ public class TableActivity extends Activity implements
 		bowlsCount = Kitchen.minBowls;
 		action = Action.ITEM_PRICE;
 		bill = new Bill(getTax(), getTip(), splitEqually);
+		
+		leftHanded = !sp.getBoolean("left_right", true);
 
-		setContentView(R.layout.activity_table);
+		Log.d("vars", "left_handed="+leftHanded);
+		if(leftHanded){
+			setContentView(R.layout.left_activity_table);
+		} else {
+			setContentView(R.layout.activity_table);
+		}
 
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
+		if(leftHanded){
+			tableFragment.alignForLeftHanded();
+		}
 		numFragment = new NumberPadFragment();
 		
 		bill.usersAddBatch(tableFragment.bowlsGroup.getBowlUsers());
