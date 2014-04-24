@@ -114,6 +114,7 @@ public class BowlsGroup extends FrameLayout {
 		this.addView(newBowl, defaultParams);
 		newBowl.setOnTouchListener(newListener);
 		newBowl.bringToFront();
+		newBowl.setText("+");
 		
 		trashBowl = new FrameLayout(this.getContext());
 		trashBowl.setBackgroundResource(android.R.drawable.ic_delete);
@@ -140,6 +141,9 @@ public class BowlsGroup extends FrameLayout {
 			tableRadius -= bowlRadius;
 
 			newBowl.setRadius(bowlRadius);
+			newBowl.setTextSize(bowlRadius);
+			newBowl.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+			newBowl.setPadding(0, -1*bowlRadius/2, 0, 0);
 			for(BowlView bv: bowls){
 				bv.setRadius(bowlRadius);
 			}
