@@ -115,17 +115,6 @@ public class NumberPadFragment extends Fragment {
 			percentSign.setVisibility(View.VISIBLE);
 		}
 		
-		/*view.setOnTouchListener(new View.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction()==MotionEvent.ACTION_DOWN){
-					Log.d("vars", "touched down");
-				}
-				return false;
-			}
-		}); */
-		
 		return view;
 	}
 
@@ -202,7 +191,7 @@ public class NumberPadFragment extends Fragment {
 		if(numberMode==InputFormat.DOLLAR){
 			strVal = String.format("%.2f", value);
 		} else {
-			strVal = String.format("%.4f", value);
+			strVal = Double.toString(value);
 		}
 		numberValue.setText(strVal);
 		if(strVal.contains(".")){
