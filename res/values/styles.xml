@@ -18,8 +18,8 @@
     </style>
     
     <style name="NumberButton">
-          <item name="android:minHeight">50dip</item>
-          <item name="android:minWidth">50dip</item>
+          <item name="android:minHeight">@dimen/button_size</item>
+          <item name="android:minWidth">@dimen/button_size</item>
           <item name="android:background">@color/num_btn_colors</item>
           <item name="android:textColor">@color/widget_text</item>
           <item name="android:layout_margin">@dimen/number_buttons_margin</item>

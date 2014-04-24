@@ -9,4 +9,6 @@
     <dimen name="med_font">16dp</dimen>
 	<dimen name="small_font">12dp</dimen>
 	<dimen name="xsmall_font">10dp</dimen>
+	<dimen name="button_size">50dp</dimen>
+	<dimen name="size_3rows">154dp</dimen>	
 </resources>

@@ -85,7 +85,7 @@ public class NumberPadFragment extends Fragment {
 		});
 		
 		numberValue = (TextView) view.findViewById(R.id.numberValue);
-		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
+	//	fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
 		
 		Bundle bundle = this.getArguments();
 		

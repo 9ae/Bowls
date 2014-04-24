@@ -57,7 +57,8 @@
 	    	\nShared items will have their price redistributed. 
 	    	\nItems associated only with this user will deleted.</string>
 	
-    <dimen name="number_buttons_margin">2dp</dimen>
+    <dimen name="number_buttons_margin">1dp</dimen>
     <dimen name="number_buttons_size">5dp</dimen>
-
+	
+	
 </resources>
