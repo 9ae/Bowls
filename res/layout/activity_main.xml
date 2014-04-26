@@ -1,15 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:background="@drawable/app_bg"
     tools:context=".MainActivity" >
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/ic_launcher">
+        android:layout_height="match_parent">
         
      <Button android:id="@+id/btn_presets"
         android:layout_width="wrap_content"
@@ -18,31 +17,27 @@
         android:layout_gravity="center|bottom"
         android:onClick="onOpenPresets" />
     </FrameLayout>
-    
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:orientation="vertical"
-        android:layout_weight="1" >
 
-        <Button
+        <ImageButton
+            android:id="@+id/btn_split_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:onClick="onSplitByItem"
+            android:src="@drawable/splititems"
+            android:text="@string/split_line" />
+
+        <ImageButton
             android:id="@+id/btn_split_equally"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
             android:onClick="onSplitEqually"
+            android:src="@drawable/splitequally"
             android:text="@string/split_equally" />
 
-        <Button
-            android:id="@+id/btn_split_line"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="onSplitByItem"
-            android:text="@string/split_line" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

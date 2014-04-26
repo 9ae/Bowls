@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Button;
 
 public class MainActivity extends Activity {
@@ -21,8 +22,8 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		((Button)findViewById(R.id.btn_split_line)).setEnabled(true);
-		((Button)findViewById(R.id.btn_split_equally)).setEnabled(true);
+		((ImageButton)findViewById(R.id.btn_split_line)).setEnabled(true);
+		((ImageButton)findViewById(R.id.btn_split_equally)).setEnabled(true);
 	}
 	
 	private void launchTableActivity(boolean splitEqually){
@@ -32,13 +33,13 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onSplitEqually(View view){
-		Button btnOther = (Button)findViewById(R.id.btn_split_line);
+		ImageButton btnOther = (ImageButton)findViewById(R.id.btn_split_line);
 		btnOther.setEnabled(false);
 		launchTableActivity(true);
 	}
 	
 	public void onSplitByItem(View view){
-		Button btnOther = (Button)findViewById(R.id.btn_split_equally);
+		ImageButton btnOther = (ImageButton)findViewById(R.id.btn_split_equally);
 		btnOther.setEnabled(false);
 		launchTableActivity(false);
 	}
