@@ -49,5 +49,15 @@
         <item name="android:textSize">@dimen/med_font</item>
         <item name="android:textColor">@color/text</item>
     </style>
+    
+    <style name="SplitButtons">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">50sp</item>
+        <item name="android:textColor">@android:color/holo_blue_dark</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 
 </resources>

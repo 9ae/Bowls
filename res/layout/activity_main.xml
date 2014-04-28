@@ -6,7 +6,7 @@
     tools:context=".MainActivity" >
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/ic_launcher">
@@ -20,29 +20,27 @@
     </FrameLayout>
     
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:orientation="vertical"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:background="@android:color/white" >
 
         <Button
             android:id="@+id/btn_split_equally"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            style="@style/SplitButtons"            
+            android:background="@drawable/split_equally_bg"
             android:onClick="onSplitEqually"
             android:text="@string/split_equally" />
 
         <Button
             android:id="@+id/btn_split_line"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            style="@style/SplitButtons"   
             android:onClick="onSplitByItem"
-            android:text="@string/split_line" />
+            android:text="@string/split_line"
+            android:background="@drawable/split_items_bg"
+             />
     </LinearLayout>
 
 </LinearLayout>
