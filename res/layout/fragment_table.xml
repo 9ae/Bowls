@@ -70,7 +70,8 @@
          android:padding="20dp"
          android:text="@string/ok"
          android:gravity="center"
-         android:visibility="invisible"
+         android:visibility="visible"
+         android:background="@drawable/btn_green"
        	/>
          </TableRow>
 

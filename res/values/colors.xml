@@ -20,4 +20,12 @@
 	<color name="li_border">#ffffc2c2</color>
   	<color name="fade">#FF050505</color>
   	<color name="light_fade">#88000000</color>
+  	
+  	<color name="milk">#FFFFEEFF</color>
+  	
+  	<color name="lemon">#FFFFF8BA</color>
+  	<color name="grapefruit">#FFFF847A</color>
+  	<color name="raspberry">#FFFF3F5C</color>
+  	<color name="lime">#FFD3FF77</color>
+  	<color name="apple">#FF46CC00</color>
 </resources>
