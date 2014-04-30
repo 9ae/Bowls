@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="Yumyum" parent="@style/_Yumyum"/>
+
+  <style name="_Yumyum" parent="android:Theme.Holo.Light">
+            <item name="android:windowActionBar">false</item>
+      <item name="android:windowNoTitle">true</item>
+
+    <item name="android:editTextBackground">@drawable/yumyum_edit_text_holo_light</item>
+
+    <item name="android:textColorHighlight">#99ff3f5c</item>
+    <item name="android:textSelectHandleLeft">@drawable/yumyum_text_select_handle_left</item>
+    <item name="android:textSelectHandleRight">@drawable/yumyum_text_select_handle_right</item>
+    <item name="android:textSelectHandle">@drawable/yumyum_text_select_handle_middle</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewYumyum</item>
+
+    <item name="android:listChoiceIndicatorMultiple">@drawable/yumyum_btn_check_holo_light</item>
+
+    <item name="android:listChoiceIndicatorSingle">@drawable/yumyum_btn_radio_holo_light</item>
+
+    <item name="android:buttonStyle">@style/ButtonYumyum</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonYumyum</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerYumyum</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarYumyum</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarYumyum</item>
+
+    <item name="android:ratingBarStyle">@style/RatingBarYumyum</item>
+
+    <item name="android:ratingBarStyleIndicator">@style/RatingBarBigYumyum</item>
+
+    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallYumyum</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleYumyum</item>
+
+    <item name="android:listChoiceBackgroundIndicator">@drawable/yumyum_list_selector_holo_light</item>
+
+    <item name="android:activatedBackgroundIndicator">@drawable/yumyum_activated_background_holo_light</item>
+
+    <item name="android:fastScrollThumbDrawable">@drawable/yumyum_fastscroll_thumb_holo</item>
+
+  </style>
+
+</resources>
