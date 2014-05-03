@@ -14,4 +14,5 @@
 	<dimen name="button_size">50dp</dimen>
 	<dimen name="size_3rows">154dp</dimen>
 	<dimen name="btn_radius">10dip</dimen>
+	<dimen name="subtotal_edit_btn">32dp</dimen>
 </resources>

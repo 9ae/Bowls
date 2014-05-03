@@ -26,13 +26,14 @@
         android:layout_weight="4"
         android:text="@string/zero_dollars" />
     
-    <ImageButton 
+    <ImageButton
         android:id="@+id/edit_subtotal"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/subtotal_edit_btn"
+        android:layout_height="@dimen/subtotal_edit_btn"
         android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_edit"
-        android:background="@android:color/transparent"
+        android:background="@drawable/circle_btn"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_edit"
         android:visibility="invisible" />
         
     </TableRow>
