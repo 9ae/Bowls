@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -197,11 +198,15 @@ public class TableFragment extends Fragment {
 		taxParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
 		taxParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 		tax.setLayoutParams(taxParams);
+		tax.setBackgroundResource(R.drawable.ic_tbtn_bot_left_add);
+		tax.setGravity(Gravity.TOP | Gravity.RIGHT);
 		
 		RelativeLayout.LayoutParams tipParams = (RelativeLayout.LayoutParams) tip.getLayoutParams();
 		tipParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
 		tipParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 		tip.setLayoutParams(tipParams);
+		tip.setBackgroundResource(R.drawable.ic_tbtn_top_left_add);
+		tip.setGravity(Gravity.BOTTOM | Gravity.RIGHT);
 	}
 	
 	public interface ButtonAgent{

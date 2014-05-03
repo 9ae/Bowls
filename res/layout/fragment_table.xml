@@ -11,19 +11,25 @@
          android:layout_alignParentTop="true"
          android:layout_centerVertical="true"  />
      
-     <Button android:id="@+id/btn_tax"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tax"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+     <Button
+         android:id="@+id/btn_tax"
+         android:layout_width="@dimen/tbtn"
+         android:layout_height="@dimen/tbtn"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentTop="true"
+         android:background="@drawable/ic_tbtn_bot_right_add"
+         android:gravity="top|left"
+         android:text="@string/tax" />
      
-     <Button android:id="@+id/btn_tip"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="@string/tip"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true" />
+     <Button
+         android:id="@+id/btn_tip"
+         android:layout_width="@dimen/tbtn"
+         android:layout_height="@dimen/tbtn"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         android:background="@drawable/ic_tbtn_top_right_add"
+         android:gravity="bottom|left"
+         android:text="@string/tip" />
 
     <TableLayout
          android:layout_width="wrap_content"

@@ -278,34 +278,51 @@ public class TableActivity extends Activity implements
 	@Override
 	public void onTipButtonPress(View v) {
 		Button btn = (Button) v;
-		String txt = btn.getText().toString();
-		if (txt.contains("+")) {
+
+		if (!bill.tipApplied()) {
 			tableFragment.askToAppy("tip", bill.getTip()*100);
 			action = Action.CONFIRM_TIP;
-			txt = txt.replaceFirst("\\+", "\\-");
+			if(leftHanded){
+				btn.setBackgroundResource(R.drawable.ic_tbtn_top_left_sub);
+			} else {
+				btn.setBackgroundResource(R.drawable.ic_tbtn_top_right_sub);
+			}
+	
 		} else {
 			bill.clearTip();
 			updateBowlsPrice();
-			txt = txt.replaceFirst("\\-", "\\+");
+			if(leftHanded){
+				btn.setBackgroundResource(R.drawable.ic_tbtn_top_left_add);
+			} else {
+				btn.setBackgroundResource(R.drawable.ic_tbtn_top_right_add);
+			}
 		}
-		btn.setText(txt);
+
 	}
 
 	@Override
 	public void onTaxButtonPress(View v) {
 		Button btn = (Button) v;
-		String txt = btn.getText().toString();
-		if (txt.contains("+")) {
+
+		if (!bill.taxApplied()) {
 			taxEstimate = bill.calculateTax();
 			tableFragment.askToAppy("tax", taxEstimate);
 			action = Action.CONFIRM_TAX;
-			txt = txt.replaceFirst("\\+", "\\-");
+			if(leftHanded){
+				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_left_sub);
+			} else {
+				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_right_sub);
+			}
 		} else {
 			bill.clearTax();
 			updateBowlsPrice();
-			txt = txt.replaceFirst("\\-", "\\+");
+			if(leftHanded){
+				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_left_add);
+			} else {
+				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_right_add);
+			}
 		}
-		btn.setText(txt);
+		
 	}
 
 	@Override

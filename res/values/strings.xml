@@ -31,8 +31,8 @@
     <string name="ok">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
-    <string name="tax">+ Tax</string>
-    <string name="tip">+ Tip</string>
+    <string name="tax">Tax</string>
+    <string name="tip">Tip</string>
     <string name="presets_button">Preferences</string>
     <string name="bill">BILL</string>
     <string name="new_li"> &lt;&lt; Add new item &gt;&gt;</string>

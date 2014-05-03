@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".BillFragment"
-    android:background="@color/raspberry">
+    android:background="@color/raspberry"
+    android:padding="@dimen/pad">
     
     <TableLayout 
         android:layout_width="match_parent"
