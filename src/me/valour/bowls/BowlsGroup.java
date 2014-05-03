@@ -117,7 +117,7 @@ public class BowlsGroup extends FrameLayout {
 		newBowl.setText("+");
 		
 		trashBowl = new FrameLayout(this.getContext());
-		trashBowl.setBackgroundResource(android.R.drawable.ic_delete);
+		trashBowl.setBackgroundResource(R.drawable.ic_recycle);
 		this.addView(trashBowl, defaultParams);
 		trashBowl.setVisibility(View.GONE);
 		trashBowl.setOnDragListener(deleteListener);

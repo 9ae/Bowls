@@ -4,6 +4,8 @@
     <dimen name="activity_horizontal_margin">0dp</dimen>
     <dimen name="activity_vertical_margin">0dp</dimen>
     <dimen name="bill_line">40dp</dimen>
+    <dimen name="line_icon">36dp</dimen>
+    <dimen name="line_text">27dp</dimen>
     <dimen name="xlarge_font">30dp</dimen>
     <dimen name="large_font">20dp</dimen>
     <dimen name="med_font">16dp</dimen>
