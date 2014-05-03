@@ -10,5 +10,6 @@
 	<dimen name="small_font">12dp</dimen>
 	<dimen name="xsmall_font">10dp</dimen>
 	<dimen name="button_size">50dp</dimen>
-	<dimen name="size_3rows">154dp</dimen>	
+	<dimen name="size_3rows">154dp</dimen>
+	<dimen name="btn_radius">10dip</dimen>
 </resources>

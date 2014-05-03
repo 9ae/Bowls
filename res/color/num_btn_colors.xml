@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:state_enabled="false">
-      <shape>
-            <solid android:color="@color/widget_bg_disabled" />
+      <shape android:shape="rectangle"  >
+         <corners android:radius="@dimen/btn_radius" />
+            <solid android:color="@color/lemon" />
         </shape>
   </item>
   <item android:state_pressed="true" >
-      <shape>
-          <solid android:color="@color/widget_bg_active" />
+      <shape android:shape="rectangle"  >
+         <corners android:radius="@dimen/btn_radius" />
+          <solid android:color="@color/grapefruit" />
       </shape>
   </item>
   <item>
-      <shape>
-            <solid android:color="@color/widget_bg" />
+      <shape android:shape="rectangle"  >
+         <corners android:radius="@dimen/btn_radius" />
+            <solid android:color="@color/lime" />
         </shape>
   </item>
   <item android:drawable="@android:color/transparent" />

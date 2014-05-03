@@ -14,40 +14,41 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowActionBar">false</item>
+      	<item name="android:windowNoTitle">true</item> 
     </style>
     
     <style name="NumberButton">
           <item name="android:minHeight">@dimen/button_size</item>
           <item name="android:minWidth">@dimen/button_size</item>
           <item name="android:background">@color/num_btn_colors</item>
-          <item name="android:textColor">@color/widget_text</item>
+          <item name="android:textColor">@color/num_btn_text_colors</item>
           <item name="android:layout_margin">@dimen/number_buttons_margin</item>
           <item name="android:textSize">25sp</item>
     </style>
     
     <style name="NumberPadEnterButton">
          <item name="android:background">@color/num_btn_colors</item>
-          <item name="android:textColor">@color/widget_text</item>
+          <item name="android:textColor">@color/num_btn_text_colors</item>
           <item name="android:layout_margin">@dimen/number_buttons_margin</item>
           <item name="android:textSize">30sp</item>
     </style>
     
     <style name="BillLabel">
         <item name="android:textSize">@dimen/large_font</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textColor">@color/text_green</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
     
     <style name="BillSubLabel">
         <item name="android:textSize">@dimen/xsmall_font</item>
-        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textColor">@color/lime</item>
     </style>
     
     <style name="BillValue">
         <item name="android:textSize">@dimen/med_font</item>
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@android:color/white</item>
+         <item name="android:textStyle">bold</item>
     </style>
     
     <style name="SplitButtons">

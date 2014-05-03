@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/background"
+    android:background="@color/raspberry"
     tools:context=".NumberPadFragment" >
 
 <GridLayout     
@@ -30,7 +30,7 @@
          	android:singleLine="true"
         	android:textSize="20sp"
         	android:text="@string/dollar_sign"
-        	android:textColor="@color/dollar"
+        	android:textColor="@color/lime"
         	android:layout_weight="1"
         	android:layout_gravity="left" />
 
@@ -43,8 +43,8 @@
              android:singleLine="true"
              android:gravity="center"
              android:textAlignment="gravity"
-             android:textColor="@color/text"
-             android:textColorHint="@color/widget_text"
+             android:textColor="@color/lime"
+             android:textColorHint="@android:color/white"
              android:textSize="20sp" />
 
          <TextView
@@ -58,7 +58,7 @@
              android:singleLine="true"
              android:text="@string/percent_sign"
              android:textAlignment="gravity"
-             android:textColor="@color/dollar"
+             android:textColor="@color/lime"
              android:textSize="20sp" />
 
      </LinearLayout>

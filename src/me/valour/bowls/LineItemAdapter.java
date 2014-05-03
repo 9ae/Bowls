@@ -46,7 +46,6 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
 		  final int index = position;
 		  
 		  tvPrice.setText(li.toString());
-		 // delButton.setFocusable(false);
 		  delButton.setEnabled(false);
 		  delButton.setOnClickListener( new View.OnClickListener() {		
 			@Override

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity"
+    android:background="@color/lemon" >
 
     <FrameLayout
         android:layout_width="0dip"
@@ -18,7 +19,7 @@
          android:background="@drawable/preferences"
          android:gravity="center_horizontal|bottom"
          android:textSize="20sp"
-          android:textColor="@color/milk"
+          android:textColor="@color/lemon"
          android:onClick="onOpenPresets"
          android:text="@string/presets_button" />
 

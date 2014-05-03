@@ -1,28 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!-- >color name="background">#FFe8ffa1</color -->
-  <color name="background">#ff232323</color>
-  <color name="text">#FFff4848</color>
-  <color name="text_light">#ffFF6D6D</color>
-  <color name="text_green">#ff33CC33</color>
-  
-  <color name="widget_bg">#ffffea00</color>
-  <color name="widget_bg_disabled">#ffFFF9B2</color>
-  <color name="widget_bg_active">#ffa8ff00</color>
-  <color name="widget_text">#fffd566a</color>
-  
-  <color name="dollar">#ff007A00</color>
-  
-  <color name="lib_bg">#fffffca1</color>
-	<color name="lit_bg">#fffffed8</color>
-	<color name="lib_bg_active">#fff4fcce</color>
-	<color name="lit_bg_active">#ffedffa1</color>
-	<color name="li_border">#ffffc2c2</color>
-  	<color name="fade">#FF050505</color>
-  	<color name="light_fade">#88000000</color>
-  	
-  	<color name="milk">#FFFFEEFF</color>
-  	
   	<color name="lemon">#FFFFF8BA</color>
   	<color name="grapefruit">#FFFF847A</color>
   	<color name="raspberry">#FFFF3F5C</color>

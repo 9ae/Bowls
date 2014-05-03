@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BillFragment">
+    tools:context=".BillFragment"
+    android:background="@color/raspberry">
     
     <TableLayout 
         android:layout_width="match_parent"
@@ -94,7 +95,7 @@
          android:layout_height="@dimen/bill_line"
          android:layout_gravity="center"
          android:text="@string/new_li"
-         android:textColor="@color/widget_text"
+         android:textColor="@color/lime"
          android:textSize="@dimen/xlarge_font" />
     
 	<ListView android:id="@+id/lineItemsList"
