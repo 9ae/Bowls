@@ -4,9 +4,17 @@
     <dimen name="activity_horizontal_margin">0dp</dimen>
     <dimen name="activity_vertical_margin">0dp</dimen>
     <dimen name="bill_line">40dp</dimen>
+    <dimen name="line_icon">36dp</dimen>
+    <dimen name="line_text">27dp</dimen>
     <dimen name="xlarge_font">30dp</dimen>
     <dimen name="large_font">20dp</dimen>
     <dimen name="med_font">16dp</dimen>
 	<dimen name="small_font">12dp</dimen>
 	<dimen name="xsmall_font">10dp</dimen>
+	<dimen name="button_size">50dp</dimen>
+	<dimen name="size_3rows">154dp</dimen>
+	<dimen name="btn_radius">10dip</dimen>
+	<dimen name="subtotal_edit_btn">32dp</dimen>
+	<dimen name="pad">2dp</dimen>
+	<dimen name="tbtn">50dp</dimen>
 </resources>

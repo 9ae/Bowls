@@ -3,46 +3,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity"
+    android:background="@android:color/black" >
 
-    <FrameLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="0dip"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/ic_launcher">
+        android:layout_weight="1">
         
-     <Button android:id="@+id/btn_presets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/presets_button"
-        android:layout_gravity="center|bottom"
-        android:onClick="onOpenPresets" />
-    </FrameLayout>
+     <Button
+         android:id="@+id/btn_presets"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_centerHorizontal="true"
+         android:background="@drawable/preferences"
+         android:gravity="center_horizontal|bottom"
+         android:textSize="20sp"
+          android:textColor="@color/lemon"
+         android:onClick="onOpenPresets"
+         android:text="@string/presets_button" />
+
+     <ImageView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerHorizontal="true"
+         android:layout_centerVertical="true"
+         android:contentDescription="@string/app_name"
+         android:layout_alignParentTop="true"
+         android:layout_alignParentLeft="true"
+         android:padding="@dimen/pad"
+         android:src="@drawable/main" />
+
+    </RelativeLayout>
     
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:orientation="vertical"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:background="@android:color/white" >
 
         <Button
             android:id="@+id/btn_split_equally"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            style="@style/SplitButtons"            
             android:onClick="onSplitEqually"
-            android:text="@string/split_equally" />
+            android:text="@string/split_equally"
+            android:textColor="@color/raspberry"
+            android:background="@color/lime" />
 
         <Button
             android:id="@+id/btn_split_line"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            style="@style/SplitButtons"   
             android:onClick="onSplitByItem"
-            android:text="@string/split_line" />
+            android:text="@string/split_line"
+			android:background="@color/raspberry"
+            android:textColor="@color/lime"
+             />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/bill_line"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
 
         <ImageButton
             android:id="@+id/lineDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/line_icon"
+            android:layout_height="@dimen/line_icon"
             android:contentDescription="@string/minus_sign"
-            android:src="@android:drawable/ic_delete"
-			android:background="@android:color/transparent"
+            android:src="@drawable/ic_remove"
+			android:background="@drawable/circle_btn"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/number_buttons_margin"
+            android:layout_centerVertical="true"
             android:visibility="invisible" />
 
          <TextView
@@ -19,17 +22,21 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_centerHorizontal="true"
+             android:layout_centerVertical="true"
              android:text="@string/hello_world"
-             android:textColor="@color/primary_color" />
+             android:textColor="@color/apple"
+             android:textSize="@dimen/line_text" />
          
          <ImageButton
             android:id="@+id/lineEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/line_icon"
+            android:layout_height="@dimen/line_icon"
             android:contentDescription="@string/fade_edit"
-            android:src="@android:drawable/ic_menu_edit"
-			android:background="@android:color/transparent"
+            android:src="@drawable/ic_edit"
+			android:background="@drawable/circle_btn"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/number_buttons_margin"
+           android:layout_centerVertical="true"
             android:visibility="invisible"  />
 
     </RelativeLayout>

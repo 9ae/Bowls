@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class NumberPadFragment extends Fragment {
@@ -33,6 +35,7 @@ public class NumberPadFragment extends Fragment {
 	private Button enterButton;
 	
 	private boolean isEditMode = false;
+	protected boolean allowZero;
 	
 	public static NumberPadFragment newInstance() {
 		NumberPadFragment fragment = new NumberPadFragment();
@@ -75,17 +78,8 @@ public class NumberPadFragment extends Fragment {
 		percentSign = (TextView) view.findViewById(R.id.percent_sign);
 		enterButton = (Button) view.findViewById(R.id.enter);
 		
-		enterButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				closeListener.numPadClose(isEditMode);
-			}
-		});
-		
 		numberValue = (TextView) view.findViewById(R.id.numberValue);
-		fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
+	//	fieldBox = (LinearLayout) view.findViewById(R.id.enter_number_layout);
 		
 		Bundle bundle = this.getArguments();
 		
@@ -107,6 +101,9 @@ public class NumberPadFragment extends Fragment {
 			clearField();
 		}
 		
+		allowZero = bundle.getBoolean("allowZero", false);
+		Log.d("vars", "outside allow zero "+allowZero);
+		
 		if(numberMode==InputFormat.DOLLAR){
 			percentSign.setVisibility(View.INVISIBLE);
 			dollarSign.setVisibility(View.VISIBLE);
@@ -115,16 +112,24 @@ public class NumberPadFragment extends Fragment {
 			percentSign.setVisibility(View.VISIBLE);
 		}
 		
-		/*view.setOnTouchListener(new View.OnTouchListener() {
-			
+		final Context ctx = view.getContext();
+		final String nonzero_msg = this.getString(R.string.non_zero);
+		enterButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction()==MotionEvent.ACTION_DOWN){
-					Log.d("vars", "touched down");
+			public void onClick(View v) {
+				Log.d("vars", "inside allow zero "+allowZero);
+				if(allowZero){
+					closeListener.numPadClose(isEditMode);
+				} else {
+					if(getNumberValue()==0.0){
+						Toast toast = Toast.makeText(ctx, nonzero_msg, Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						closeListener.numPadClose(isEditMode);
+					}
 				}
-				return false;
 			}
-		}); */
+		});
 		
 		return view;
 	}
@@ -202,7 +207,7 @@ public class NumberPadFragment extends Fragment {
 		if(numberMode==InputFormat.DOLLAR){
 			strVal = String.format("%.2f", value);
 		} else {
-			strVal = String.format("%.4f", value);
+			strVal = Double.toString(value);
 		}
 		numberValue.setText(strVal);
 		if(strVal.contains(".")){

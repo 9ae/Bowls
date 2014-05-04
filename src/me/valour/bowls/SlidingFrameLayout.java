@@ -3,19 +3,20 @@ package me.valour.bowls;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 
-public class SlidingGridLayout extends GridLayout {
+public class SlidingFrameLayout extends FrameLayout {
 
-	public SlidingGridLayout(Context context) {
+	public SlidingFrameLayout(Context context) {
 		super(context);
 	}
 	
-	public SlidingGridLayout(Context context, AttributeSet attr) {
+	public SlidingFrameLayout(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
 	
-	public SlidingGridLayout(Context context, AttributeSet ats, int ds) {
+	public SlidingFrameLayout(Context context, AttributeSet ats, int ds) {
 		super(context, ats, ds);
 	}
 	

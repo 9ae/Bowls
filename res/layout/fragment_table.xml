@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".TableFragment"
-    android:background="#FFFFFF" >
+    tools:context=".TableFragment" >
     
      <me.valour.bowls.BowlsGroup
          android:id="@+id/bowlsGroup"
@@ -12,19 +11,25 @@
          android:layout_alignParentTop="true"
          android:layout_centerVertical="true"  />
      
-     <Button android:id="@+id/btn_tax"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tax"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+     <Button
+         android:id="@+id/btn_tax"
+         android:layout_width="@dimen/tbtn"
+         android:layout_height="@dimen/tbtn"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentTop="true"
+         android:background="@drawable/ic_tbtn_bot_right_add"
+         android:gravity="top|left"
+         android:text="@string/tax" />
      
-     <Button android:id="@+id/btn_tip"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="@string/tip"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true" />
+     <Button
+         android:id="@+id/btn_tip"
+         android:layout_width="@dimen/tbtn"
+         android:layout_height="@dimen/tbtn"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         android:background="@drawable/ic_tbtn_top_right_add"
+         android:gravity="bottom|left"
+         android:text="@string/tip" />
 
     <TableLayout
          android:layout_width="wrap_content"
@@ -48,7 +53,7 @@
 	        android:focusable="false"
 	        android:focusableInTouchMode="false"
 	        android:longClickable="false"
-	        android:textColor="#000000"
+	        android:textColor="@android:color/black"
 	        android:layout_span="2" />
          </TableRow>
 
@@ -63,7 +68,8 @@
          android:padding="20dp"
          android:text="@string/no"
          android:visibility="invisible"
-         android:gravity="center" />
+         android:gravity="center"
+         android:background="@drawable/btn_red" />
      	<Button
          android:id="@+id/btn_ok"
          android:layout_width="wrap_content"
@@ -72,6 +78,7 @@
          android:text="@string/ok"
          android:gravity="center"
          android:visibility="invisible"
+         android:background="@drawable/btn_green"
        	/>
          </TableRow>
 

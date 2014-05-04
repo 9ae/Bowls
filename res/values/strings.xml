@@ -26,13 +26,13 @@
     <string name="no9">9</string>
     <string name="nodot">.</string>
     <string name="no0">0</string>
-    <string name="split_equally">Split total equally</string>
-    <string name="split_line">Split by bill items</string>
+    <string name="split_equally">Split \n Equally</string>
+    <string name="split_line">Split by \n Bill Items</string>
     <string name="ok">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
-    <string name="tax">+ Tax</string>
-    <string name="tip">+ Tip</string>
+    <string name="tax">Tax</string>
+    <string name="tip">Tip</string>
     <string name="presets_button">Preferences</string>
     <string name="bill">BILL</string>
     <string name="new_li"> &lt;&lt; Add new item &gt;&gt;</string>
@@ -43,6 +43,8 @@
     
     <string name="done">OK</string>
     <string name="fade_edit">Edit</string>
+    
+    <string name="non_zero">Enter non-zero number</string>
     
     <string name="q_enter_first_li">First item price</string>
     <string name="q_enter_next_li">Next item price</string>
@@ -57,7 +59,8 @@
 	    	\nShared items will have their price redistributed. 
 	    	\nItems associated only with this user will deleted.</string>
 	
-    <dimen name="number_buttons_margin">2dp</dimen>
+    <dimen name="number_buttons_margin">1dp</dimen>
     <dimen name="number_buttons_size">5dp</dimen>
-
+	
+	
 </resources>

@@ -79,6 +79,7 @@ public class BowlsGroup extends FrameLayout {
 			double angle = angleDelta*i;
 			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + centerX;
 			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + centerY;
+			bowl.setAngle(angle);
 			bowl.move((float)px, (float)py);
 			i++;
 		 }
@@ -114,9 +115,10 @@ public class BowlsGroup extends FrameLayout {
 		this.addView(newBowl, defaultParams);
 		newBowl.setOnTouchListener(newListener);
 		newBowl.bringToFront();
+		newBowl.setText("+");
 		
 		trashBowl = new FrameLayout(this.getContext());
-		trashBowl.setBackgroundResource(android.R.drawable.ic_delete);
+		trashBowl.setBackgroundResource(R.drawable.ic_recycle);
 		this.addView(trashBowl, defaultParams);
 		trashBowl.setVisibility(View.GONE);
 		trashBowl.setOnDragListener(deleteListener);
@@ -140,6 +142,9 @@ public class BowlsGroup extends FrameLayout {
 			tableRadius -= bowlRadius;
 
 			newBowl.setRadius(bowlRadius);
+			newBowl.setTextSize(bowlRadius);
+			newBowl.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+			newBowl.setPadding(0, -1*bowlRadius/2, 0, 0);
 			for(BowlView bv: bowls){
 				bv.setRadius(bowlRadius);
 			}
@@ -401,10 +406,12 @@ public class BowlsGroup extends FrameLayout {
 	private class BowlSelectListener implements OnTouchListener{
 
 		public List<User> selected;
+		public boolean moved = false;
+		public float px=0;
+		public float py=0;
 		
 		public BowlSelectListener(){
 			selected = new ArrayList<User>();
-
 		}
 		
 		@Override
@@ -422,23 +429,40 @@ public class BowlsGroup extends FrameLayout {
 			} else if (bowls.size()>Kitchen.minBowls && addRemovable) {
 				switch(action){
 				case MotionEvent.ACTION_DOWN:
+					moved = false;
+					px = move.getX();
+					py = move.getY();
 					break;
 				case MotionEvent.ACTION_MOVE:
-					addRemoveIcons(false);
-					v.setOnDragListener(deleteListener);
-					ClipData data = ClipData.newPlainText("", "");
-					DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
-					v.startDrag(data, shadowBuilder, v, 0);
+
+					float movedX = Math.abs(move.getX() - px);
+					float movedY = Math.abs(move.getY() - py);
+
+					if(movedX>10 || movedY>10){
+						addRemoveIcons(false);
+						v.setOnDragListener(deleteListener);
+						ClipData data = ClipData.newPlainText("", "");
+						DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+						v.startDrag(data, shadowBuilder, v, 0);
+						moved = true;
+					}
 					break;
 				case MotionEvent.ACTION_UP:
-					
+					if(!moved){ showInfo(bv); }
 					break;
 				}
 				return true;
 			}
 			else {
-				return false;
+				 if(action==MotionEvent.ACTION_UP){
+					 showInfo(bv); 
+				 }
+				return true;
 			}
+		}
+		
+		public void showInfo(BowlView bv){
+			Log.d("vars",String.format("user = %f", bv.user.getSubtotal()));
 		}
 		
 	}

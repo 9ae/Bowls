@@ -30,13 +30,13 @@ public class TableActivity extends Activity implements
 	private BillFragment billFragment;
 	
 	public boolean splitEqually;
+	public boolean leftHanded;
 	private boolean isEdit;
 	private Action action;
 	
 	private SharedPreferences sp;
 	
 	private LineItem selectedLineItem = null;
-	private BowlView deleteBowlQueue = null;
 	
 	private double taxEstimate;
 
@@ -52,11 +52,21 @@ public class TableActivity extends Activity implements
 		bowlsCount = Kitchen.minBowls;
 		action = Action.ITEM_PRICE;
 		bill = new Bill(getTax(), getTip(), splitEqually);
+		
+		leftHanded = !sp.getBoolean("left_right", true);
 
-		setContentView(R.layout.activity_table);
+		Log.d("vars", "left_handed="+leftHanded);
+		if(leftHanded){
+			setContentView(R.layout.left_activity_table);
+		} else {
+			setContentView(R.layout.activity_table);
+		}
 
 		fm = getFragmentManager();
 		tableFragment = (TableFragment) fm.findFragmentById(R.id.tableFragment);
+		if(leftHanded){
+			tableFragment.alignForLeftHanded();
+		}
 		numFragment = new NumberPadFragment();
 		
 		bill.usersAddBatch(tableFragment.bowlsGroup.getBowlUsers());
@@ -145,20 +155,6 @@ public class TableActivity extends Activity implements
 		numFragment.highlightTextField(false);
 		clearCenter();
 	}
-	
-	private void completeConfirmDelete(){
-		tableFragment.setNoButtonText(R.string.no);
-		if(splitEqually){
-			tableFragment.setQuestionText(null);
-			tableFragment.showNoButton(false);
-			tableFragment.showOkButton(false);
-		} else {
-			tableFragment.setQuestionText(null);
-			tableFragment.showNoButton(false);
-			tableFragment.showOkButton(false);
-			action = Action.ITEM_PRICE;
-		}
-	}
 
 	private void registerItemPrice() {
 		double price = numFragment.getNumberValue();
@@ -175,6 +171,7 @@ public class TableActivity extends Activity implements
 	
 	private void updateItemPrice(){
 		double price = numFragment.getNumberValue();
+		Log.d("vars"," new price = "+price);
 		bill.itemUpdate(selectedLineItem, price);
 		if(splitEqually){
 			clearCenter();
@@ -233,6 +230,7 @@ public class TableActivity extends Activity implements
 			/* apply default tip */
 			applyTip();
 			clearCenter();
+			tableFragment.bowlsGroup.addRemoveIcons(true);
 			break;
 		case SET_TIP:
 			/* apply tip at new rate */
@@ -243,6 +241,7 @@ public class TableActivity extends Activity implements
 		case CONFIRM_TAX:
 			applyTax();
 			clearCenter();
+			tableFragment.bowlsGroup.addRemoveIcons(true);
 			break;
 		case SET_TAX:
 			setTax(numFragment.getStringValue(), false);
@@ -260,16 +259,16 @@ public class TableActivity extends Activity implements
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
 			tableFragment.setQuestionText(null);
-			openNumberPadForAmountChange(taxEstimate);
 			action = Action.SET_TAX;
+			openNumberPadForAmountChange(taxEstimate);
 			break;
 
 		case CONFIRM_TIP:
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
 			tableFragment.setQuestionText(null);
-			openNumberPadForPercentChange(bill.getTip());
 			action = Action.SET_TIP;
+			openNumberPadForPercentChange(bill.getTip());
 			break;
 		default:
 			break;
@@ -280,34 +279,51 @@ public class TableActivity extends Activity implements
 	@Override
 	public void onTipButtonPress(View v) {
 		Button btn = (Button) v;
-		String txt = btn.getText().toString();
-		if (txt.contains("+")) {
+
+		if (!bill.tipApplied()) {
 			tableFragment.askToAppy("tip", bill.getTip()*100);
 			action = Action.CONFIRM_TIP;
-			txt = txt.replaceFirst("\\+", "\\-");
+			if(leftHanded){
+				btn.setBackgroundResource(R.drawable.ic_tbtn_top_left_sub);
+			} else {
+				btn.setBackgroundResource(R.drawable.ic_tbtn_top_right_sub);
+			}
+	
 		} else {
 			bill.clearTip();
 			updateBowlsPrice();
-			txt = txt.replaceFirst("\\-", "\\+");
+			if(leftHanded){
+				btn.setBackgroundResource(R.drawable.ic_tbtn_top_left_add);
+			} else {
+				btn.setBackgroundResource(R.drawable.ic_tbtn_top_right_add);
+			}
 		}
-		btn.setText(txt);
+
 	}
 
 	@Override
 	public void onTaxButtonPress(View v) {
 		Button btn = (Button) v;
-		String txt = btn.getText().toString();
-		if (txt.contains("+")) {
+
+		if (!bill.taxApplied()) {
 			taxEstimate = bill.calculateTax();
 			tableFragment.askToAppy("tax", taxEstimate);
 			action = Action.CONFIRM_TAX;
-			txt = txt.replaceFirst("\\+", "\\-");
+			if(leftHanded){
+				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_left_sub);
+			} else {
+				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_right_sub);
+			}
 		} else {
 			bill.clearTax();
 			updateBowlsPrice();
-			txt = txt.replaceFirst("\\-", "\\+");
+			if(leftHanded){
+				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_left_add);
+			} else {
+				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_right_add);
+			}
 		}
-		btn.setText(txt);
+		
 	}
 
 	@Override
@@ -430,6 +446,7 @@ public class TableActivity extends Activity implements
 		
 		if(action==Action.SET_TIP){
 			bundle.putString("hint", getString(R.string.q_enter_tip_percent));
+			bundle.putBoolean("allowZero", true);
 		}
 		
 		numFragment.setArguments(bundle);
@@ -447,8 +464,10 @@ public class TableActivity extends Activity implements
 		bundle.putDouble("numberValue", amount);
 		bundle.putBoolean("percentMode",false);
 		
+		
 		if(action==Action.SET_TAX){
 			bundle.putString("hint", getString(R.string.q_enter_tax_dollars));
+			bundle.putBoolean("allowZero", true);
 		}
 		
 		numFragment.setArguments(bundle);
@@ -469,11 +488,13 @@ public class TableActivity extends Activity implements
 				setTax(numFragment.getStringValue(), false);
 				applyTax();
 				clearCenter();
+				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;
 			case SET_TIP:
 				setTip(numFragment.getStringValue(), false);
 				applyTip();
 				clearCenter();
+				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;
 			case EDIT_SUBTOTAL:
 				updateItemPrice();

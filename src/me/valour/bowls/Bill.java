@@ -139,6 +139,14 @@ public class Bill{
 		changeAgent.tipChanged(false);
 	}
 	
+	public boolean tipApplied(){
+		return appliedTip;
+	}
+	
+	public boolean taxApplied(){
+		return appliedTax;
+	}
+	
 	public void clearTax(){
 		for(User u: users){
 			u.setTax(0.0);

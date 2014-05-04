@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/lemon"
 	android:orientation="horizontal"
     tools:context=".TableActivity" >
 
@@ -21,12 +21,10 @@
 		android:layout_width="0dp"
 		android:layout_height="match_parent"
 		android:layout_weight="2"
-        android:padding="0dp">
-      <!--  fragment android:name="me.valour.bowls.NumberPadFragment" 
-        android:id="@+id/numpadFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        /-->
+        android:padding="0dp"
+        android:layout_gravity="center"
+         >
+
         <fragment android:name="me.valour.bowls.BillFragment" 
             android:id="@+id/billFragment"
            android:layout_width="match_parent"
