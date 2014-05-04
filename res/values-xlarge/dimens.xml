@@ -17,6 +17,4 @@
 	<dimen name="subtotal_edit_btn">32dp</dimen>
 	<dimen name="pad">2dp</dimen>
 	<dimen name="tbtn">50dp</dimen>
-	<dimen name="tbtn_text">18sp</dimen>
-	<dimen name="split_text">50sp</dimen>
 </resources>

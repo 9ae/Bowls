@@ -19,7 +19,8 @@
          android:layout_alignParentTop="true"
          android:background="@drawable/ic_tbtn_bot_right_add"
          android:gravity="top|left"
-         android:text="@string/tax" />
+         android:text="@string/tax"
+         android:textSize="@dimen/tbtn_text" />
      
      <Button
          android:id="@+id/btn_tip"
@@ -29,7 +30,8 @@
          android:layout_alignParentLeft="true"
          android:background="@drawable/ic_tbtn_top_right_add"
          android:gravity="bottom|left"
-         android:text="@string/tip" />
+         android:text="@string/tip"
+         android:textSize="@dimen/tbtn_text"  />
 
     <TableLayout
          android:layout_width="wrap_content"
