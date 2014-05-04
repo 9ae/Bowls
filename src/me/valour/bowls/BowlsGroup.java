@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -347,12 +349,19 @@ public class BowlsGroup extends FrameLayout {
 	
 	public void showInfo(BowlView bv){
 		Context ctx  = this.getContext();
-		String text = ctx.getResources().getString(R.string.simple_user_toast, 
-				bv.user.getSubtotal(),
-				bv.user.getTax(),
-				bv.user.getTip());
-		Toast toast = Toast.makeText(ctx,text, Toast.LENGTH_LONG);
+		LayoutInflater inflater = (LayoutInflater) ctx.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+
+		View layout = inflater.inflate(R.layout.toast_user, (ViewGroup) findViewById(R.id.toast_user));
+		Resources res = ctx.getResources();
+		((TextView)layout.findViewById(R.id.user_subtotal_value)).setText(res.getString(R.string.x_dollars, bv.user.getSubtotal()));
+		((TextView)layout.findViewById(R.id.user_tip_value)).setText(res.getString(R.string.x_dollars, bv.user.getTip()));
+		((TextView)layout.findViewById(R.id.user_tax_value)).setText(res.getString(R.string.x_dollars, bv.user.getTax()));
+		
+		Toast toast = new Toast(ctx);
 		toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, -1*tableRadius, 0);
+		toast.setDuration(2000);
+		toast.setView(layout);
+		
 		toast.show();
 	}
 

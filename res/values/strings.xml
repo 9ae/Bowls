@@ -45,9 +45,7 @@
     <string name="fade_edit">Edit</string>
     
     <string name="non_zero">Enter non-zero number</string>
-    
-    <string name="simple_user_toast" formatted="false">Subtotal: \t $ %.2f \n Tax: \t\t $ %.2f \n  Tip: \t\t $%.2f</string>
-    
+
     <string name="q_enter_first_li">First item price</string>
     <string name="q_enter_next_li">Next item price</string>
     <string name="q_enter_subtotal">Subtotal</string>
