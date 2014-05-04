@@ -58,5 +58,15 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
     </style>
+    
+    <style name="ToastLabel">
+        <item name="android:textColor">@color/grapefruit</item>
+    </style>
+    
+     <style name="ToastValue">
+        <item name="android:textColor">@color/lime</item>
+         <item name="android:textStyle">bold</item>
+         <item name="android:paddingLeft">@dimen/number_buttons_margin</item>
+    </style>
 
 </resources>
