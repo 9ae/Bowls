@@ -64,4 +64,12 @@ public class Kitchen {
 		return Math.round(a)*Math.pow(10, -1*f);
 	}
 	
+	public static float minClamp(float value, float minValue){
+		if(value<minValue){
+			return minValue;
+		} else {
+			return value;
+		}
+	}
+	
 }

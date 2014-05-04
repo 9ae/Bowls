@@ -20,6 +20,7 @@ public class BowlView extends TextView{
 	
 	private Paint primaryPaint;
 	private Paint blackPaint;
+	private int darkerColor;
 	private int radius;
 	public User user;
 	private boolean selected = false;
@@ -49,8 +50,7 @@ public class BowlView extends TextView{
 		 setRadius(Kitchen.minRadius);
 		 user = null;		 
 		 primaryPaint = null;
-		 blackPaint =  new Paint(Paint.ANTI_ALIAS_FLAG);
-		 blackPaint.setColor(Color.BLACK);
+		 blackPaint =  null;
 		 
 		 originalX = 0;
 		 originalY = 0;
@@ -79,10 +79,10 @@ public class BowlView extends TextView{
 	 
 	 public void setAngle(double a){
 		 
-		 offsetY = -1*(float)(Math.sin(a)*4.0);
-		 offsetX = (float)(Math.cos(a)*4.0);
+		 offsetX = -1*(float)(Math.sin(a)*4.0);
+		 offsetY = -1*(float)(Math.cos(a)*4.0);
 		 
-		 Log.d("vars", offsetX+" "+offsetY);
+		 this.invalidate();
 	 }
 	 
 	 public void resetPosition(){
@@ -100,6 +100,13 @@ public class BowlView extends TextView{
 		 primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		 primaryPaint.setColor(color);
 		 setTextColor(Kitchen.calculateTextColor(color));
+		 float[] hsv = new float[3];
+		 Color.colorToHSV(color, hsv);
+		 float v = Kitchen.minClamp((float)(hsv[2]-0.15), 0);
+		 hsv[2] = v;
+		 blackPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		 darkerColor = Color.HSVToColor(hsv);
+		 blackPaint.setColor(darkerColor);
 	 }
 	 
 	 public int getColor(){
@@ -184,7 +191,7 @@ public class BowlView extends TextView{
 	}
 	
 	public void unfade(){
-		blackPaint.setColor(Color.BLACK);
+		blackPaint.setColor(darkerColor);
 		primaryPaint.setAlpha(255);
 		this.invalidate();
 	}
