@@ -171,6 +171,7 @@ public class TableActivity extends Activity implements
 	
 	private void updateItemPrice(){
 		double price = numFragment.getNumberValue();
+		Log.d("vars"," new price = "+price);
 		bill.itemUpdate(selectedLineItem, price);
 		if(splitEqually){
 			clearCenter();
@@ -258,16 +259,16 @@ public class TableActivity extends Activity implements
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
 			tableFragment.setQuestionText(null);
-			openNumberPadForAmountChange(taxEstimate);
 			action = Action.SET_TAX;
+			openNumberPadForAmountChange(taxEstimate);
 			break;
 
 		case CONFIRM_TIP:
 			tableFragment.showNoButton(false);
 			tableFragment.showOkButton(false);
 			tableFragment.setQuestionText(null);
-			openNumberPadForPercentChange(bill.getTip());
 			action = Action.SET_TIP;
+			openNumberPadForPercentChange(bill.getTip());
 			break;
 		default:
 			break;
@@ -445,6 +446,7 @@ public class TableActivity extends Activity implements
 		
 		if(action==Action.SET_TIP){
 			bundle.putString("hint", getString(R.string.q_enter_tip_percent));
+			bundle.putBoolean("allowZero", true);
 		}
 		
 		numFragment.setArguments(bundle);
@@ -462,8 +464,10 @@ public class TableActivity extends Activity implements
 		bundle.putDouble("numberValue", amount);
 		bundle.putBoolean("percentMode",false);
 		
+		
 		if(action==Action.SET_TAX){
 			bundle.putString("hint", getString(R.string.q_enter_tax_dollars));
+			bundle.putBoolean("allowZero", true);
 		}
 		
 		numFragment.setArguments(bundle);
