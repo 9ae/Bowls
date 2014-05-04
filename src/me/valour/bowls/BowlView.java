@@ -19,11 +19,14 @@ import android.view.View.OnClickListener;
 public class BowlView extends TextView{
 	
 	private Paint primaryPaint;
+	private Paint blackPaint;
 	private int radius;
 	public User user;
 	private boolean selected = false;
 	private float originalX;
 	private float originalY;
+	private float offsetX;
+	private float offsetY;
 	
 	public BowlView(Context context, AttributeSet ats, int ds){
 		super(context, ats, ds);
@@ -46,9 +49,14 @@ public class BowlView extends TextView{
 		 setRadius(Kitchen.minRadius);
 		 user = null;		 
 		 primaryPaint = null;
+		 blackPaint =  new Paint(Paint.ANTI_ALIAS_FLAG);
+		 blackPaint.setColor(Color.BLACK);
 		 
 		 originalX = 0;
 		 originalY = 0;
+		 
+		 offsetX = 0;
+		 offsetY = 0;
 		 
 		 this.setGravity(Gravity.CENTER);
 	 }
@@ -67,6 +75,14 @@ public class BowlView extends TextView{
 			 originalX = x;
 			 originalY = y;
 		 }
+	 }
+	 
+	 public void setAngle(double a){
+		 
+		 offsetY = -1*(float)(Math.sin(a)*4.0);
+		 offsetX = (float)(Math.cos(a)*4.0);
+		 
+		 Log.d("vars", offsetX+" "+offsetY);
 	 }
 	 
 	 public void resetPosition(){
@@ -129,7 +145,8 @@ public class BowlView extends TextView{
 	 
 	 @Override
 	  public void onDraw(Canvas canvas) {
-		 canvas.drawCircle(radius, radius, radius, primaryPaint);
+		 canvas.drawCircle(radius, radius, radius, blackPaint);
+		 canvas.drawCircle(radius+offsetX, radius+offsetY, radius-4, primaryPaint);
 		 super.onDraw(canvas);
 	 }
 
@@ -161,11 +178,13 @@ public class BowlView extends TextView{
 	 
 	
 	public void fade(){
+		blackPaint.setColor(Color.WHITE);
 		primaryPaint.setAlpha(50);
 		this.invalidate();
 	}
 	
 	public void unfade(){
+		blackPaint.setColor(Color.BLACK);
 		primaryPaint.setAlpha(255);
 		this.invalidate();
 	}

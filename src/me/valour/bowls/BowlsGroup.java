@@ -79,6 +79,7 @@ public class BowlsGroup extends FrameLayout {
 			double angle = angleDelta*i;
 			double px = Math.cos(angle)*topX - Math.sin(angle)*topY + centerX;
 			double py = Math.sin(angle)*topX - Math.cos(angle)*topY + centerY;
+			bowl.setAngle(angle);
 			bowl.move((float)px, (float)py);
 			i++;
 		 }
