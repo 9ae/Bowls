@@ -102,7 +102,6 @@ public class NumberPadFragment extends Fragment {
 		}
 		
 		allowZero = bundle.getBoolean("allowZero", false);
-		Log.d("vars", "outside allow zero "+allowZero);
 		
 		if(numberMode==InputFormat.DOLLAR){
 			percentSign.setVisibility(View.INVISIBLE);
@@ -117,7 +116,6 @@ public class NumberPadFragment extends Fragment {
 		enterButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d("vars", "inside allow zero "+allowZero);
 				if(allowZero){
 					closeListener.numPadClose(isEditMode);
 				} else {

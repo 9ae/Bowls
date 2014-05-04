@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressLint("NewApi")
 public class BowlsGroup extends FrameLayout {
@@ -62,6 +64,7 @@ public class BowlsGroup extends FrameLayout {
 
 	public BowlsGroup(Context context, AttributeSet attr) {
 		super(context, attr);
+
 		init();
 	}
 	
@@ -341,6 +344,17 @@ public class BowlsGroup extends FrameLayout {
 		selectReady = false;
 		addRemovable = false;
 	}
+	
+	public void showInfo(BowlView bv){
+		Context ctx  = this.getContext();
+		String text = ctx.getResources().getString(R.string.simple_user_toast, 
+				bv.user.getSubtotal(),
+				bv.user.getTax(),
+				bv.user.getTip());
+		Toast toast = Toast.makeText(ctx,text, Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, -1*tableRadius, 0);
+		toast.show();
+	}
 
 	
 	public void attachBowlAgents(Activity activity){
@@ -460,11 +474,7 @@ public class BowlsGroup extends FrameLayout {
 				return true;
 			}
 		}
-		
-		public void showInfo(BowlView bv){
-			Log.d("vars",String.format("user = %f", bv.user.getSubtotal()));
-		}
-		
+	
 	}
 	
 	public class NewBowlListener implements OnTouchListener{
