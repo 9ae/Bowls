@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.util.Log;
-import me.valour.milktea.*;
 
 public class Bill{
 
