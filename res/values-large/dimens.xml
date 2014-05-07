@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">0dp</dimen>
+    <dimen name="activity_vertical_margin">0dp</dimen>
+    <dimen name="bill_line">40dp</dimen>
+	<dimen name="line_icon">36dp</dimen>
+    <dimen name="line_text">27dp</dimen>
+    <dimen name="xlarge_font">45dp</dimen>
+    <dimen name="large_font">30dp</dimen>
+    <dimen name="med_font">24dp</dimen>
+	<dimen name="small_font">18dp</dimen>
+	<dimen name="xsmall_font">15dp</dimen>
+	<dimen name="button_size">75dp</dimen>
+	<dimen name="size_3rows">231dp</dimen>
+	<dimen name="btn_radius">15dip</dimen>
+	<dimen name="subtotal_edit_btn">48dp</dimen>
+	<dimen name="pad">3dp</dimen>
+	<dimen name="tbtn">75dp</dimen>
+	<dimen name="tbtn_text">27sp</dimen>
+	<dimen name="split_text">75sp</dimen>
+	<dimen name="pref_btn_text">30sp</dimen>
+	<dimen name="pref_btn_w">225dp</dimen>
+	<dimen name="pref_btn_h">80dp</dimen>
+</resources>

@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.util.Log;
-import me.valour.milktea.*;
 
 public class Bill{
 
@@ -223,10 +222,6 @@ public class Bill{
 		}
 	}
 	
-	public int usersOfItemCount(LineItem li){
-		return usersOfItemCount(lineItems.indexOf(li));
-	}
-	
 	public List<User> usersOfItem(LineItem li){
 		int ind = lineItems.indexOf(li);
 		ArrayList<User> itemUsers = new ArrayList<User>();
@@ -301,7 +296,11 @@ public class Bill{
 		li.setPrice(price);
 		
 		int lineIndex = lineItems.indexOf(li);
-		double pricePerUser = price / usersOfItemCount(lineIndex);
+		int usersCount = usersOfItemCount(lineIndex);
+		if(usersCount==0){
+			return;
+		}
+		double pricePerUser = price / usersCount;
 		for(int i=0; i<priceMatrix.length; i++){
 			if(priceMatrix[i][lineIndex]>0.0){
 				priceMatrix[i][lineIndex] = pricePerUser;

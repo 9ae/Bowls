@@ -81,6 +81,14 @@ public class TableActivity extends Activity implements
 		} 
 		isEdit = false;
 	}
+	
+	@Override
+    public void onBackPressed()
+    {
+		if(!numFragment.isVisible()){
+			super.onBackPressed();
+		}
+    }
 
 	public void applyTax() {
 		bill.calculateTax();
