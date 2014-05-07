@@ -37,6 +37,8 @@ public class NumberPadFragment extends Fragment {
 	private boolean isEditMode = false;
 	protected boolean allowZero;
 	
+	private static int charLimit = 10;
+	
 	public static NumberPadFragment newInstance() {
 		NumberPadFragment fragment = new NumberPadFragment();
 		Bundle args = new Bundle();
@@ -235,8 +237,13 @@ public class NumberPadFragment extends Fragment {
 			if(v.getId()==R.id.nodel){
 				deleteLastChar();
 			} else {
-				Button b = (Button)v;
-				appendChar(b.getText());
+				String str = getStringValue();
+				if(str.length()==charLimit){
+					return;
+				} else {
+					Button b = (Button)v;
+					appendChar(b.getText());
+				}
 			}
 		}
 	}
