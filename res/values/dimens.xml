@@ -19,4 +19,7 @@
 	<dimen name="tbtn">50dp</dimen>
 	<dimen name="tbtn_text">18sp</dimen>
 	<dimen name="split_text">50sp</dimen>
+	<dimen name="pref_btn_text">20sp</dimen>
+	<dimen name="pref_btn_w">150dp</dimen>
+	<dimen name="pref_btn_h">53dp</dimen>
 </resources>

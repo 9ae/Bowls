@@ -96,9 +96,13 @@
          android:layout_width="match_parent"
          android:layout_height="@dimen/bill_line"
          android:layout_gravity="center"
+         android:layout_marginBottom="1dip"
+         android:background="@android:color/white"
+         android:gravity="center"
          android:text="@string/new_li"
+         android:textAlignment="gravity"
          android:textColor="@color/lime"
-         android:textSize="@dimen/xlarge_font" />
+         android:textSize="@dimen/line_text" />
     
 	<ListView android:id="@+id/lineItemsList"
         android:layout_width="match_parent"

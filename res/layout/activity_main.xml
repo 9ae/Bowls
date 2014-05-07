@@ -13,14 +13,14 @@
         
      <Button
          android:id="@+id/btn_presets"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
+         android:layout_width="@dimen/pref_btn_w"
+         android:layout_height="@dimen/pref_btn_h"
          android:layout_alignParentBottom="true"
          android:layout_centerHorizontal="true"
          android:background="@drawable/preferences"
          android:gravity="center_horizontal|bottom"
-         android:textSize="20sp"
-          android:textColor="@color/lemon"
+         android:textSize="@dimen/pref_btn_text"
+         android:textColor="@color/lemon"
          android:onClick="onOpenPresets"
          android:text="@string/presets_button" />
 
