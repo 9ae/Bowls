@@ -342,6 +342,7 @@ public class TableActivity extends Activity implements
 	public void onNewLineItem() {
 		Log.d("vars", "new line item");
 		Bundle bundle = new Bundle();
+		bundle.putBoolean("percentMode", false);
 		if(splitEqually){
 			bundle.putString("hint", getString(R.string.q_enter_subtotal));
 		}

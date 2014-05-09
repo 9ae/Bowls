@@ -92,15 +92,15 @@ public class NumberPadFragment extends Fragment {
 		
 		if(bundle.containsKey("numberValue")){
 			double no = bundle.getDouble("numberValue");
-			
-			if(bundle.getBoolean("percentMode", false)){
-				numberMode = InputFormat.PERCENT;
-			} else {
-				numberMode = InputFormat.DOLLAR;
-			}
 			setValue(no);
 		} else {
 			clearField();
+		}
+		
+		if(bundle.getBoolean("percentMode", false)){
+			numberMode = InputFormat.PERCENT;
+		} else {
+			numberMode = InputFormat.DOLLAR;
 		}
 		
 		allowZero = bundle.getBoolean("allowZero", false);

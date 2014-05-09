@@ -100,7 +100,7 @@ public class Bill{
 		}
 		appliedTip = true;
 		changeAgent.tipChanged(false);
-	//	return subtotal * percentTip;
+		changeAgent.toggleEditTipButton();
 	}
 	
 	public void applyTax(){
@@ -109,7 +109,7 @@ public class Bill{
 		}
 		appliedTax = true;
 		changeAgent.taxChanged(false);
-	//	return subtotal * percentTax;
+		changeAgent.toggleEditTaxButton();
 	}
 	
 	public void reapplyTax(){
@@ -136,6 +136,7 @@ public class Bill{
 		}
 		appliedTip = false;
 		changeAgent.tipChanged(false);
+		changeAgent.toggleEditTipButton();
 	}
 	
 	public boolean tipApplied(){
@@ -152,6 +153,7 @@ public class Bill{
 		}
 		appliedTax = false;
 		changeAgent.taxChanged(false);
+		changeAgent.toggleEditTaxButton();
 	}
 	
 	
@@ -414,6 +416,8 @@ public class Bill{
 		public void tipChanged(boolean rateChanged);
 		public void updateTotal();
 		public void removeLineItemFromBill();
+		public void toggleEditTaxButton();
+		public void toggleEditTipButton();
 	}
 
 }
