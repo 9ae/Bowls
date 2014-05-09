@@ -61,7 +61,7 @@
         android:background="@drawable/circle_btn"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_edit"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:contentDescription="@string/descript_edit_tax" />
     </TableRow>
         <TableRow 

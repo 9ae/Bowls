@@ -228,6 +228,14 @@ public class BillFragment extends Fragment implements
 		adapter.notifyDataSetChanged();
 	}
 	
+	public void toggleEditTaxButton(){
+		if(bill.getSubtotal()==0.0){
+			editTax.setVisibility(View.INVISIBLE);
+		} else {
+			editTax.setVisibility(View.VISIBLE);
+		}
+	}
+	
 	public interface BillFragmentAgent{
 		public void onNewLineItem();
 		public void selectLineItem(int position);
@@ -247,6 +255,7 @@ public class BillFragment extends Fragment implements
 	public void subtotalChanged() {
 		setSubtotal(bill.getSubtotal());
 		updateTotal();
+		toggleEditTaxButton();
 	}
 
 	@Override
