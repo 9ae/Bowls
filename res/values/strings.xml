@@ -58,6 +58,10 @@
 	<string name="q_user_has_balance">Deleting user with non-zero balance. 
 	    	\nShared items will have their price redistributed. 
 	    	\nItems associated only with this user will deleted.</string>
+	    	
+	<string name="descript_edit_subtotal">Edit subtotal</string>
+	<string name="descript_edit_tax">Edit tax amount</string>
+	<string name="descript_edit_tip">Edit tip percent</string>
 	
     <dimen name="number_buttons_margin">1dp</dimen>
     <dimen name="number_buttons_size">5dp</dimen>

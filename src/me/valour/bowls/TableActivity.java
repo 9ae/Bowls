@@ -153,7 +153,6 @@ public class TableActivity extends Activity implements
 	private void clearCenter() {
 		action = Action.NONE;
 		tableFragment.setQuestionText(null);
-		tableFragment.showNoButton(false);
 		tableFragment.showOkButton(false);
 	}
 
@@ -234,22 +233,11 @@ public class TableActivity extends Activity implements
 		case SELECT_BOWLS:
 			handleSelectedBowls();
 			break;
-		case CONFIRM_TIP:
-			/* apply default tip */
-			applyTip();
-			clearCenter();
-			tableFragment.bowlsGroup.addRemoveIcons(true);
-			break;
 		case SET_TIP:
 			/* apply tip at new rate */
 			setTip(numFragment.getStringValue(), false);
 			applyTip();
 			completePercentChange();
-			break;
-		case CONFIRM_TAX:
-			applyTax();
-			clearCenter();
-			tableFragment.bowlsGroup.addRemoveIcons(true);
 			break;
 		case SET_TAX:
 			setTax(numFragment.getStringValue(), false);
@@ -261,36 +249,13 @@ public class TableActivity extends Activity implements
 	}
 
 	@Override
-	public void OnNoButtonPress() {
-		switch (action) {
-		case CONFIRM_TAX:
-			tableFragment.showNoButton(false);
-			tableFragment.showOkButton(false);
-			tableFragment.setQuestionText(null);
-			action = Action.SET_TAX;
-			openNumberPadForAmountChange(taxEstimate);
-			break;
-
-		case CONFIRM_TIP:
-			tableFragment.showNoButton(false);
-			tableFragment.showOkButton(false);
-			tableFragment.setQuestionText(null);
-			action = Action.SET_TIP;
-			openNumberPadForPercentChange(bill.getTip());
-			break;
-		default:
-			break;
-		}
-
-	}
-
-	@Override
 	public void onTipButtonPress(View v) {
 		Button btn = (Button) v;
 
 		if (!bill.tipApplied()) {
-			tableFragment.askToAppy("tip", bill.getTip()*100);
-			action = Action.CONFIRM_TIP;
+			applyTip();
+			clearCenter();
+			tableFragment.bowlsGroup.addRemoveIcons(true);
 			if(leftHanded){
 				btn.setBackgroundResource(R.drawable.ic_tbtn_top_left_sub);
 			} else {
@@ -315,8 +280,9 @@ public class TableActivity extends Activity implements
 
 		if (!bill.taxApplied()) {
 			taxEstimate = bill.calculateTax();
-			tableFragment.askToAppy("tax", taxEstimate);
-			action = Action.CONFIRM_TAX;
+			applyTax();
+			clearCenter();
+			tableFragment.bowlsGroup.addRemoveIcons(true);
 			if(leftHanded){
 				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_left_sub);
 			} else {
@@ -440,6 +406,18 @@ public class TableActivity extends Activity implements
 		action = Action.EDIT_SUBTOTAL;
 		selectedLineItem = bill.lineItems.get(0); 
 		editLineItem();
+	}
+	
+	@Override
+	public void editTax(){
+		action = Action.SET_TAX;
+		openNumberPadForAmountChange(taxEstimate);
+	}
+	
+	@Override
+	public void editTip(){
+		action = Action.SET_TIP;
+		openNumberPadForPercentChange(bill.getTip());
 	}
 	
 	/*
