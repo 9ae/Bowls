@@ -52,7 +52,7 @@
 	        android:focusable="false"
 	        android:focusableInTouchMode="false"
 	        android:longClickable="false"
-	        android:textColor="@android:color/black" />
+	        android:textColor="@android:color/white" />
 
      	<Button
          android:id="@+id/btn_ok"
