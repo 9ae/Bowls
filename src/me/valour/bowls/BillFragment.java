@@ -23,8 +23,10 @@ public class BillFragment extends Fragment implements
 	private ImageButton editSubtotal;
 	private TextView percentTax;
 	private TextView amountTax;
+	private ImageButton editTax;
 	private TextView percentTip;
 	private TextView amountTip;
+	private ImageButton editTip;
 	private TextView amountTotal;
 	private TextView newLineItem;
 	
@@ -73,11 +75,16 @@ public class BillFragment extends Fragment implements
 		
 		amountSubtotal = (TextView) view.findViewById(R.id.subtotal_amount);
 		amountTotal = (TextView) view.findViewById(R.id.total_amount);
+		
 		percentTax = (TextView) view.findViewById(R.id.tax_percent);
 		amountTax = (TextView) view.findViewById(R.id.tax_amount);
+		
 		percentTip = (TextView) view.findViewById(R.id.tip_percent);
 		amountTip = (TextView) view.findViewById(R.id.tip_amount);
+		
 		editSubtotal = (ImageButton) view.findViewById(R.id.edit_subtotal);
+		editTax = (ImageButton) view.findViewById(R.id.edit_tax);
+		editTip = (ImageButton) view.findViewById(R.id.edit_tip);
 		
 		newLineItem = (TextView) view.findViewById(R.id.newLineItem);
 		newLineItem.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +94,22 @@ public class BillFragment extends Fragment implements
 					deselectLineItem();
 				}
 				agent.onNewLineItem();
+			}
+		});
+		
+		editTax.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				agent.editTax();
+				
+			}
+		});
+		
+		editTip.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				agent.editTip();
+				
 			}
 		});
 		
@@ -212,6 +235,8 @@ public class BillFragment extends Fragment implements
 		public void editLineItem();
 		public void updateBowlsPrice();
 		public void editSubtotal();
+		public void editTax();
+		public void editTip();
 	}
 
 	/*

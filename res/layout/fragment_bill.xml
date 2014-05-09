@@ -31,11 +31,11 @@
         android:id="@+id/edit_subtotal"
         android:layout_width="@dimen/subtotal_edit_btn"
         android:layout_height="@dimen/subtotal_edit_btn"
-        android:layout_weight="1"
         android:background="@drawable/circle_btn"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_edit"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:contentDescription="@string/descript_edit_subtotal" />
         
     </TableRow>
     <TableRow 
@@ -54,7 +54,15 @@
     	    android:layout_weight="4"
     	    style="@style/BillValue" />
     	
-    	 <Space android:layout_weight="1" />
+    <ImageButton
+        android:id="@+id/edit_tax"
+        android:layout_width="@dimen/subtotal_edit_btn"
+        android:layout_height="@dimen/subtotal_edit_btn"
+        android:background="@drawable/circle_btn"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_edit"
+        android:visibility="visible"
+        android:contentDescription="@string/descript_edit_tax" />
     </TableRow>
         <TableRow 
         android:layout_width="match_parent"
@@ -72,7 +80,15 @@
     	    android:layout_weight="4"
     	    style="@style/BillValue" />
     	
-    	 <Space android:layout_weight="1" />
+    	<ImageButton
+        android:id="@+id/edit_tip"
+        android:layout_width="@dimen/subtotal_edit_btn"
+        android:layout_height="@dimen/subtotal_edit_btn"
+        android:background="@drawable/circle_btn"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_edit"
+        android:visibility="visible"
+         android:contentDescription="@string/descript_edit_tip"  />
     </TableRow>
     <TableRow 
        android:layout_width="match_parent"
