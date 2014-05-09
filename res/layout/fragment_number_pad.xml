@@ -152,7 +152,8 @@
       
       <Button
           android:id="@+id/enter"
-          style="@style/NumberPadEnterButton"
+          android:background="@color/enter_btn_colors"
+          android:textColor="@android:color/white"
           android:layout_width="@dimen/size_3rows"
           android:layout_column="0"
           android:layout_columnSpan="3"
