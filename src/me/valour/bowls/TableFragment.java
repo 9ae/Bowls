@@ -21,7 +21,6 @@ public class TableFragment extends Fragment {
 	public BowlsGroup bowlsGroup;
 	private TextView tvQuestion;
 	private Button btnOk;
-	private Button btnNo;
 	private Button tax;
 	private Button tip;
 	
@@ -45,9 +44,7 @@ public class TableFragment extends Fragment {
 		if(btnOkWasVisible){
 			btnOk.setVisibility(View.VISIBLE);
 		}
-		if(btnNoWasVisible){
-			btnNo.setVisibility(View.VISIBLE);
-		}
+
 		bowlsGroup.enableActions();
 		bowlsGroup.animate().alpha(1).start();
 	}
@@ -65,10 +62,7 @@ public class TableFragment extends Fragment {
 			btnOk.setVisibility(View.INVISIBLE);
 			btnOkWasVisible = true;
 		}
-		if(btnNo.getVisibility()==View.VISIBLE){
-			btnNo.setVisibility(View.INVISIBLE);
-			btnNoWasVisible = true;
-		}
+
 		bowlsGroup.disableActions();
 		bowlsGroup.animate().alpha(0).start();
 	}
@@ -111,16 +105,6 @@ public class TableFragment extends Fragment {
 			}
 		});
 		
-		btnNo = (Button)view.findViewById(R.id.btn_no);
-		
-		btnNo.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				buttonAgent.OnNoButtonPress();
-			}
-		});
-		
 		return view;
 	}
 
@@ -160,19 +144,6 @@ public class TableFragment extends Fragment {
 		tvQuestion.setVisibility(View.VISIBLE);
 	}
 	
-	public void showNoButton(boolean show){
-		if(show){
-			btnNo.setVisibility(View.VISIBLE);
-		} else {
-			btnNo.setVisibility(View.INVISIBLE);
-		}
-	}
-	
-	public void setNoButtonText(int s){
-			btnNo.setText(s);
-			btnNo.setVisibility(View.VISIBLE);
-	}
-	
 	public void showOkButton(boolean show){
 		if(show){
 			btnOk.setVisibility(View.VISIBLE);
@@ -189,7 +160,6 @@ public class TableFragment extends Fragment {
 		}
 		tvQuestion.setVisibility(View.VISIBLE);
 		btnOk.setVisibility(View.VISIBLE);
-		btnNo.setVisibility(View.VISIBLE);
 		bowlsGroup.clearCenter();
 	}
 	
@@ -211,8 +181,6 @@ public class TableFragment extends Fragment {
 	
 	public interface ButtonAgent{
 		public void OnOkButtonPress();
-
-		public void OnNoButtonPress();
 
 		public void onTipButtonPress(View v);
 

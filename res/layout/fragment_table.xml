@@ -33,18 +33,15 @@
          android:text="@string/tip"
          android:textSize="@dimen/tbtn_text"  />
 
-    <TableLayout
+    <LinearLayout
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
 		         android:layout_centerInParent="true"
          android:layout_centerHorizontal="true"
-         android:layout_centerVertical="true" >
+         android:layout_centerVertical="true"
+         android:orientation="vertical"
+         android:gravity="center" >
 
-         <TableRow
-             android:id="@+id/tableRow1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-              android:layout_gravity="center" >
          <TextView
          	android:id="@+id/question"
         	android:layout_width="wrap_content"
@@ -55,23 +52,8 @@
 	        android:focusable="false"
 	        android:focusableInTouchMode="false"
 	        android:longClickable="false"
-	        android:textColor="@android:color/black"
-	        android:layout_span="2" />
-         </TableRow>
+	        android:textColor="@android:color/black" />
 
-         <TableRow
-             android:id="@+id/tableRow2"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center" >
-       <Button android:id="@+id/btn_no"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:padding="20dp"
-         android:text="@string/no"
-         android:visibility="invisible"
-         android:gravity="center"
-         android:background="@drawable/btn_red" />
      	<Button
          android:id="@+id/btn_ok"
          android:layout_width="wrap_content"
@@ -80,10 +62,8 @@
          android:text="@string/ok"
          android:gravity="center"
          android:visibility="invisible"
-         android:background="@drawable/btn_green"
-       	/>
-         </TableRow>
+         android:background="@drawable/btn_green"	/>
 
-     </TableLayout>
+     </LinearLayout>
 
 </RelativeLayout>

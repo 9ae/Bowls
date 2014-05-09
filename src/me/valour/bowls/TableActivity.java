@@ -153,7 +153,6 @@ public class TableActivity extends Activity implements
 	private void clearCenter() {
 		action = Action.NONE;
 		tableFragment.setQuestionText(null);
-		tableFragment.showNoButton(false);
 		tableFragment.showOkButton(false);
 	}
 
@@ -247,14 +246,6 @@ public class TableActivity extends Activity implements
 		default:
 			break;
 		}
-	}
-
-	@Override
-	public void OnNoButtonPress() {
-		switch (action) {
-
-		}
-
 	}
 
 	@Override
