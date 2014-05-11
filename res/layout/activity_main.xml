@@ -5,8 +5,4 @@
      android:id="@+id/fragment_main"
     tools:context=".MainActivity">
     
-    <!--   fragment android:name="me.valour.bowls.PreludeFragment" 
-        android:id="@+id/preludeFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" -->
 </FrameLayout>
