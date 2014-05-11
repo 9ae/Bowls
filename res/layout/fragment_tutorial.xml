@@ -1,0 +1,14 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".TutorialFragment" >
+    <ImageView 
+        android:id="@+id/img_tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="0dip"
+        android:contentDescription="@string/descript_tutorial1"
+        android:src="@drawable/tutorial1" />
+</FrameLayout>

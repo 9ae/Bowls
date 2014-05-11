@@ -40,31 +40,29 @@
     <string name="bill_tax">Tax:</string>
     <string name="bill_tip">Tip:</string>
     <string name="bill_total">Total:</string>
-    
     <string name="done">OK</string>
     <string name="fade_edit">Edit</string>
-    
     <string name="non_zero">Enter non-zero number</string>
-
     <string name="q_enter_first_li">First item price</string>
     <string name="q_enter_next_li">Next item price</string>
     <string name="q_enter_subtotal">Subtotal</string>
-	<string name="q_select_bowls">Who had it? Tap them</string>
-	<string name="q_enter_tax_dollars">Tax dollars</string>
-	<string name="q_enter_tip_percent">Tip percent</string>
-	<string name="q_min_select">Select at least one bowl</string>
-	<string name="q_ask_percent" formatted="false">Do you want to apply %.4f%% %s?</string>
-	<string name="q_ask_amount" formatted="false">Do you want to apply $ %.2f %s?</string>
-	<string name="q_user_has_balance">Deleting user with non-zero balance. 
+    <string name="q_select_bowls">Who had it? Tap them</string>
+    <string name="q_enter_tax_dollars">Tax dollars</string>
+    <string name="q_enter_tip_percent">Tip percent</string>
+    <string name="q_min_select">Select at least one bowl</string>
+    <string name="q_ask_percent" formatted="false">Do you want to apply %.4f%% %s?</string>
+    <string name="q_ask_amount" formatted="false">Do you want to apply $ %.2f %s?</string>
+    <string name="q_user_has_balance">Deleting user with non-zero balance. 
 	    	\nShared items will have their price redistributed. 
 	    	\nItems associated only with this user will deleted.</string>
-	    	
-	<string name="descript_edit_subtotal">Edit subtotal</string>
-	<string name="descript_edit_tax">Edit tax amount</string>
-	<string name="descript_edit_tip">Edit tip percent</string>
-	
+    <string name="descript_edit_subtotal">Edit subtotal</string>
+    <string name="descript_edit_tax">Edit tax amount</string>
+    <string name="descript_edit_tip">Edit tip percent</string>
+    <string name="descript_tutorial1">To add person, tap center bowl.</string>
+
     <dimen name="number_buttons_margin">1dp</dimen>
     <dimen name="number_buttons_size">5dp</dimen>
-	
-	
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

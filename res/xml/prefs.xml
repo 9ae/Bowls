@@ -24,4 +24,9 @@
          android:summaryOff="Number pad on left side"
         />
     
+    <CheckBoxPreference
+        android:key="tutorial"
+        android:defaultValue="true"
+        android:title="Show tutorial on start" />
+    
 </PreferenceScreen>
