@@ -1,66 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".MainActivity"
-    android:background="@android:color/black" >
-
-    <RelativeLayout
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        
-     <Button
-         android:id="@+id/btn_presets"
-         android:layout_width="@dimen/pref_btn_w"
-         android:layout_height="@dimen/pref_btn_h"
-         android:layout_alignParentBottom="true"
-         android:layout_centerHorizontal="true"
-         android:background="@drawable/preferences"
-         android:gravity="center_horizontal|bottom"
-         android:textSize="@dimen/pref_btn_text"
-         android:textColor="@color/lemon"
-         android:onClick="onOpenPresets"
-         android:text="@string/presets_button" />
-
-     <ImageView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_centerHorizontal="true"
-         android:layout_centerVertical="true"
-         android:contentDescription="@string/app_name"
-         android:layout_alignParentTop="true"
-         android:layout_alignParentLeft="true"
-         android:padding="@dimen/pad"
-         android:src="@drawable/main" />
-
-    </RelativeLayout>
+     android:id="@+id/fragment_main"
+    tools:context=".MainActivity">
     
-    <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:background="@android:color/white" >
-
-        <Button
-            android:id="@+id/btn_split_equally"
-            style="@style/SplitButtons"            
-            android:onClick="onSplitEqually"
-            android:text="@string/split_equally"
-            android:textColor="@color/raspberry"
-            android:background="@color/lime" />
-
-        <Button
-            android:id="@+id/btn_split_line"
-            style="@style/SplitButtons"   
-            android:onClick="onSplitByItem"
-            android:text="@string/split_line"
-			android:background="@color/raspberry"
-            android:textColor="@color/lime"
-             />
-    </LinearLayout>
-
-</LinearLayout>
+    <!--   fragment android:name="me.valour.bowls.PreludeFragment" 
+        android:id="@+id/preludeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" -->
+</FrameLayout>
