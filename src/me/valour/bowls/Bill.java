@@ -302,10 +302,17 @@ public class Bill{
 		if(usersCount==0){
 			return;
 		}
-		double pricePerUser = price / usersCount;
+		int priceCents = (int)Math.floor(li.getPrice()*100);
+		int r = priceCents%usersCount;
+		double pricePerUser = (double)(priceCents/usersCount)*0.01;
+		int j = 0;
 		for(int i=0; i<priceMatrix.length; i++){
 			if(priceMatrix[i][lineIndex]>0.0){
-				priceMatrix[i][lineIndex] = pricePerUser;
+				if(r!=0 && j<r){
+					priceMatrix[i][lineIndex] = pricePerUser  + 0.01;
+				} else {
+					priceMatrix[i][lineIndex] = pricePerUser;
+				}
 			}
 		}
 		usersUpdateSubtotal();
@@ -322,10 +329,18 @@ public class Bill{
 		}
 		
 		//set price for new users
-		double pricePerUser = li.getPrice() / newUsers.size();
+		int priceCents = (int)Math.floor(li.getPrice()*100);
+		int r = priceCents%newUsers.size();
+		double pricePerUser = (double)(priceCents/newUsers.size())*0.01;
+		int i = 0;
 		for(User nu: newUsers){
 			int userIndex = users.indexOf(nu);
-			priceMatrix[userIndex][lineIndex] = pricePerUser;
+			if(r!=0 && i<r){
+				priceMatrix[userIndex][lineIndex] = pricePerUser + 0.01;
+			} else {
+				priceMatrix[userIndex][lineIndex] = pricePerUser;
+			}
+			i++;
 		}
 		
 		usersUpdateSubtotal();
@@ -360,9 +375,15 @@ public class Bill{
 			return;
 		}
 		LineItem li = lineItems.get(0);
-		double pricePerUser = li.getPrice() / users.size();
+		int priceCents = (int)Math.floor(li.getPrice()*100);
+		int r = priceCents%users.size();
+		double pricePerUser = (double)(priceCents/users.size())*0.01;
 		for(int i=0; i<users.size(); i++){
-			priceMatrix[i][0] = pricePerUser;
+			if(r!=0 && i<r){
+				priceMatrix[i][0] = pricePerUser+0.01;
+			} else {
+				priceMatrix[i][0] = pricePerUser;
+			}
 		}
 		usersUpdateSubtotal();
 	}
@@ -375,10 +396,18 @@ public class Bill{
 		if(itemIndex<0){
 			return;
 		}
-		double pricePerUser = li.getPrice() / us.size();
+		int priceCents = (int)Math.floor(li.getPrice()*100);
+		int r = priceCents%us.size();
+		double pricePerUser = (double)(priceCents/us.size())*0.01;
+		int i = 0;
 		for(User u: us){
 			int userIndex = users.indexOf(u);
-			priceMatrix[userIndex][itemIndex] = pricePerUser;
+			if(r!=0 && i<r){
+				priceMatrix[userIndex][itemIndex] = pricePerUser + 0.01;
+			} else {
+				priceMatrix[userIndex][itemIndex] = pricePerUser;
+			}
+			i++;
 		}
 		usersUpdateSubtotal();
 	}
