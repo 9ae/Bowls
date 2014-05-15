@@ -159,7 +159,6 @@ public class TableActivity extends Activity implements
 	private void completePercentChange() {
 		numFragment.clearField();
 		numFragment.setAsDollarMode();
-		numFragment.highlightTextField(false);
 		clearCenter();
 	}
 

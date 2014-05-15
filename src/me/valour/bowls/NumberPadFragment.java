@@ -29,7 +29,6 @@ public class NumberPadFragment extends Fragment {
 	private Button dotButton;
 	private TextView dollarSign;
 	private TextView percentSign;
-	private LinearLayout fieldBox;
 	private InputFormat numberMode = InputFormat.DOLLAR;
 	
 	private Button enterButton;
@@ -115,14 +114,25 @@ public class NumberPadFragment extends Fragment {
 		
 		final Context ctx = view.getContext();
 		final String nonzero_msg = this.getString(R.string.non_zero);
+		final String percent_msg = this.getString(R.string.percent_limit);
 		enterButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if(allowZero){
-					closeListener.numPadClose(isEditMode);
+					double noVal = getNumberValue();
+					if(numberMode==InputFormat.PERCENT && noVal>=100.0){
+						Toast toast = Toast.makeText(ctx, percent_msg, Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						closeListener.numPadClose(isEditMode);
+					}
 				} else {
-					if(getNumberValue()==0.0){
+					double noVal = getNumberValue();
+					if(noVal==0.0){
 						Toast toast = Toast.makeText(ctx, nonzero_msg, Toast.LENGTH_SHORT);
+						toast.show();
+					} else if(numberMode==InputFormat.PERCENT && noVal>=100.0){
+						Toast toast = Toast.makeText(ctx, percent_msg, Toast.LENGTH_SHORT);
 						toast.show();
 					} else {
 						closeListener.numPadClose(isEditMode);
@@ -216,14 +226,6 @@ public class NumberPadFragment extends Fragment {
 			dotButton.setEnabled(true);
 		}
 		isEditMode = true;
-	}
-	
-	public void highlightTextField(boolean highlight){
-		if(highlight){
-			fieldBox.setBackgroundColor(Color.GREEN);
-		} else {
-			fieldBox.setBackgroundColor(Color.TRANSPARENT);
-		}
 	}
 
 	public class NumberPadListener  implements View.OnClickListener {

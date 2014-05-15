@@ -35,7 +35,7 @@
     <string name="tip">Tip</string>
     <string name="presets_button">Preferences</string>
     <string name="bill">BILL</string>
-    <string name="new_li"> &lt;&lt; Add new item &gt;&gt;</string>
+    <string name="new_li"> + Add Item +</string>
     <string name="bill_subtotal">Subtotal:</string>
     <string name="bill_tax">Tax:</string>
     <string name="bill_tip">Tip:</string>
@@ -43,6 +43,7 @@
     <string name="done">OK</string>
     <string name="fade_edit">Edit</string>
     <string name="non_zero">Enter non-zero number</string>
+    <string name="percent_limit">Must be &lt; 100%</string>
     <string name="q_enter_first_li">First item price</string>
     <string name="q_enter_next_li">Next item price</string>
     <string name="q_enter_subtotal">Subtotal</string>
