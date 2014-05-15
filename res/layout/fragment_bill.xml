@@ -2,24 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="bottom"
-    tools:context=".BillFragment"
     android:background="@color/raspberry"
-    android:padding="@dimen/pad">
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="@dimen/pad"
+    tools:context=".BillFragment" >
     
     <TextView
-         android:id="@+id/newLineItem"
-         android:layout_width="match_parent"
-         android:layout_height="@dimen/bill_line"
-         android:layout_gravity="center"
-         android:layout_marginBottom="1dip"
-         android:background="@android:color/white"
-         android:gravity="center"
-         android:text="@string/new_li"
-         android:textAlignment="gravity"
-         android:textColor="@color/lime"
-         android:textSize="@dimen/line_text" />
+        android:id="@+id/newLineItem"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bill_line"
+        android:layout_gravity="center"
+        android:layout_marginBottom="1dip"
+        android:background="@drawable/li_gradient"
+        android:gravity="center"
+        android:text="@string/new_li"
+        android:textAlignment="gravity"
+        android:textColor="@color/raspberry"
+        android:textSize="@dimen/line_text"
+        android:textStyle="bold"
+        android:typeface="normal" />
     
     <ListView android:id="@+id/lineItemsList"
         android:layout_width="match_parent"

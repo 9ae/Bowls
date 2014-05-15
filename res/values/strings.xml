@@ -35,7 +35,7 @@
     <string name="tip">Tip</string>
     <string name="presets_button">Preferences</string>
     <string name="bill">BILL</string>
-    <string name="new_li"> + Add Item +</string>
+    <string name="new_li"> + ADD ITEM +</string>
     <string name="bill_subtotal">Subtotal:</string>
     <string name="bill_tax">Tax:</string>
     <string name="bill_tip">Tip:</string>

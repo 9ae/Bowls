@@ -154,7 +154,7 @@ public class BillFragment extends Fragment implements
 		 editButton.setEnabled(true);
 		 editButton.setVisibility(View.VISIBLE);
 		 
-		 view.setBackgroundResource(R.color.grapefruit);
+		 view.setBackgroundResource(R.drawable.li_gradient_active);
 		 ((TextView)view.findViewById(R.id.lineItemPrice)).setTextColor(getResources().getColor(R.color.lemon));
 	}
 	
@@ -166,7 +166,7 @@ public class BillFragment extends Fragment implements
 			 ImageButton editButton = (ImageButton) prevView.findViewById(R.id.lineEdit);
 			 editButton.setEnabled(false);
 			 editButton.setVisibility(View.INVISIBLE);
-			 prevView.setBackgroundResource(android.R.color.white);
+			 prevView.setBackgroundResource(R.drawable.li_gradient);
 			 ((TextView)prevView.findViewById(R.id.lineItemPrice)).setTextColor(getResources().getColor(R.color.apple));
 		}
 		agent.deselectLineItem();
