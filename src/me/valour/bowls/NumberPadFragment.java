@@ -242,6 +242,8 @@ public class NumberPadFragment extends Fragment {
 				String str = getStringValue();
 				if(str.length()==charLimit){
 					return;
+				} else if(numberMode==InputFormat.DOLLAR && str.matches("\\d*\\.\\d{2}")){
+					return;
 				} else {
 					Button b = (Button)v;
 					appendChar(b.getText());

@@ -1,5 +1,7 @@
 package me.valour.bowls;
 
+import java.util.Locale;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -115,9 +117,12 @@ public class BowlView extends TextView{
 	 
 	 public void setRadius(int radius){
 		 this.radius = radius;
+		 int diameter = 2*radius;
+		 this.setMinimumHeight(diameter);
+		 this.setMinimumWidth(diameter);
 		 
-		 this.setMinimumHeight(2*radius);
-		 this.setMinimumWidth(2*radius);
+		 this.setMaxHeight(diameter);
+		 this.setMaxWidth(diameter);
 	 }
 	 
 	 public int getRadius(){
@@ -140,7 +145,12 @@ public class BowlView extends TextView{
 		 if(user!=null){
 		  double total = user.getTotal();
 		  if(total>0.0){
-			  String p = String.format("$ %.2f", total);
+			  String p;
+			  if(Double.toString(total).length()>5){
+				  p = String.format(Locale.US, "%.2f", total);
+			  } else {
+				  p = String.format(Locale.US, "$ %.2f", total);
+			  }
 			  setText(p);
 		  } else {
 			  setText("");
