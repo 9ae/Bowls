@@ -32,7 +32,7 @@ public class MainActivity extends Activity implements TutorialCloseAgent {
 		
 		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
-		boolean showTutorial = sp.getBoolean("tutorial", false);
+		boolean showTutorial = sp.getBoolean("tutorial", true);
 		Log.d("vars", "show tuts = "+showTutorial);
 		if(showTutorial){
 			launchTutorial();
