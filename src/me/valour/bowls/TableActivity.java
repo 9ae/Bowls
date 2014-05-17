@@ -249,8 +249,6 @@ public class TableActivity extends Activity implements
 
 		if (!bill.tipApplied()) {
 			applyTip();
-			clearCenter();
-			tableFragment.bowlsGroup.addRemoveIcons(true);
 			if(leftHanded){
 				btn.setBackgroundResource(R.drawable.ic_tbtn_top_left_sub);
 			} else {
@@ -276,8 +274,6 @@ public class TableActivity extends Activity implements
 		if (!bill.taxApplied()) {
 			taxEstimate = bill.calculateTax();
 			applyTax();
-			clearCenter();
-			tableFragment.bowlsGroup.addRemoveIcons(true);
 			if(leftHanded){
 				btn.setBackgroundResource(R.drawable.ic_tbtn_bot_left_sub);
 			} else {
