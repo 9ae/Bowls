@@ -10,7 +10,6 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -220,10 +219,8 @@ public class BowlsGroup extends FrameLayout {
 		if(currentDisusedId==-1){
 			bowl.setId(bowlsIdCounter);
 			bowlsIdCounter++;
-			Log.d("vars","id counter");
 		} else {
 			bowl.setId(currentDisusedId);
-			Log.d("vars","id x");
 		}
 		
 		bowls.add(bowl);
@@ -233,11 +230,9 @@ public class BowlsGroup extends FrameLayout {
 		if(disusedIds.isEmpty()){
 			currentDisusedId = -1;
 			newBowl.setColors(Kitchen.assignColor(bowlsIdCounter));
-			Log.d("vars","x=-1");
 		} else {
 			currentDisusedId = disusedIds.removeFirst();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
-			Log.d("vars","x="+currentDisusedId);
 		}
 		newBowl.invalidate();
 		
@@ -257,7 +252,6 @@ public class BowlsGroup extends FrameLayout {
 			currentDisusedId = disusedIds.removeFirst();
 			newBowl.setColors(Kitchen.assignColor(currentDisusedId));
 			newBowl.invalidate();
-			Log.d("vars","r x="+currentDisusedId);
 		}
 		
 		if((bowls.size()+1)==Kitchen.maxBowls){

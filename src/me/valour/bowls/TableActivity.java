@@ -11,7 +11,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -55,7 +54,6 @@ public class TableActivity extends Activity implements
 		
 		leftHanded = !sp.getBoolean("left_right", true);
 
-		Log.d("vars", "left_handed="+leftHanded);
 		if(leftHanded){
 			setContentView(R.layout.left_activity_table);
 		} else {
@@ -107,7 +105,6 @@ public class TableActivity extends Activity implements
 	}
 
 	public void setTax(String tax, boolean save) {
-		Log.d("vars","tax="+tax);
 		double amount = Double.parseDouble(tax);
 		bill.setTaxAmount(amount);
 		if (sp != null && save) {
@@ -177,7 +174,6 @@ public class TableActivity extends Activity implements
 	
 	private void updateItemPrice(){
 		double price = numFragment.getNumberValue();
-		Log.d("vars"," new price = "+price);
 		bill.itemUpdate(selectedLineItem, price);
 		if(splitEqually){
 			clearCenter();
@@ -339,7 +335,6 @@ public class TableActivity extends Activity implements
 
 	@Override
 	public void onNewLineItem() {
-		Log.d("vars", "new line item");
 		Bundle bundle = new Bundle();
 		bundle.putBoolean("percentMode", false);
 		if(splitEqually){

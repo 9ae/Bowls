@@ -8,7 +8,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends Activity implements TutorialCloseAgent {
@@ -30,7 +29,6 @@ public class MainActivity extends Activity implements TutorialCloseAgent {
 		sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
 		boolean showTutorial = sp.getBoolean("tutorial", true);
-		Log.d("vars", "show tuts = "+showTutorial);
 		if(showTutorial){
 			launchTutorial();
 		} else {

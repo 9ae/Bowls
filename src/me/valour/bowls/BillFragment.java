@@ -3,7 +3,6 @@ package me.valour.bowls;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,6 @@ public class BillFragment extends Fragment implements
 			public void onItemClick(AdapterView<?> adapterView, View view, int position,
 					long id) {
 				if(selectedLI==position){
-					Log.d("vars","click again");
 					deselectLineItem();
 				} else {
 					if(hasSelectedLineItem()){
