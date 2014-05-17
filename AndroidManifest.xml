@@ -16,8 +16,9 @@
         <activity
             android:name="me.valour.bowls.TableActivity"
             android:label="@string/app_name"
+             android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="me.valour.bowls.MainActivity" />
