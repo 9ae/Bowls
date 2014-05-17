@@ -54,7 +54,6 @@ public class BillFragment extends Fragment implements
 		adapter = new LineItemAdapter(getActivity(), bill.lineItems, this);
 		adapter.setNotifyOnChange(true);
 		listView.setAdapter(adapter);
-		
 		listView.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
