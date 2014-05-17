@@ -6,17 +6,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.widget.TextView;
-import android.view.View.OnTouchListener;
-import android.view.View.OnClickListener;
 
 public class BowlView extends TextView{
 	
@@ -141,16 +135,12 @@ public class BowlView extends TextView{
 		 super.setY(newY);
 	 }
 	 
-	 public void formatText(){
+	 @SuppressLint("DefaultLocale")
+	public void formatText(){
 		 if(user!=null){
 		  double total = user.getTotal();
 		  if(total>0.0){
-			  String p;
-			  if(Double.toString(total).length()>5){
-				  p = String.format(Locale.US, "%.2f", total);
-			  } else {
-				  p = String.format(Locale.US, "$ %.2f", total);
-			  }
+			  String p = String.format(Locale.US, "%.2f", total);
 			  setText(p);
 		  } else {
 			  setText("");

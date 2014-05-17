@@ -22,4 +22,5 @@
 	<dimen name="pref_btn_text">20sp</dimen>
 	<dimen name="pref_btn_w">150dp</dimen>
 	<dimen name="pref_btn_h">53dp</dimen>
+	<dimen name="logo_size">100dp</dimen>
 </resources>

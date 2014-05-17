@@ -1,3 +1,4 @@
 <resources>
     <integer name="np_move_time">200</integer>
+    <integer name="spacing">600</integer>
 </resources>

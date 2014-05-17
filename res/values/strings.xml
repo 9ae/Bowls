@@ -65,5 +65,5 @@
     <dimen name="number_buttons_size">5dp</dimen>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+	<string name="credits">Created by \n ALICE Q. WONG</string>
 </resources>

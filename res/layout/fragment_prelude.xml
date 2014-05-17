@@ -2,9 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/prelude_bg"
     android:orientation="horizontal"
-    tools:context=".PreludeFragment"
-    android:background="@android:color/black" >
+    android:baselineAligned="false"
+    tools:context=".PreludeFragment" >
 
     <RelativeLayout
         android:layout_width="0dip"
@@ -20,14 +21,19 @@
          android:background="@drawable/preferences"
          android:gravity="center_horizontal|bottom"
          android:textSize="@dimen/pref_btn_text"
-         android:textColor="@color/lemon"
+         android:textColor="@android:color/white"
          android:text="@string/presets_button"
+         android:shadowColor="@color/raspberry"
+         android:shadowDx="2"
+         android:shadowDy="-2"
+         android:shadowRadius="3"
         android:onClick="onOpenPresets"
           />
 
      <ImageView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
+         android:id="@+id/logo"
+         android:layout_width="@dimen/logo_size"
+         android:layout_height="@dimen/logo_size"
          android:layout_centerHorizontal="true"
          android:layout_centerVertical="true"
          android:contentDescription="@string/app_name"
@@ -36,6 +42,20 @@
          android:padding="@dimen/pad"
          android:src="@drawable/main"
        />
+     
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_toRightOf="@id/logo"
+         android:minEms="@integer/spacing"
+         android:shadowColor="@color/grapefruit"
+         android:shadowDx="2"
+         android:shadowDy="2"
+         android:shadowRadius="2"
+         android:text="@string/credits"
+         android:textColor="@android:color/white"
+         android:textStyle="bold"
+         android:typeface="monospace" />
 
     </RelativeLayout>
     
