@@ -1,7 +1,6 @@
 package me.valour.bowls;
 
 import android.graphics.Color;
-import android.util.Log;
 
 public class Kitchen {
 	
@@ -38,12 +37,6 @@ public class Kitchen {
 		double scalar = Math.sqrt( (v1x*v1x + v1y*v1y)*(v2x*v2x + v2y*v2y) );
 		return (float) Math.acos(dot/scalar);
 	}
-	
-	private static int colorDifference(int r0, int g0, int b0, int r1, int g1, int b1){
-		  return (Math.max(r0,r1) - Math.min(r0,r1)) +
-		  (Math.max(g0,g1) - Math.min(g0,g1)) +
-		  (Math.max(b0,b1) - Math.min(b0,b1));
-		}
 		 
 	public static int calculateTextColor(int color){
 		int r = Color.red(color);

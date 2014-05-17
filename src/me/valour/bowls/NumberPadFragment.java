@@ -1,26 +1,22 @@
 package me.valour.bowls;
 
-import me.valour.bowls.R.color;
+import java.util.Locale;
+
 import me.valour.bowls.enums.InputFormat;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+@SuppressLint("DefaultLocale")
 public class NumberPadFragment extends Fragment {
 	
 	private NumberPadListener ourButtonListener;
@@ -212,10 +208,11 @@ public class NumberPadFragment extends Fragment {
 		isEditMode = false;
 	}
 	
+	@SuppressLint("DefaultLocale")
 	public void setValue(double value){
 		String strVal;
 		if(numberMode==InputFormat.DOLLAR){
-			strVal = String.format("%.2f", value);
+			strVal = String.format(Locale.US, "%.2f", value);
 		} else {
 			strVal = Double.toString(value);
 		}

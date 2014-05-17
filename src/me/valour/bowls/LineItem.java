@@ -1,7 +1,10 @@
 package me.valour.bowls;
 
-import java.util.ArrayList;
+import java.util.Locale;
 
+import android.annotation.SuppressLint;
+
+@SuppressLint("DefaultLocale")
 public class LineItem {
 	
 	/**
@@ -9,11 +12,9 @@ public class LineItem {
 	 */
 	private double price;
 	private double previousPrice=0.0;
-//	public int shares;
-	
+
 	public LineItem(double price){
 		this.price = price;
-	//	shares = 0;
 	}
 	
 	/**
@@ -21,7 +22,6 @@ public class LineItem {
 	 * @param id BowlView.id
 	 * @return true if user is added, false if user is removed
 	 */
-
 	public void setPrice(double price){
 		this.previousPrice = this.price;
 		this.price = price;
@@ -44,9 +44,10 @@ public class LineItem {
 		
 	}
 	
+	@SuppressLint("DefaultLocale")
 	@Override
 	public String toString(){
-		return String.format("$ %.2f", price);
+		return String.format(Locale.US, "$ %.2f", price);
 	}
 	
 

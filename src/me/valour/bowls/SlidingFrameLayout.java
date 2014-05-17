@@ -2,9 +2,7 @@ package me.valour.bowls;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 
 public class SlidingFrameLayout extends FrameLayout {
 

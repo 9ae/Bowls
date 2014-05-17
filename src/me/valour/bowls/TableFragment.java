@@ -2,10 +2,7 @@ package me.valour.bowls;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +23,6 @@ public class TableFragment extends Fragment {
 	
 	private boolean tvQuestionWasVisible = false;
 	private boolean btnOkWasVisible = false;
-	private boolean btnNoWasVisible = false;
 	
 	public TableFragment() {
 

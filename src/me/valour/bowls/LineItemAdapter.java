@@ -1,18 +1,13 @@
 package me.valour.bowls;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class LineItemAdapter extends ArrayAdapter<LineItem> {
