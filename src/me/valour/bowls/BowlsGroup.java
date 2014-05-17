@@ -187,8 +187,10 @@ public class BowlsGroup extends FrameLayout {
 	
 	public void addRemoveIcons(boolean showAdd){
 		if(showAdd){
-			newBowl.setVisibility(View.VISIBLE);
-			trashBowl.setVisibility(View.GONE);
+			if(bowls.size()<Kitchen.maxBowls){
+				newBowl.setVisibility(View.VISIBLE);
+				trashBowl.setVisibility(View.GONE);
+			}
 		} else {
 			newBowl.setVisibility(View.GONE);
 			trashBowl.setVisibility(View.VISIBLE);
