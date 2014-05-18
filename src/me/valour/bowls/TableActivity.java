@@ -217,6 +217,9 @@ public class TableActivity extends Activity implements
 				}
 		}
 		updateBowlsPrice();
+		if(!billFragment.isActionsEnabled()){
+			billFragment.enableActions(true);
+		}
 	}
 
 	@Override
@@ -485,6 +488,7 @@ public class TableActivity extends Activity implements
 			}
 		} else {
 			registerItemPrice();
+			billFragment.enableActions(false);
 		}
 		fm.popBackStack();
 		tableFragment.enableActions();

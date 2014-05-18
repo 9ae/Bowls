@@ -38,6 +38,10 @@ public class BillFragment extends Fragment implements
 	private int selectedLI = -1;
 	private View prevView = null;
 	
+	private boolean enableActions = true;
+	
+	private View view;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,16 +51,20 @@ public class BillFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-		View view =  inflater.inflate(R.layout.fragment_bill, container, false);
+		view =  inflater.inflate(R.layout.fragment_bill, container, false);
 		listView = (ListView) view.findViewById(R.id.lineItemsList);
 		adapter = new LineItemAdapter(getActivity(), bill.lineItems, this);
 		adapter.setNotifyOnChange(true);
 		listView.setAdapter(adapter);
+		
 		listView.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int position,
 					long id) {
+				if(!enableActions){
+					return;
+				}
 				if(selectedLI==position){
 					deselectLineItem();
 				} else {
@@ -86,6 +94,10 @@ public class BillFragment extends Fragment implements
 		newLineItem.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(!enableActions){
+					return;
+				}
+				
 				if(hasSelectedLineItem()){
 					deselectLineItem();
 				}
@@ -96,6 +108,9 @@ public class BillFragment extends Fragment implements
 		editTax.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
+				if(!enableActions){
+					return;
+				}
 				agent.editTax();
 				
 			}
@@ -104,6 +119,9 @@ public class BillFragment extends Fragment implements
 		editTip.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
+				if(!enableActions){
+					return;
+				}
 				agent.editTip();
 				
 			}
@@ -222,6 +240,19 @@ public class BillFragment extends Fragment implements
 	
 	public void updatedList(){
 		adapter.notifyDataSetChanged();
+	}
+	
+	public void enableActions(boolean allow){
+		enableActions = allow;
+		if(allow){
+			view.animate().alpha(1).start();
+		} else {
+			view.animate().alpha(0).start();
+		}
+	}
+	
+	public boolean isActionsEnabled(){
+		return enableActions;
 	}
 	
 	public interface BillFragmentAgent{
