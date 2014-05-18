@@ -274,7 +274,7 @@ public class Bill{
 				for(int j=0; j<len; j++){
 					newMatrix[i][j] = priceMatrix[i][j];
 				}
-				for(int j=len; i<(len*2); j++){
+				for(int j=len; j<(len*2); j++){
 					newMatrix[i][j] = 0.0;
 				}
 			}
