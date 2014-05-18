@@ -219,6 +219,7 @@ public class TableActivity extends Activity implements
 		updateBowlsPrice();
 		if(!billFragment.isActionsEnabled()){
 			billFragment.enableActions(true);
+			tableFragment.enableTaxTip(true);
 		}
 	}
 
@@ -488,10 +489,12 @@ public class TableActivity extends Activity implements
 			}
 		} else {
 			registerItemPrice();
-			billFragment.enableActions(false);
+			if(!splitEqually){
+				billFragment.enableActions(false);
+			}
 		}
 		fm.popBackStack();
-		tableFragment.enableActions();
+		tableFragment.enableActions(isEditMode || splitEqually);
 	}
 
 }

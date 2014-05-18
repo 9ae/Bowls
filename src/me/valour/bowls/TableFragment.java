@@ -28,11 +28,14 @@ public class TableFragment extends Fragment {
 
 	}
 	
-	public void enableActions(){
-		tax.setEnabled(true);
-		tax.setVisibility(View.VISIBLE);
-		tip.setEnabled(true);
-		tip.setVisibility(View.VISIBLE);
+	public void enableActions(boolean allowTaxTip){
+		int tvisibility = allowTaxTip ? View.VISIBLE : View.INVISIBLE;
+		
+		tax.setEnabled(allowTaxTip);
+		tax.setVisibility(tvisibility);
+		tip.setEnabled(allowTaxTip);
+		tip.setVisibility(tvisibility);
+		
 		tvQuestion.setVisibility(View.VISIBLE);
 		if(tvQuestionWasVisible){
 			tvQuestion.setVisibility(View.VISIBLE);
@@ -61,6 +64,14 @@ public class TableFragment extends Fragment {
 
 		bowlsGroup.disableActions();
 		bowlsGroup.animate().alpha(0).start();
+	}
+	
+	public void enableTaxTip(boolean enable){
+		int visibility = enable ? View.VISIBLE : View.INVISIBLE;
+		tax.setEnabled(enable);
+		tax.setVisibility(visibility);
+		tip.setEnabled(enable);
+		tip.setVisibility(visibility);
 	}
 
 	@Override
