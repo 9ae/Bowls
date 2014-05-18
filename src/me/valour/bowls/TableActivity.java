@@ -489,10 +489,12 @@ public class TableActivity extends Activity implements
 			}
 		} else {
 			registerItemPrice();
-			billFragment.enableActions(false);
+			if(!splitEqually){
+				billFragment.enableActions(false);
+			}
 		}
 		fm.popBackStack();
-		tableFragment.enableActions(isEditMode);
+		tableFragment.enableActions(isEditMode || splitEqually);
 	}
 
 }
