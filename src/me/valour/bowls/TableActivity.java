@@ -105,7 +105,12 @@ public class TableActivity extends Activity implements
 	}
 
 	public void setTax(String tax, boolean save) {
-		double amount = Double.parseDouble(tax);
+		double amount;
+		try{
+			amount = Double.parseDouble(tax);
+		} catch(NumberFormatException e){
+			amount = 0.0;
+		}
 		bill.setTaxAmount(amount);
 		if (sp != null && save) {
 			sp.edit().putString("default_tax", Double.toString(bill.getTax()*100)).commit();
@@ -127,7 +132,14 @@ public class TableActivity extends Activity implements
 	}
 
 	public void setTip(String tip, boolean save) {
-		double percent = Double.parseDouble(tip) / 100;
+		double tipWhole;
+		try{
+			tipWhole = Double.parseDouble(tip);
+		} catch(NumberFormatException e) {
+			tipWhole = 0.0;
+		}
+		
+		double percent = tipWhole / 100.0;
 		bill.setTip(percent);
 
 		if (sp != null && save) {
