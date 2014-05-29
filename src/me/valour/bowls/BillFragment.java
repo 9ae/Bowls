@@ -155,7 +155,7 @@ public class BillFragment extends Fragment implements
 		// TODO Auto-generated method stub
 		super.onDetach();
 	}
-	
+
 	public void selectLineItem(View view, int position){
 		prevView = view;
 		selectedLI = position;

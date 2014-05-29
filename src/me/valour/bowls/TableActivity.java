@@ -462,6 +462,7 @@ public class TableActivity extends Activity implements
 		ft.addToBackStack(null);
 		ft.commit();
 		tableFragment.disableActions();
+		billFragment.enableActions(false);
 	}
 	
 	public void openNumberPadForAmountChange(double amount){
@@ -484,6 +485,7 @@ public class TableActivity extends Activity implements
 		ft.addToBackStack(null);
 		ft.commit();
 		tableFragment.disableActions();
+		billFragment.enableActions(false);
 	}
 
 	@Override
@@ -520,6 +522,7 @@ public class TableActivity extends Activity implements
 		}
 		fm.popBackStack();
 		tableFragment.enableActions(isEditMode || splitEqually);
+		billFragment.enableActions(true);
 	}
 
 }
