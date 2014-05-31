@@ -231,8 +231,8 @@ public class TableActivity extends Activity implements
 		updateBowlsPrice();
 		if(!billFragment.isActionsEnabled()){
 			billFragment.enableActions(true);
-			tableFragment.enableTaxTip(true);
 		}
+		tableFragment.enableTaxTip(true);
 	}
 
 	@Override
