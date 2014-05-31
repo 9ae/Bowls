@@ -111,10 +111,17 @@ public class TableActivity extends Activity implements
 		} catch(NumberFormatException e){
 			amount = 0.0;
 		}
-		bill.setTaxAmount(amount);
-		if (sp != null && save) {
-			sp.edit().putString("default_tax", Double.toString(bill.getTax()*100)).commit();
-		}
+
+			bill.setTaxAmount(amount);
+			if (sp != null && save) {
+				sp.edit().putString("default_tax", Double.toString(bill.getTax()*100)).commit();
+			}
+		 if(amount==0.0){
+			onTaxButtonPress(tableFragment.getTaxButton());
+		 } else {
+			 applyTax();
+		 }
+		
 	}
 
 	public void applyTip() {
@@ -138,12 +145,17 @@ public class TableActivity extends Activity implements
 		} catch(NumberFormatException e) {
 			tipWhole = 0.0;
 		}
-		
-		double percent = tipWhole / 100.0;
-		bill.setTip(percent);
 
-		if (sp != null && save) {
-			sp.edit().putString("default_tip", tip).commit();
+			double percent = tipWhole / 100.0;
+			bill.setTip(percent);
+	
+			if (sp != null && save) {
+				sp.edit().putString("default_tip", tip).commit();
+			}
+		if(percent==0.0) {
+			onTipButtonPress(tableFragment.getTipButton());
+		} else {
+			applyTip();
 		}
 	}
 
@@ -244,16 +256,6 @@ public class TableActivity extends Activity implements
 		case SELECT_BOWLS:
 			handleSelectedBowls();
 			break;
-		case SET_TIP:
-			/* apply tip at new rate */
-			setTip(numFragment.getStringValue(), false);
-			applyTip();
-			completePercentChange();
-			break;
-		case SET_TAX:
-			setTax(numFragment.getStringValue(), false);
-			applyTax();
-			completePercentChange();
 		default:
 			break;
 		}
@@ -490,13 +492,11 @@ public class TableActivity extends Activity implements
 			switch(action){
 			case SET_TAX:
 				setTax(numFragment.getStringValue(), false);
-				applyTax();
 				clearCenter();
 				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;
 			case SET_TIP:
 				setTip(numFragment.getStringValue(), false);
-				applyTip();
 				clearCenter();
 				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;

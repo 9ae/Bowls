@@ -175,6 +175,14 @@ public class TableFragment extends Fragment {
 		tip.setGravity(Gravity.BOTTOM | Gravity.RIGHT);
 	}
 	
+	public Button getTaxButton(){
+		return tax;
+	}
+	
+	public Button getTipButton(){
+		return tip;
+	}
+	
 	public interface ButtonAgent{
 		public void OnOkButtonPress();
 
