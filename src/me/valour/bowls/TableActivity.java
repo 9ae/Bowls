@@ -393,6 +393,10 @@ public class TableActivity extends Activity implements
 		bundle.putBoolean("percentMode", false);
 		numFragment.setArguments(bundle);
 		
+		if(billFragment.isActionsEnabled()){
+			billFragment.enableActions(false);
+		}
+		
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
 		ft.replace(R.id.rightContainer, numFragment);
@@ -427,17 +431,6 @@ public class TableActivity extends Activity implements
 		openNumberPadForPercentChange(bill.getTip());
 	}
 	
-	private void waitUntilNumberFragmentIsFree(){
-		while(numFragment.isVisible()){
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	/*
 	 * BillFragmentAgent methods END
 	 */
@@ -453,16 +446,18 @@ public class TableActivity extends Activity implements
 			bundle.putBoolean("allowZero", true);
 		}
 		
-		waitUntilNumberFragmentIsFree();
 		numFragment.setArguments(bundle);
 		
+		if(billFragment.isActionsEnabled()){
+			billFragment.enableActions(false);
+		}
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
 		tableFragment.disableActions();
-		billFragment.enableActions(false);
+	
 	}
 	
 	public void openNumberPadForAmountChange(double amount){
@@ -476,16 +471,17 @@ public class TableActivity extends Activity implements
 			bundle.putBoolean("allowZero", true);
 		}
 		
-		waitUntilNumberFragmentIsFree();
 		numFragment.setArguments(bundle);
-		
+
+		if(billFragment.isActionsEnabled()){
+			billFragment.enableActions(false);
+		}
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
 		tableFragment.disableActions();
-		billFragment.enableActions(false);
 	}
 
 	@Override
