@@ -105,11 +105,23 @@ public class TableActivity extends Activity implements
 	}
 
 	public void setTax(String tax, boolean save) {
-		double amount = Double.parseDouble(tax);
-		bill.setTaxAmount(amount);
-		if (sp != null && save) {
-			sp.edit().putString("default_tax", Double.toString(bill.getTax()*100)).commit();
+		double amount;
+		try{
+			amount = Double.parseDouble(tax);
+		} catch(NumberFormatException e){
+			amount = 0.0;
 		}
+
+			bill.setTaxAmount(amount);
+			if (sp != null && save) {
+				sp.edit().putString("default_tax", Double.toString(bill.getTax()*100)).commit();
+			}
+		 if(amount==0.0){
+			onTaxButtonPress(tableFragment.getTaxButton());
+		 } else {
+			 applyTax();
+		 }
+		
 	}
 
 	public void applyTip() {
@@ -127,11 +139,23 @@ public class TableActivity extends Activity implements
 	}
 
 	public void setTip(String tip, boolean save) {
-		double percent = Double.parseDouble(tip) / 100;
-		bill.setTip(percent);
+		double tipWhole;
+		try{
+			tipWhole = Double.parseDouble(tip);
+		} catch(NumberFormatException e) {
+			tipWhole = 0.0;
+		}
 
-		if (sp != null && save) {
-			sp.edit().putString("default_tip", tip).commit();
+			double percent = tipWhole / 100.0;
+			bill.setTip(percent);
+	
+			if (sp != null && save) {
+				sp.edit().putString("default_tip", tip).commit();
+			}
+		if(percent==0.0) {
+			onTipButtonPress(tableFragment.getTipButton());
+		} else {
+			applyTip();
 		}
 	}
 
@@ -219,8 +243,8 @@ public class TableActivity extends Activity implements
 		updateBowlsPrice();
 		if(!billFragment.isActionsEnabled()){
 			billFragment.enableActions(true);
-			tableFragment.enableTaxTip(true);
 		}
+		tableFragment.enableTaxTip(true);
 	}
 
 	@Override
@@ -232,16 +256,6 @@ public class TableActivity extends Activity implements
 		case SELECT_BOWLS:
 			handleSelectedBowls();
 			break;
-		case SET_TIP:
-			/* apply tip at new rate */
-			setTip(numFragment.getStringValue(), false);
-			applyTip();
-			completePercentChange();
-			break;
-		case SET_TAX:
-			setTax(numFragment.getStringValue(), false);
-			applyTax();
-			completePercentChange();
 		default:
 			break;
 		}
@@ -381,6 +395,10 @@ public class TableActivity extends Activity implements
 		bundle.putBoolean("percentMode", false);
 		numFragment.setArguments(bundle);
 		
+		if(billFragment.isActionsEnabled()){
+			billFragment.enableActions(false);
+		}
+		
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
 		ft.replace(R.id.rightContainer, numFragment);
@@ -432,12 +450,16 @@ public class TableActivity extends Activity implements
 		
 		numFragment.setArguments(bundle);
 		
+		if(billFragment.isActionsEnabled()){
+			billFragment.enableActions(false);
+		}
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
 		ft.replace(R.id.rightContainer, numFragment);
 		ft.addToBackStack(null);
 		ft.commit();
 		tableFragment.disableActions();
+	
 	}
 	
 	public void openNumberPadForAmountChange(double amount){
@@ -452,7 +474,10 @@ public class TableActivity extends Activity implements
 		}
 		
 		numFragment.setArguments(bundle);
-		
+
+		if(billFragment.isActionsEnabled()){
+			billFragment.enableActions(false);
+		}
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.setCustomAnimations(R.animator.to_nw, R.animator.to_se);
 		ft.replace(R.id.rightContainer, numFragment);
@@ -467,13 +492,11 @@ public class TableActivity extends Activity implements
 			switch(action){
 			case SET_TAX:
 				setTax(numFragment.getStringValue(), false);
-				applyTax();
 				clearCenter();
 				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;
 			case SET_TIP:
 				setTip(numFragment.getStringValue(), false);
-				applyTip();
 				clearCenter();
 				tableFragment.bowlsGroup.addRemoveIcons(true);
 				break;
@@ -495,6 +518,7 @@ public class TableActivity extends Activity implements
 		}
 		fm.popBackStack();
 		tableFragment.enableActions(isEditMode || splitEqually);
+		billFragment.enableActions(true);
 	}
 
 }

@@ -3,6 +3,7 @@ package me.valour.bowls;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,13 +39,14 @@ public class BillFragment extends Fragment implements
 	private int selectedLI = -1;
 	private View prevView = null;
 	
-	private boolean enableActions = true;
+	private boolean enableActions;
 	
 	private View view;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		enableActions = true;
 	}
 	
 	@Override
@@ -101,6 +103,7 @@ public class BillFragment extends Fragment implements
 				if(hasSelectedLineItem()){
 					deselectLineItem();
 				}
+				enableActions(false);
 				agent.onNewLineItem();
 			}
 		});
@@ -111,6 +114,7 @@ public class BillFragment extends Fragment implements
 				if(!enableActions){
 					return;
 				}
+				enableActions(false);
 				agent.editTax();
 				
 			}
@@ -122,6 +126,7 @@ public class BillFragment extends Fragment implements
 				if(!enableActions){
 					return;
 				}
+				enableActions(false);
 				agent.editTip();
 				
 			}
@@ -135,7 +140,6 @@ public class BillFragment extends Fragment implements
 	 */
 	@Override
 	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		try {
 			bill = ((TableActivity)activity).getBill();
@@ -155,7 +159,7 @@ public class BillFragment extends Fragment implements
 		// TODO Auto-generated method stub
 		super.onDetach();
 	}
-	
+
 	public void selectLineItem(View view, int position){
 		prevView = view;
 		selectedLI = position;
@@ -232,6 +236,10 @@ public class BillFragment extends Fragment implements
 		editSubtotal.setOnClickListener( new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(!enableActions){
+					return;
+				}
+				enableActions(false);
 				agent.editSubtotal();
 			}
 		});

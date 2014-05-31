@@ -159,17 +159,6 @@ public class TableFragment extends Fragment {
 		}
 	}
 	
-	public void askToAppy(String type, double value){
-		if(type.equals("tax")){
-			tvQuestion.setText(getString(R.string.q_ask_amount, value, type));
-		} else if (type.equals("tip")){
-			tvQuestion.setText(getString(R.string.q_ask_percent, value, type));
-		}
-		tvQuestion.setVisibility(View.VISIBLE);
-		btnOk.setVisibility(View.VISIBLE);
-		bowlsGroup.clearCenter();
-	}
-	
 	public void alignForLeftHanded(){
 		RelativeLayout.LayoutParams taxParams = (RelativeLayout.LayoutParams) tax.getLayoutParams();
 		taxParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
@@ -184,6 +173,14 @@ public class TableFragment extends Fragment {
 		tip.setLayoutParams(tipParams);
 		tip.setBackgroundResource(R.drawable.ic_tbtn_top_left_add);
 		tip.setGravity(Gravity.BOTTOM | Gravity.RIGHT);
+	}
+	
+	public Button getTaxButton(){
+		return tax;
+	}
+	
+	public Button getTipButton(){
+		return tip;
 	}
 	
 	public interface ButtonAgent{
